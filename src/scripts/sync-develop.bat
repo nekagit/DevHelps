@@ -3,11 +3,13 @@
 REM Change to the directory where your Git repository is located
 cd C:\Users\Nenad\Desktop\DevsHelp\DevHelps
 
+git add --all
 REM Check if there are any changes to commit
 git diff-index --quiet HEAD
 IF %ERRORLEVEL% NEQ 0 (
   REM Commit the changes with a default message
   git commit -m "Auto-commit changes"
+  git push
 )
 
 REM Attempt to checkout 'develop'
@@ -23,8 +25,18 @@ IF %ERRORLEVEL% NEQ 0 (
   git checkout main 2>nul
 )
 
+git add --all
+REM Check if there are any changes to commit
+git diff-index --quiet HEAD
+IF %ERRORLEVEL% NEQ 0 (
+  REM Commit the changes with a default message
+  git commit -m "Auto-commit changes"
+)
+
 REM Sync with the checked-out branch (pull changes)
 git pull
+
+git push
 
 REM Get the branch names from the command line argument (e.g., 'branch1,branch2,branch3')
 SET branchNames=%1
@@ -48,6 +60,11 @@ IF NOT "%branchNames%"=="" (
       echo Remote branch '%%a' does not exist. Skipping push.
     )
   )
+)
+
+REM Publish the newly created branch
+IF NOT "%newBranchName%"=="" (
+  git push -u origin %newBranchName%
 )
 
 REM Exit the batch script

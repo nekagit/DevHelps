@@ -42,7 +42,7 @@ function BasicCard(props: IProps) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ scriptName: scriptName, scriptParamters: scriptParameters }), // Include branchName in the request body
+        body: JSON.stringify({ scriptName: scriptName, scriptParameters: scriptParameters }), // Include branchName in the request body
       });
 
       if (response.ok) {

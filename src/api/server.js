@@ -24,7 +24,6 @@ const executeGitScriptsSequentially = (scriptName, scriptParameters) => {
   return new Promise( async (resolve, reject) => {
     isExecutingScript = true;
     try {
-      // Define the path to the script file (assuming it's in the src/scripts directory)
       const scriptPath = path.join(
         "C:\\Users\\Nenad\\Desktop\\DevsHelp\\DevHelps\\src\\scripts",
         scriptName
@@ -32,7 +31,6 @@ const executeGitScriptsSequentially = (scriptName, scriptParameters) => {
 
       for (let scriptParameter of scriptParameters) {
         console.log(`Executing script with parameter: ${scriptParameter}`);
-        // Execute the script with the branch name as an argument
         await executeScript(scriptPath, scriptParameter);
       }
 

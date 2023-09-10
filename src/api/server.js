@@ -19,10 +19,13 @@ const executeGitScript = (scriptName, scriptParameters) => {
       scriptName
     );
     console.log(scriptParameters)
+    
     for(let scriptParameter of scriptParameters) {
+     // Create a command to open a new terminal window and execute the script for each parameter
+    const command = `start cmd.exe /K "${scriptPath}"`;
       console.log(scriptParameter)
     // Execute the script with the branch name as an argument
-    exec(`"${scriptPath}" "${scriptParameter}"`, (error) => {
+    exec(`"${command}" "${scriptParameter}"`, (error) => {
       if (error) {
         reject({
           success: false,

@@ -36,7 +36,6 @@ const executeGitScript = (scriptName, scriptParameter) => {
   });
 };
 
-
 // Endpoint to execute a Git script by name
 app.post("/execute-git-script", async (req, res) => {
   try {

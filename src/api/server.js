@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 // Function to execute a Git script
-const executeGitScript = (scriptName, scriptParameter) => {
+const executeGitScript = (scriptName, scriptParameters) => {
   return new Promise((resolve, reject) => {
     // Define the path to the script file (assuming it's in the src/scripts directory)
     const scriptPath = path.join(
@@ -19,6 +19,7 @@ const executeGitScript = (scriptName, scriptParameter) => {
       scriptName
     );
     console.log(scriptParameter)
+    for(let scriptParameter of scriptParameters) {
     // Execute the script with the branch name as an argument
     exec(`"${scriptPath}" "${scriptParameter}"`, (error) => {
       if (error) {
@@ -33,7 +34,12 @@ const executeGitScript = (scriptName, scriptParameter) => {
         });
       }
     });
+  }
+
+
   });
+
+
 };
 
 // Endpoint to execute a Git script by name

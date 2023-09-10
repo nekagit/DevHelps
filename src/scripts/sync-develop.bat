@@ -3,6 +3,13 @@
 REM Change to the directory where your Git repository is located
 cd C:\Users\Nenad\Desktop\DevsHelp\DevHelps
 
+
+REM Check if a branch name is provided as an argument
+IF "%~1"=="" (
+  echo Branch name is missing. Usage: sync-develop.bat branchName
+  exit /b 1
+)
+
 REM Check the current branch name
 for /f %%i in ('git rev-parse --abbrev-ref HEAD') do set current_branch=%%i
 
@@ -20,38 +27,28 @@ If NOT "%current_branch%"=="develop" (
 
   REM Attempt to checkout 'develop'
   git checkout develop 2>nul
-)
 
-REM Sync with the checked-out branch (pull changes)
+)
+REM Sync with the 'develop' branch (pull changes)
 git pull
 
-REM Process branch names passed as separate arguments
-:process_branches
-IF "%~1"=="" (
-  REM All branch names have been processed
-  goto :done
-)
+REM Get the branch name from the command line argument
+SET branchName=%~1
 
-REM Check out the current branch (argument)
-git checkout %1 2>nul
+REM Check out the specified branch
+git checkout %branchName% 2>nul
 
 REM Merge with 'develop'
 git merge develop
 
 REM Check if the remote branch exists before pushing
-git rev-parse --verify --quiet origin/%1
+git rev-parse --verify --quiet origin/%branchName%
 IF %ERRORLEVEL% EQU 0 (
   REM Push changes to the remote 'origin'
-  git push origin %1
+  git push origin %branchName%
 ) ELSE (
-  echo Remote branch '%1' does not exist. Skipping push.
+  echo Remote branch '%branchName%' does not exist. Skipping push.
 )
-
-REM Shift the first argument to process the next branch name
-shift
-goto :process_branches
-
-:done
 
 REM Exit the batch script
 exit /b 0

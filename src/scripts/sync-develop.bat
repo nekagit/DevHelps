@@ -9,6 +9,7 @@ git diff-index --quiet HEAD
 IF %ERRORLEVEL% NEQ 0 (
   REM Commit the changes with a default message
   git commit -m "Auto-commit changes"
+  git pull
   git push
 )
 
@@ -44,7 +45,7 @@ SET branchNames=%1
 REM Check if branch names were provided
 IF NOT "%branchNames%"=="" (
   REM Split branch names using a comma as a delimiter
-  for %%a in (%branchNames%) do (
+  FOR %%a IN (%branchNames%) DO (
     REM Check out the current branch
     git checkout %%a 2>nul
 

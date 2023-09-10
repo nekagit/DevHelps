@@ -10,6 +10,7 @@ git diff-index --quiet HEAD
 IF %ERRORLEVEL% NEQ 0 (
   REM Commit the changes with a default message
   git commit -m "Auto-commit changes"
+  git pull
   git push
 )
 
@@ -32,11 +33,10 @@ git diff-index --quiet HEAD
 IF %ERRORLEVEL% NEQ 0 (
   REM Commit the changes with a default message
   git commit -m "Auto-commit changes"
+  git pull
   git push
-)
 
-REM Sync with the checked-out branch (pull changes)
-git pull
+)
 
 REM Get the new branch name from the command line argument (e.g., 'new-branch-name')
 SET newBranchName=%1

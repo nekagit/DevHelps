@@ -3,7 +3,7 @@ cd C:\Users\Nenad\Desktop\DevsHelp\DevHelps
 
 REM Check the current branch name
 for /f %%i in ('git rev-parse --abbrev-ref HEAD') do set current_branch=%%i
-REM Check if the current branch is one of 'develop', 'master', or 'main'
+REM Check if the current branch is one of 'master'
 If NOT "%current_branch%"=="master" (
   git add --all
   git commit -m "Auto-commit changes"
@@ -11,10 +11,10 @@ If NOT "%current_branch%"=="master" (
   git push
 )
 
-REM Attempt to checkout 'develop'
+REM Attempt to checkout 'master'
 git checkout master 2>nul
 
-REM Sync with the 'develop' branch (pull changes)
+REM Sync with the 'master' branch (pull changes)
 git pull
 
 REM Get the branch name from the command line argument
@@ -25,7 +25,7 @@ git checkout %branchName% 2>nul
 
 echo %branchName%
 
-REM Merge with 'develop'
+REM Merge with 'master'
 git merge master
 
 REM Exit the batch script

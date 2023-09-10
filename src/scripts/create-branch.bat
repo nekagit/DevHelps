@@ -3,7 +3,7 @@
 REM Change to the directory where your Git repository is located
 cd C:\Users\Nenad\Desktop\DevsHelp\DevHelps
 
-git add -all
+git add --all
 git commit -m "Auto-commit changes"
 git pull
 git push
@@ -13,6 +13,7 @@ git checkout master 2>nul
 
 REM Get the new branch name from the command line argument (e.g., 'new-branch-name')
 SET newBranchName=%1
+echo %newBranchName%
 
 REM Create a new branch with the specified name
 IF NOT "%newBranchName%"=="" (

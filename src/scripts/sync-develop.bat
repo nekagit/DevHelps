@@ -21,7 +21,7 @@ git pull
 
 REM Get the branch name from the command line argument
 SET branchName=%~1
-
+echo %branchName%
 REM Check out the specified branch
 git checkout %branchName% 2>nul
 

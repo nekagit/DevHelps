@@ -35,14 +35,14 @@ function BasicCard(props: IProps) {
 
   const handleGitAction = async (scriptName: string) => {
     try {
-      const scriptParameter = getScriptParameter(scriptName);
-      console.log(scriptParameter);
+      const scriptParameters = getScriptParameter(scriptName);
+      console.log(scriptParameters);
       const response = await fetch("http://localhost:3000/execute-git-script", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ scriptName, scriptParameter }), // Include branchName in the request body
+        body: JSON.stringify({ scriptName: scriptName, scriptParamters: scriptParameters }), // Include branchName in the request body
       });
 
       if (response.ok) {

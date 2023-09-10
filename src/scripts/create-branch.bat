@@ -33,7 +33,6 @@ IF %ERRORLEVEL% NEQ 0 (
   REM Commit the changes with a default message
   git commit -m "Auto-commit changes"
   git push
-
 )
 
 REM Sync with the checked-out branch (pull changes)

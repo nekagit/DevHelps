@@ -14,6 +14,7 @@ function BasicCard(props: IProps) {
   const borderStyle = "1px solid black";
   const [branchName, setBranchName] = useState("");
   const [branchNames, setBranchNames] = useState([""]);
+  const [commitMessage, setCommitMessage] = useState("");
 
   function getScriptParameter(scriptName: string) {
     switch (scriptName) {
@@ -25,6 +26,9 @@ function BasicCard(props: IProps) {
       }
       case "commit-Implemented.bat": {
         return "";
+      }
+      case "commit.bat": {
+        return commitMessage;
       }
     }
   }
@@ -62,6 +66,12 @@ function BasicCard(props: IProps) {
     const branchNamesSplitted = event.target.value.split(",");
     console.log(branchNamesSplitted);
     setBranchNames(branchNamesSplitted);
+  };
+
+  const handleCommitMessageChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setCommitMessage(event.target.value);
   };
 
   return (
@@ -107,6 +117,19 @@ function BasicCard(props: IProps) {
             <ListGroup.Item>
               <Button onClick={() => handleGitAction("commit-Implemented.bat")}>
                 Commit as "new Implementation"
+              </Button>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Form.Group>
+                <Form.Control
+                  type="text"
+                  placeholder="Commitmessage"
+                  value={commitMessage}
+                  onChange={handleCommitMessageChange}
+                />
+              </Form.Group>
+              <Button onClick={() => handleGitAction("commit.bat")}>
+                Commit with message
               </Button>
             </ListGroup.Item>
             {/* Add more ListGroup items with corresponding script names */}

@@ -13,15 +13,31 @@ function BasicCard(props: IProps) {
   const { title, width, height, color, border } = props;
   const borderStyle = "1px solid black";
   const [branchName, setBranchName] = useState("");
-  console.log(branchName);
+  const [branchNames, setBranchNames] = useState([""]);
+
+  function getScriptParameter(scriptName: string) {
+    switch (scriptName) {
+      case "create-branch.bat": {
+        return branchName;
+      }
+      case "sync-develop.bat": {
+        return branchNames;
+      }
+      case "commit-Implemented.bat": {
+        return "";
+      }
+    }
+  }
   const handleGitAction = async (scriptName: string) => {
     try {
+      const scriptParameter = getScriptParameter(scriptName);
+      console.log(scriptParameter);
       const response = await fetch("http://localhost:3000/execute-git-script", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ scriptName, branchName }), // Include branchName in the request body
+        body: JSON.stringify({ scriptName, scriptParameter }), // Include branchName in the request body
       });
 
       if (response.ok) {
@@ -40,6 +56,14 @@ function BasicCard(props: IProps) {
     setBranchName(event.target.value);
   };
 
+  const handleBranchNamesChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const branchNamesSplitted = event.target.value.split(",");
+    console.log(branchNamesSplitted);
+    setBranchNames(branchNamesSplitted);
+  };
+
   return (
     <>
       <Card
@@ -53,26 +77,38 @@ function BasicCard(props: IProps) {
         <Card.Header>{title}</Card.Header>
         <Card.Body>
           <ListGroup>
-            {/* Input field for branch name */}
-            <Form.Group>
-              <Form.Control
-                type="text"
-                placeholder="Branch Name"
-                value={branchName}
-                onChange={handleBranchNameChange}
-              />
-            </Form.Group>
-            <Button onClick={() => handleGitAction("create-branch.bat")}>
-              Create Branch from 'develop'
-            </Button>
-            <Button onClick={() => handleGitAction("sync-develop.bat")}>
-              Sync All with 'develop'
-            </Button>
-            <Button
-              onClick={() => handleGitAction("commit-new-implementation.bat")}
-            >
-              Commit as "new Implementation"
-            </Button>
+            <ListGroup.Item>
+              {/* Input field for branch name */}
+              <Form.Group>
+                <Form.Control
+                  type="text"
+                  placeholder="Branch Name"
+                  value={branchName}
+                  onChange={handleBranchNameChange}
+                />
+              </Form.Group>
+              <Button onClick={() => handleGitAction("create-branch.bat")}>
+                Create Branch from 'develop'
+              </Button>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Form.Group>
+                <Form.Control
+                  type="text"
+                  placeholder="Branch Names to sync with"
+                  value={branchNames}
+                  onChange={handleBranchNamesChange}
+                />
+              </Form.Group>
+              <Button onClick={() => handleGitAction("sync-develop.bat")}>
+                Sync All with 'develop'
+              </Button>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Button onClick={() => handleGitAction("commit-Implemented.bat")}>
+                Commit as "new Implementation"
+              </Button>
+            </ListGroup.Item>
             {/* Add more ListGroup items with corresponding script names */}
           </ListGroup>
         </Card.Body>

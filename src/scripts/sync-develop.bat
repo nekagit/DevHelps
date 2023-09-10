@@ -3,41 +3,28 @@
 REM Change to the directory where your Git repository is located
 cd C:\Users\Nenad\Desktop\DevsHelp\DevHelps
 
-git add --all
-REM Check if there are any changes to commit
-git diff-index --quiet HEAD
-IF %ERRORLEVEL% NEQ 0 (
-  REM Commit the changes with a default message
-  git commit -m "Auto-commit changes"
-  git pull
-  git push
-)
+REM Check the current branch name
+for /f %%i in ('git rev-parse --abbrev-ref HEAD') do set current_branch=%%i
 
-REM Attempt to checkout 'develop'
-git checkout develop 2>nul
+REM Check if the current branch is one of 'develop', 'master', or 'main'
+If NOT "%current_branch%"=="develop" (
+  git add --all
+  REM Check if there are any changes to commit
+  git diff-index --quiet HEAD
+  IF %ERRORLEVEL% NEQ 0 (
+      REM Commit the changes with a default message
+      git commit -m "Auto-commit changes"
+      git pull
+      git push
+  ) 
 
-REM If the checkout to 'develop' fails, try 'master'
-IF %ERRORLEVEL% NEQ 0 (
-  git checkout master 2>nul
-)
+  REM Attempt to checkout 'develop'
+  git checkout develop 2>nul
 
-REM If the checkout to 'master' fails, try 'main'
-IF %ERRORLEVEL% NEQ 0 (
-  git checkout main 2>nul
-)
-
-git add --all
-REM Check if there are any changes to commit
-git diff-index --quiet HEAD
-IF %ERRORLEVEL% NEQ 0 (
-  REM Commit the changes with a default message
-  git commit -m "Auto-commit changes"
 )
 
 REM Sync with the checked-out branch (pull changes)
 git pull
-
-git push
 
 REM Get the branch names from the command line argument (e.g., 'branch1,branch2,branch3')
 SET branchNames=%1

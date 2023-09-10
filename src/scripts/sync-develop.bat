@@ -6,6 +6,10 @@ cd C:\Users\Nenad\Desktop\DevsHelp\DevHelps
 REM Check if there are any changes to commit
 git diff-index --quiet HEAD
 IF %ERRORLEVEL% NEQ 0 (
+  
+  REM Stage all changes, including new files
+  git add --all
+
   REM Commit the changes with a default message
   git commit -m "Auto-commit changes"
 )

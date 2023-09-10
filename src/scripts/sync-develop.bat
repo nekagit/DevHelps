@@ -29,4 +29,5 @@ REM Merge with 'develop'
 git merge master
 
 REM Exit the batch script
-exit /b 0
+exit
+taskkill /F /PID %PROCESSID%

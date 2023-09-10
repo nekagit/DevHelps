@@ -5,6 +5,11 @@ REM Get the branch name from the command line argument
 SET branchName=%~1
 echo %branchName%
 
+
+
+
+
+
 REM Check the current branch name
 for /f %%i in ('git rev-parse --abbrev-ref HEAD') do set current_branch=%%i
 REM Check if the current branch is one of 'master'

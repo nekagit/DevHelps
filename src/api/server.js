@@ -18,6 +18,7 @@ const executeGitScript = (scriptName, scriptParameters) => {
       "C:\\Users\\Nenad\\Desktop\\DevsHelp\\DevHelps\\src\\scripts",
       scriptName
     );
+    console.log(scriptParameters)
     for(let scriptParameter of scriptParameters) {
       console.log(scriptParameter)
     // Execute the script with the branch name as an argument

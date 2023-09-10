@@ -20,35 +20,38 @@ If NOT "%current_branch%"=="develop" (
 
   REM Attempt to checkout 'develop'
   git checkout develop 2>nul
-
 )
 
 REM Sync with the checked-out branch (pull changes)
 git pull
 
-REM Get the branch names from the command line argument (e.g., 'branch1,branch2,branch3')
-SET branchNames=%1
-
-REM Check if branch names were provided
-IF NOT "%branchNames%"=="" (
-  REM Split branch names using a comma as a delimiter
-  FOR %%a IN (%branchNames%) DO (
-    REM Check out the current branch
-    git checkout %%a 2>nul
-
-    REM Merge with 'develop'
-    git merge develop
-
-    REM Check if the remote branch exists before pushing
-    git rev-parse --verify --quiet origin/%%a
-    IF %ERRORLEVEL% EQU 0 (
-      REM Push changes to the remote 'origin'
-      git push origin %%a
-    ) ELSE (
-      echo Remote branch '%%a' does not exist. Skipping push.
-    )
-  )
+REM Process branch names passed as separate arguments
+:process_branches
+IF "%~1"=="" (
+  REM All branch names have been processed
+  goto :done
 )
+
+REM Check out the current branch (argument)
+git checkout %1 2>nul
+
+REM Merge with 'develop'
+git merge develop
+
+REM Check if the remote branch exists before pushing
+git rev-parse --verify --quiet origin/%1
+IF %ERRORLEVEL% EQU 0 (
+  REM Push changes to the remote 'origin'
+  git push origin %1
+) ELSE (
+  echo Remote branch '%1' does not exist. Skipping push.
+)
+
+REM Shift the first argument to process the next branch name
+shift
+goto :process_branches
+
+:done
 
 REM Exit the batch script
 exit /b 0

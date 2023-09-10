@@ -26,7 +26,7 @@ const executeGitScriptsSequentially = async (scriptName, scriptParameters) => {
 
     // Execute each script using exec
     await new Promise((resolve, reject) => {
-exec(`start cmd.exe /K "${scriptPath}"`, [`"${scriptPath}"`, `"${scriptParameter}"`], (error, stdout, stderr) => {
+exec(`start cmd.exe /K "${scriptPath}"`, [`"${scriptParameter}"`], (error, stdout, stderr) => {
        if (error) {
           reject(`Error executing Git script: ${error.message}`);
         } else {

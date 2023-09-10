@@ -13,14 +13,15 @@ REM Get the new branch name from the command line argument (e.g., 'new-branch-na
 SET newBranchName=%1
 echo %newBranchName%
 
-REM Create a new branch with the specified name
+REM Check if newBranchName is not empty
 IF NOT "%newBranchName%"=="" (
+  REM Create a new branch with the specified name
   git checkout -b %newBranchName%
-)
-
-REM Publish the newly created branch
-IF NOT "%newBranchName%"=="" (
+  
+  REM Publish the newly created branch
   git push -u origin %newBranchName%
+) ELSE (
+  echo New branch name is empty. No branch created.
 )
 
 REM Exit the batch script

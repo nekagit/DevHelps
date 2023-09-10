@@ -14,7 +14,7 @@ REM Check the current branch name
 for /f %%i in ('git rev-parse --abbrev-ref HEAD') do set current_branch=%%i
 
 REM Check if the current branch is one of 'develop', 'master', or 'main'
-If NOT "%current_branch%"=="develop" (
+If NOT "%current_branch%"=="master" (
   git add --all
   REM Check if there are any changes to commit
   git diff-index --quiet HEAD
@@ -26,7 +26,7 @@ If NOT "%current_branch%"=="develop" (
   ) 
 
   REM Attempt to checkout 'develop'
-  git checkout develop 2>nul
+  git checkout master 2>nul
 
 )
 REM Sync with the 'develop' branch (pull changes)
@@ -39,7 +39,7 @@ REM Check out the specified branch
 git checkout %branchName% 2>nul
 
 REM Merge with 'develop'
-git merge develop
+git merge master
 
 REM Check if the remote branch exists before pushing
 git rev-parse --verify --quiet origin/%branchName%

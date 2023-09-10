@@ -19,6 +19,8 @@ const executeGitScript = (scriptName, scriptParameters) => {
       scriptName
     );
       console.log(scriptParameters)
+
+      
     // Create a terminal instance to run the script
     const terminal = spawn("cmd.exe", ["/c", scriptPath, ...scriptParameters]);
 

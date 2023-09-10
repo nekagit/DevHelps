@@ -34,7 +34,7 @@ echo %branchName%
 
 REM Merge with 'master'
 git merge master
-
+git push
 REM Exit the batch script
 exit
 taskkill /F /PID %PROCESSID%

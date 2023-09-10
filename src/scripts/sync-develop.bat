@@ -3,16 +3,9 @@
 REM Change to the directory where your Git repository is located
 cd C:\Users\Nenad\Desktop\DevsHelp\DevHelps
 
-
-REM Check if a branch name is provided as an argument
-IF "%~1"=="" (
-  echo Branch name is missing. Usage: sync-develop.bat branchName
-  exit /b 1
-)
-
 REM Check the current branch name
 for /f %%i in ('git rev-parse --abbrev-ref HEAD') do set current_branch=%%i
-
+echo %current_branch%
 REM Check if the current branch is one of 'develop', 'master', or 'main'
 If NOT "%current_branch%"=="master" (
   git add --all
@@ -25,10 +18,11 @@ If NOT "%current_branch%"=="master" (
       git push
   ) 
 
-  REM Attempt to checkout 'develop'
-  git checkout master 2>nul
-
 )
+
+REM Attempt to checkout 'develop'
+git checkout master 2>nul
+
 REM Sync with the 'develop' branch (pull changes)
 git pull
 
@@ -37,6 +31,8 @@ SET branchName=%~1
 
 REM Check out the specified branch
 git checkout %branchName% 2>nul
+
+echo %branchName%
 
 REM Merge with 'develop'
 git merge master

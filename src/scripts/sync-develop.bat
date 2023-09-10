@@ -11,16 +11,16 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 
 REM Attempt to checkout 'develop'
-git checkout develop
+git checkout develop 2>nul
 
 REM If the checkout to 'develop' fails, try 'master'
 IF %ERRORLEVEL% NEQ 0 (
-  git checkout master
+  git checkout master 2>nul
 )
 
 REM If the checkout to 'master' fails, try 'main'
 IF %ERRORLEVEL% NEQ 0 (
-  git checkout main
+  git checkout main 2>nul
 )
 
 REM Sync with the checked-out branch (pull changes)
@@ -31,24 +31,21 @@ SET branchNames=%1
 
 REM Check if branch names were provided
 IF NOT "%branchNames%"=="" (
-  REM Split the branch names into an array using a loop
-  :loop
-  FOR /F "tokens=1,* delims=," %%a IN ("%branchNames%") DO (
+  REM Split branch names using a comma as a delimiter
+  for %%a in (%branchNames%) do (
     REM Check out the current branch
-    git checkout %%a
+    git checkout %%a 2>nul
 
     REM Merge with 'develop'
     git merge develop
 
-    REM Push changes to the remote 'origin'
-    git push origin %%a
-
-    REM Set branchNames to the remaining branches
-    SET branchNames=%%b
-
-    REM If there are more branches, continue the loop
-    IF NOT "%branchNames%"=="" (
-      GOTO loop
+    REM Check if the remote branch exists before pushing
+    git rev-parse --verify --quiet origin/%%a
+    IF %ERRORLEVEL% EQU 0 (
+      REM Push changes to the remote 'origin'
+      git push origin %%a
+    ) ELSE (
+      echo Remote branch '%%a' does not exist. Skipping push.
     )
   )
 )

@@ -64,7 +64,6 @@ function BasicCard(props: IProps) {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const branchNamesSplitted = event.target.value.split(",");
-    console.log(branchNamesSplitted);
     setBranchNames(branchNamesSplitted);
   };
 

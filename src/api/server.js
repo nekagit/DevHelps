@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { spawn } from "child_process";
+import { exec } from "child_process";
 import cors from "cors";
 import express from "express";
 import path from "path";
@@ -12,31 +12,30 @@ app.use(cors());
 
 // Function to execute a Git script sequentially
 const executeGitScriptsSequentially = async (scriptName, scriptParameters) => {
-const scriptParameterss = Array.isArray(scriptParameters) ? scriptParameters : [scriptParameters];
-  console.log(scriptParameterss) 
- for (const scriptParameter of scriptParameterss) {
-      // Define the path to the script file (assuming it's in the src/scripts directory)
-      const scriptPath = path.join(
-        "C:\\Users\\Nenad\\Desktop\\DevsHelp\\DevHelps\\src\\scripts",
-        scriptName
-      );
+  const scriptParameterss = Array.isArray(scriptParameters) ? scriptParameters : [scriptParameters];
+  console.log(scriptParameterss);
 
-      console.log(`Executing script with parameter: ${scriptParameter}`);
-      
-      const terminal = spawn("cmd.exe", ["/c", scriptPath, scriptParameter], {
-        detached: true,
-        stdio: "inherit", // Allows you to see the terminal
-      });
+  // Define the path to the script file (assuming it's in the src/scripts directory)
+  const scriptPath = path.join(
+    "C:\\Users\\Nenad\\Desktop\\DevsHelp\\DevHelps\\src\\scripts",
+    scriptName
+  );
 
-      await new Promise((resolve, reject) => {
-        terminal.on("close", (code) => {
-          if (code === 0) {
-            resolve();
-          } else {
-            reject(`Error executing Git script. Exit code: ${code}`);
-          }
-        });
+  for (const scriptParameter of scriptParameterss) {
+    console.log(`Executing script with parameter: ${scriptParameter}`);
+
+    // Execute each script using exec
+    await new Promise((resolve, reject) => {
+      exec(`"${scriptPath}" "${scriptParameter}"`, (error, stdout, stderr) => {
+        if (error) {
+          reject(`Error executing Git script: ${error.message}`);
+        } else {
+          console.log(stdout);
+          console.error(stderr);
+          resolve();
+        }
       });
+    });
   }
 };
 
@@ -44,8 +43,8 @@ const scriptParameterss = Array.isArray(scriptParameters) ? scriptParameters : [
 app.post("/execute-git-script", async (req, res) => {
   try {
     const { scriptName, scriptParameters } = req.body;
-    console.log(scriptName)
-    console.log(scriptParameters)
+    console.log(scriptName);
+    console.log(scriptParameters);
 
     await executeGitScriptsSequentially(scriptName, scriptParameters);
 

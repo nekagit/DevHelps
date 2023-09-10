@@ -62,10 +62,5 @@ IF NOT "%branchNames%"=="" (
   )
 )
 
-REM Publish the newly created branch
-IF NOT "%newBranchName%"=="" (
-  git push -u origin %newBranchName%
-)
-
 REM Exit the batch script
 exit /b 0

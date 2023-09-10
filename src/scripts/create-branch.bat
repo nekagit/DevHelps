@@ -25,5 +25,4 @@ IF NOT "%newBranchName%"=="" (
 )
 
 REM Exit the batch script
-exit
-taskkill /F /PID %PROCESSID%
+exit /b 0

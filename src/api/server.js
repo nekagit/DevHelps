@@ -11,9 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 // Function to execute a Git script sequentially
-const executeGitScriptsSequentially = async (scriptName, scriptParameters) => {
-  const scriptParameterss = Array.isArray(scriptParameters) ? scriptParameters : [scriptParameters];
-  console.log(scriptParameterss);
+const executeGitScriptsSequentially = async (scriptName, scriptParameter) => {
 
   // Define the path to the script file (assuming it's in the src/scripts directory)
   const scriptPath = path.join(
@@ -21,12 +19,11 @@ const executeGitScriptsSequentially = async (scriptName, scriptParameters) => {
     scriptName
   );
 
-  for (const scriptParameter of scriptParameterss) {
     console.log(`Executing script with parameter: ${scriptParameter}`);
 
     // Execute each script using exec
     await new Promise((resolve, reject) => {
-exec(`"${scriptPath} ${scriptParameter}"`, (error, stdout, stderr) => {
+exec(`start cmd /K "${scriptPath} ${scriptParameter}"`, (error, stdout, stderr) => {
        if (error) {
           reject(`Error executing Git script: ${error.message}`);
         } else {
@@ -38,7 +35,6 @@ exec(`"${scriptPath} ${scriptParameter}"`, (error, stdout, stderr) => {
         }
       });
     });
-  }
 };
 
 // Endpoint to execute a Git script by name
@@ -47,8 +43,12 @@ app.post("/execute-git-script", async (req, res) => {
     const { scriptName, scriptParameters } = req.body;
     console.log(scriptName);
     console.log(scriptParameters);
+      const scriptParameterss = Array.isArray(scriptParameters) ? scriptParameters : scriptParameters.split(",");
+  console.log(scriptParameterss);
+  for (const scriptParameter of scriptParameterss) {
 
-    await executeGitScriptsSequentially(scriptName, scriptParameters);
+    await executeGitScriptsSequentially(scriptName, scriptParameter);
+  }
 
     res.status(200).json({
       success: true,

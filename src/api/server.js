@@ -55,6 +55,7 @@ const executeGitScript = (scriptName, scriptParameters) => {
 app.post("/execute-git-script", async (req, res) => {
   try {
     const { scriptName, scriptParameters } = req.body;
+    console.log(scriptName)
     console.log(scriptParameters)
     const result = await executeGitScript(scriptName, scriptParameters);
     res.status(200).json(result);

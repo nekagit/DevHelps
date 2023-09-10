@@ -49,23 +49,7 @@ app.post("/execute-git-script", async (req, res) => {
 
     await executeGitScriptsSequentially(scriptName, scriptParameter);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
   res.status(200).json({
       success: true,
       message: "All Git scripts executed successfully",

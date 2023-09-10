@@ -5,7 +5,8 @@ interface IProps {
   width: string;
   height: string;
   color?: string;
-  border?: string;
+  border?: string;           
+
 }
 
 function BasicCard(props: IProps) {

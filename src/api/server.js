@@ -12,7 +12,9 @@ app.use(cors());
 
 // Function to execute a Git script sequentially
 const executeGitScriptsSequentially = async (scriptName, scriptParameters) => {
-  for (const scriptParameter of scriptParameters) {
+const scriptParameterss = Array.isArray(scriptParameters) ? scriptParameters : [scriptParameters];
+  console.log(scriptParameterss) 
+ for (const scriptParameter of scriptParameterss) {
       // Define the path to the script file (assuming it's in the src/scripts directory)
       const scriptPath = path.join(
         "C:\\Users\\Nenad\\Desktop\\DevsHelp\\DevHelps\\src\\scripts",

@@ -11,44 +11,31 @@ app.use(express.json());
 app.use(cors());
 
 // Function to execute a Git script sequentially
-const executeGitScript = (scriptName, scriptParameters) => {
-  return new Promise((resolve, reject) => {
-    // Define the path to the script file (assuming it's in the src/scripts directory)
-    const scriptPath = path.join(
-      "C:\\Users\\Nenad\\Desktop\\DevsHelp\\DevHelps\\src\\scripts",
-      scriptName
-    );
-      console.log(scriptParameters)
-    // Create a terminal instance to run the script
-    const terminal = spawn("cmd.exe", ["/c", scriptPath, ...scriptParameters]);
+const executeGitScriptsSequentially = async (scriptName, scriptParameters) => {
+  for (const scriptParameter of scriptParameters) {
+      // Define the path to the script file (assuming it's in the src/scripts directory)
+      const scriptPath = path.join(
+        "C:\\Users\\Nenad\\Desktop\\DevsHelp\\DevHelps\\src\\scripts",
+        scriptName
+      );
 
-    // Capture the output of the terminal
-    let output = "";
+      console.log(`Executing script with parameter: ${scriptParameter}`);
+      
+      const terminal = spawn("cmd.exe", ["/c", scriptPath, scriptParameter], {
+        detached: true,
+        stdio: "inherit", // Allows you to see the terminal
+      });
 
-    terminal.stdout.on("data", (data) => {
-      output += data.toString();
-    });
-
-    terminal.stderr.on("data", (data) => {
-      output += data.toString();
-    });
-
-    terminal.on("close", (code) => {
-      if (code === 0) {
-        resolve({
-          success: true,
-          message: "Git script executed successfully",
-          output,
+      await new Promise((resolve, reject) => {
+        terminal.on("close", (code) => {
+          if (code === 0) {
+            resolve();
+          } else {
+            reject(`Error executing Git script. Exit code: ${code}`);
+          }
         });
-      } else {
-        reject({
-          success: false,
-          message: `Error executing Git script. Exit code: ${code}`,
-          output,
-        });
-      }
-    });
-  });
+      });
+  }
 };
 
 // Endpoint to execute a Git script by name
@@ -57,11 +44,19 @@ app.post("/execute-git-script", async (req, res) => {
     const { scriptName, scriptParameters } = req.body;
     console.log(scriptName)
     console.log(scriptParameters)
-    const result = await executeGitScript(scriptName, scriptParameters);
-    res.status(200).json(result);
+
+    await executeGitScriptsSequentially(scriptName, scriptParameters);
+
+    res.status(200).json({
+      success: true,
+      message: "All Git scripts executed successfully",
+    });
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json(error);
+    res.status(500).json({
+      success: false,
+      message: error,
+    });
   }
 });
 

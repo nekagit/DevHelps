@@ -32,6 +32,7 @@ function BasicCard(props: IProps) {
       }
     }
   }
+
   const handleGitAction = async (scriptName: string) => {
     try {
       const scriptParameter = getScriptParameter(scriptName);

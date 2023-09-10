@@ -3,6 +3,16 @@
 REM Change to the directory where your Git repository is located
 cd C:\Users\Nenad\Desktop\DevsHelp\DevHelps
 
+git add -all
+
+REM Check if there are any changes to commit
+git diff-index --quiet HEAD
+IF %ERRORLEVEL% NEQ 0 (
+  REM Commit the changes with a default message
+  git commit -m "Auto-commit changes"
+  git push
+)
+
 REM Attempt to checkout 'develop'
 git checkout develop 2>nul
 
@@ -16,12 +26,14 @@ IF %ERRORLEVEL% NEQ 0 (
   )
 )
 
+git add -all
 REM Check if there are any changes to commit
 git diff-index --quiet HEAD
 IF %ERRORLEVEL% NEQ 0 (
   REM Commit the changes with a default message
-  git add -all
   git commit -m "Auto-commit changes"
+  git push
+
 )
 
 REM Sync with the checked-out branch (pull changes)

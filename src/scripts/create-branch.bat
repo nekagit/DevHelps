@@ -3,23 +3,25 @@
 REM Change to the directory where your Git repository is located
 cd C:\Users\Nenad\Desktop\DevsHelp\DevHelps
 
-REM Stage all changes, including new files
-git add --all
-
-REM Commit the changes with an auto-generated message
-git commit -m "Auto-commit changes"
-
 REM Attempt to checkout 'develop'
 git checkout develop 2>nul
 
 REM If the checkout to 'develop' fails, try 'master'
 IF %ERRORLEVEL% NEQ 0 (
   git checkout master 2>nul
+
+  REM If the checkout to 'master' fails, try 'main'
+  IF %ERRORLEVEL% NEQ 0 (
+    git checkout main 2>nul
+  )
 )
 
-REM If the checkout to 'master' fails, try 'main'
+REM Check if there are any changes to commit
+git diff-index --quiet HEAD
 IF %ERRORLEVEL% NEQ 0 (
-  git checkout main 2>nul
+  REM Commit the changes with a default message
+  git add -all
+  git commit -m "Auto-commit changes"
 )
 
 REM Sync with the checked-out branch (pull changes)

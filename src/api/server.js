@@ -10,11 +10,6 @@ const port = 3000;
 app.use(express.json());
 app.use(cors());
 
-
-
-
-
-
 // Function to execute a Git script sequentially
 const executeGitScriptsSequentially = async (scriptName, scriptParameters) => {
   const scriptParameterss = Array.isArray(scriptParameters) ? scriptParameters : [scriptParameters];
@@ -31,12 +26,14 @@ const executeGitScriptsSequentially = async (scriptName, scriptParameters) => {
 
     // Execute each script using exec
     await new Promise((resolve, reject) => {
-      exec(`"${scriptPath}" "${scriptParameter}"`, (error, stdout, stderr) => {
+      exec(`start cmd.exe /K "${scriptPath}" "${scriptParameter}"`, (error, stdout, stderr) => {
         if (error) {
           reject(`Error executing Git script: ${error.message}`);
         } else {
           console.log(stdout);
           console.error(stderr);
+          console.log("heheh");
+
           resolve();
         }
       });

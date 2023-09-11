@@ -13,8 +13,8 @@ echo %checkoutBranch%
 REM Attempt to checkout 'develop'
 git checkout checkoutBranch 2>nul
 
-pause
 echo Successfull checkout to %checkoutBranch%
+pause
 REM Exit the batch script
 exit
 taskkill /F /PID %PROCESSID%

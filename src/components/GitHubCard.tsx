@@ -9,7 +9,7 @@ interface IProps {
   border?: string;
 }
 
-function BasicCard(props: IProps) {
+function GitHubCard(props: IProps) {
   const { title, width, height, color, border } = props;
   const borderStyle = "1px solid black";
   const [branchName, setBranchName] = useState("");
@@ -143,4 +143,4 @@ function BasicCard(props: IProps) {
   );
 }
 
-export default BasicCard;
+export default GitHubCard;

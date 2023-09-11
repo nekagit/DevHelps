@@ -31,6 +31,9 @@ function GitHubCard(props: IProps) {
       case "commit.bat": {
         return commitMessage;
       }
+      case "checkoutBranch.bat": {
+        return branchCheckout;
+      }
     }
   }
 

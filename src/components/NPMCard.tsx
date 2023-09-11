@@ -28,7 +28,6 @@ function BasicCard(props: IProps) {
             <ListGroup.Item>npm run test</ListGroup.Item>
             <ListGroup.Item>npm run specific test</ListGroup.Item>
             <ListGroup.Item>npm i</ListGroup.Item>
-            <ListGroup.Item>fetch Gen</ListGroup.Item>
             <ListGroup.Item>npm run tsc</ListGroup.Item>
           </ListGroup>
         </Card.Body>

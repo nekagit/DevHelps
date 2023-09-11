@@ -37,12 +37,15 @@ function BasicCard(props: IProps) {
     try {
       const scriptParameters = getScriptParameter(scriptName);
       console.log(scriptParameters);
-      const response = await fetch("http://localhost:3000/execute-git-script", {
+      const response = await fetch("http://localhost:3000/execute-script", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ scriptName: scriptName, scriptParameters: scriptParameters }), // Include branchName in the request body
+        body: JSON.stringify({
+          scriptName: scriptName,
+          scriptParameters: scriptParameters,
+        }), // Include branchName in the request body
       });
 
       if (response.ok) {

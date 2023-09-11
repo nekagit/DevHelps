@@ -10,8 +10,8 @@ const port = 3000;
 app.use(express.json());
 app.use(cors());
 
-// Function to execute a Git script sequentially
-const executeGitScriptsSequentially = async (scriptName, scriptParameter) => {
+// Function to execute a script sequentially
+const executeScriptsSequentially = async (scriptName, scriptParameter) => {
 
   // Define the path to the script file (assuming it's in the src/scripts directory)
   const scriptPath = path.join(
@@ -25,7 +25,7 @@ const executeGitScriptsSequentially = async (scriptName, scriptParameter) => {
     await new Promise((resolve, reject) => {
 exec(`start cmd /K "${scriptPath} ${scriptParameter}"`, (error, stdout, stderr) => {
        if (error) {
-          reject(`Error executing Git script: ${error.message}`);
+          reject(`Error executing script: ${error.message}`);
         } else {
           console.log(stdout);
           console.error(stderr);
@@ -37,8 +37,8 @@ exec(`start cmd /K "${scriptPath} ${scriptParameter}"`, (error, stdout, stderr) 
     });
 };
 
-// Endpoint to execute a Git script by name
-app.post("/execute-git-script", async (req, res) => {
+// Endpoint to execute a npm script by name
+app.post("/execute-script", async (req, res) => {
   try {
     const { scriptName, scriptParameters } = req.body;
     console.log(scriptName);
@@ -47,12 +47,11 @@ app.post("/execute-git-script", async (req, res) => {
   console.log(scriptParameterss);
   for (const scriptParameter of scriptParameterss) {
 
-    await executeGitScriptsSequentially(scriptName, scriptParameter);
+    await executeScriptsSequentially(scriptName, scriptParameter);
   }
-  
   res.status(200).json({
       success: true,
-      message: "All Git scripts executed successfully",
+      message: "All scripts executed successfully",
     });
   } catch (error) {
     console.error("Error:", error);

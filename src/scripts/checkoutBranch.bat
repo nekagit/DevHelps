@@ -11,7 +11,7 @@ SET checkoutBranch=%1
 echo %checkoutBranch%
 
 REM Attempt to checkout 'develop'
-git checkout checkoutBranch 2>nul
+git checkout %checkoutBranch% 2>nul
 
 echo Successfull checkout to %checkoutBranch%
 pause

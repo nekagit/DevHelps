@@ -1,5 +1,14 @@
 import { Card, ListGroup } from "react-bootstrap";
 
+// const SpotifyWebApi = require("spotify-web-api-node");
+
+// // credentials are optional
+// const spotifyApi = new SpotifyWebApi({
+//   clientId: "20da193795de4266b95a81dc7c086624",
+//   clientSecret: "aab5a168f1d64e9484d4cee3f5c6282c",
+//   redirectUri: "http://localhost:5173",
+// });
+
 interface IProps {
   title: string;
   width: string;
@@ -27,7 +36,9 @@ function BasicCard(props: IProps) {
             <ListGroup.Item>Next Song</ListGroup.Item>
             <ListGroup.Item>previous song</ListGroup.Item>
             <ListGroup.Item>add to playlist</ListGroup.Item>
-            <ListGroup.Item>show me all details and descriptions</ListGroup.Item>
+            <ListGroup.Item>
+              show me all details and descriptions
+            </ListGroup.Item>
             <ListGroup.Item>fave</ListGroup.Item>
           </ListGroup>
         </Card.Body>

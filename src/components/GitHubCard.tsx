@@ -15,6 +15,7 @@ function GitHubCard(props: IProps) {
   const [branchName, setBranchName] = useState("");
   const [branchNames, setBranchNames] = useState([""]);
   const [commitMessage, setCommitMessage] = useState("");
+  const [branchCheckout, setBranchCheckout] = useState("");
 
   function getScriptParameter(scriptName: string) {
     switch (scriptName) {
@@ -77,6 +78,12 @@ function GitHubCard(props: IProps) {
     setCommitMessage(event.target.value);
   };
 
+  const handleCheckoutBranchChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setBranchCheckout(event.target.value);
+  };
+
   return (
     <>
       <Card
@@ -119,7 +126,7 @@ function GitHubCard(props: IProps) {
             </ListGroup.Item>
             <ListGroup.Item>
               <Button onClick={() => handleGitAction("commit-Implemented.bat")}>
-                Commit as "new Implementation"
+                Commit as "Update"
               </Button>
             </ListGroup.Item>
             <ListGroup.Item>
@@ -133,6 +140,19 @@ function GitHubCard(props: IProps) {
               </Form.Group>
               <Button onClick={() => handleGitAction("commit.bat")}>
                 Commit with message
+              </Button>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Form.Group>
+                <Form.Control
+                  type="text"
+                  placeholder="Checkout Branch"
+                  value={branchCheckout}
+                  onChange={handleCheckoutBranchChange}
+                />
+              </Form.Group>
+              <Button onClick={() => handleGitAction("checkoutBranch.bat")}>
+                Checkout
               </Button>
             </ListGroup.Item>
             {/* Add more ListGroup items with corresponding script names */}

@@ -42,13 +42,18 @@ app.post("/execute-script", async (req, res) => {
   try {
     const { scriptName, scriptParameters } = req.body;
     console.log(scriptName);
-    console.log(scriptParameters);
-      const scriptParameterss = Array.isArray(scriptParameters) ? scriptParameters : scriptParameters.split(",");
-  console.log(scriptParameterss);
-  for (const scriptParameter of scriptParameterss) {
+    if(scriptParameters != undefined){
 
-    await executeScriptsSequentially(scriptName, scriptParameter);
-  }
+      console.log(scriptParameters, "scriptparameters");
+      const scriptParameterss = Array.isArray(scriptParameters) ? scriptParameters : scriptParameters.split(",");
+      console.log(scriptParameterss);
+      for (const scriptParameter of scriptParameterss) {
+        
+        await executeScriptsSequentially(scriptName, scriptParameter);
+      }
+    }
+        await executeScriptsSequentially(scriptName, "");
+
   res.status(200).json({
       success: true,
       message: "All scripts executed successfully",

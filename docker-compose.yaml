@@ -1,0 +1,16 @@
+version: "3"
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.FrontEnd
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.BackEnd
+    ports:
+      - "3000:3000"

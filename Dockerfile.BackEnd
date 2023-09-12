@@ -1,0 +1,18 @@
+# Use the official Node.js image as the base image
+FROM node:14
+
+# Set the working directory in the container
+WORKDIR /src/backend/api/
+
+# Copy the backend source code to the container
+COPY ../../../../package*.json ./
+COPY /src/backend/api/ ./
+
+# Install backend dependencies
+RUN npm install
+
+# Expose the port your backend application will run on
+EXPOSE 3000
+
+# Start the backend server
+CMD ["node", "server.js"]

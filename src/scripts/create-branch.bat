@@ -1,13 +1,19 @@
 REM Change to the directory where your Git repository is located
-cd C:\Users\Nenad\Desktop\DevsHelp\DevHelps
+pause
+cd C:\Users\NenadKalicanin\Desktop\Git\PBD\src\pbd.core.frontend-react
+
+REM Get the current branch name
+FOR /F %%i IN ('git rev-parse --abbrev-ref HEAD') DO SET currentBranch=%%i
+
+IF NOT "%currentBranch%"=="develop" (
 
 git add --all
 git commit -m "Auto-commit changes"
 git pull
 git push
-
+)
 REM Attempt to checkout 'develop'
-git checkout master 2>nul
+git checkout develop 2>nul
 
 REM Get the new branch name from the command line argument (e.g., 'new-branch-name')
 SET newBranchName=%1

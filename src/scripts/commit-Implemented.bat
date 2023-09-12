@@ -1,7 +1,14 @@
 @echo off
 
 REM Change to the directory where your Git repository is located
-cd C:\Users\Nenad\Desktop\DevsHelp\DevHelps
+cd C:\Users\NenadKalicanin\Desktop\Git\PBD\src\pbd.core.frontend-react
+
+REM Get the current branch name
+FOR /F %%i IN ('git rev-parse --abbrev-ref HEAD') DO SET currentBranch=%%i
+
+REM Check if the current branch is 'develop', 'master', or 'main'
+IF NOT "%currentBranch%"=="develop" (
+
 
 REM Stage all changes, including new files
 git add --all
@@ -19,6 +26,8 @@ FOR /F %%i IN ('git rev-parse --abbrev-ref HEAD') DO SET currentBranch=%%i
 REM For other branches, push and set the upstream branch (publish)
 git push --set-upstream origin %currentBranch%
 
+) 
 
 REM Exit the batch script
-exit /b 0
+exit
+taskkill /F /PID %PROCESSID%

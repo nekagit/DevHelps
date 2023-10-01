@@ -1,19 +1,18 @@
 # Use the official Node.js image as the base image
-FROM node:14
+FROM node:18.7.0
 
 # Set the working directory in the container
 WORKDIR /src/
 
 # Copy the frontend source code to the container
 COPY ../package*.json ./
-COPY ../ ./
 
 # Install frontend dependencies
 RUN npm install
 
 # Build the frontend application
 RUN npm run build
-
+COPY . .
 # Expose the port your frontend application will run on
 EXPOSE 5173
 

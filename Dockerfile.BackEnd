@@ -1,15 +1,17 @@
 # Use the official Node.js image as the base image
-FROM node:14
+FROM node:18.7.0
 
 # Set the working directory in the container
-WORKDIR /src/backend/api/
+WORKDIR /src/
 
 # Copy the backend source code to the container
-COPY ../../../../package*.json ./
-COPY /src/backend/api/ ./
+COPY ../package*.json ./
+
 
 # Install backend dependencies
 RUN npm install
+COPY . .
+
 
 # Expose the port your backend application will run on
 EXPOSE 3000

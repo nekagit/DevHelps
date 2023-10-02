@@ -1,3 +1,4 @@
+import React from "react";
 import { Card, ListGroup } from "react-bootstrap";
 import SpotifyWebApi from "spotify-web-api-node";
 
@@ -27,7 +28,7 @@ const spotifyApi = new SpotifyWebApi({
 // );
 const login = async () => {
   const clientId = "20da193795de4266b95a81dc7c086624";
-  const redirectUri = "http://localhost:5137"; // Update with your actual redirect URI
+  const redirectUri = "http://localhost:5173"; // Update with your actual redirect URI
   const scope = "user-read-private user-read-email"; // Add the required scopes
 
   // Create the Spotify login URL
@@ -39,6 +40,10 @@ const login = async () => {
 function BasicCard(props: IProps) {
   const { title, width, height, color, border } = props;
   const borderStyle = "1px solid black";
+  React.useEffect(() => {
+    console.log(window.location.href);
+    spotifyApi.setAccessToken(regex.parse(window.location.href));
+  }, []);
   return (
     <>
       <Card

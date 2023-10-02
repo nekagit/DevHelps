@@ -9,13 +9,13 @@ COPY ../package*.json ./
 
 
 # Install backend dependencies
-RUN npm install
 COPY . .
+RUN npm install
 
 
 # Expose the port your backend application will run on
 EXPOSE 3000
 
 # Start the backend server
-CMD ["npm", "server"]
+CMD ["npm","run" "server"]
 

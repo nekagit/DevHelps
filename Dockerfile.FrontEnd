@@ -11,8 +11,8 @@ COPY ../package*.json ./
 RUN npm install
 
 # Build the frontend application
-RUN npm run build
 COPY . .
+RUN npm run build
 # Expose the port your frontend application will run on
 EXPOSE 5173
 

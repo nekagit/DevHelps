@@ -13,7 +13,7 @@ interface IProps {
 const spotifyApi = new SpotifyWebApi({
   clientId: "20da193795de4266b95a81dc7c086624",
   clientSecret: "aab5a168f1d64e9484d4cee3f5c6282c",
-  redirectUri: "http://localhost:5137",
+  redirectUri: "http://localhost:3000",
 });
 // spotifyApi.setAccessToken(token);
 // Get Elvis' albums
@@ -26,23 +26,15 @@ const spotifyApi = new SpotifyWebApi({
 //   }
 // );
 const login = async () => {
-  try {
-    console.log("vor dem fetch");
-    const response = await fetch("http://localhost:3000/login", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const clientId = "20da193795de4266b95a81dc7c086624";
+  const redirectUri = "http://localhost:5137"; // Update with your actual redirect URI
+  const scope = "user-read-private user-read-email"; // Add the required scopes
 
-    if (response.ok) {
-      console.log(`asdf.`);
-    } else {
-      console.error("Error executing Git script.");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-  }
+  // Create the Spotify login URL
+  const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token&show_dialog=true`;
+
+  // Redirect the user to the Spotify login page
+  window.location.href = spotifyLoginUrl;
 };
 function BasicCard(props: IProps) {
   const { title, width, height, color, border } = props;

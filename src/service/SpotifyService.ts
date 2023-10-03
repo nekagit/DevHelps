@@ -1,5 +1,12 @@
-import { useMemo } from "react";
+import React, { useEffect } from "react";
 import SpotifyWebApi from "spotify-web-api-node";
+
+// Define the interface for the SpotifyService
+interface IUseSpotifyService {
+  logCurrentlyPlayedTrack: () => Promise<void>;
+  accessToken: string | null;
+  loginSpotDoc: () => void;
+}
 
 // credentials are optional
 const spotifyApi = new SpotifyWebApi({
@@ -7,51 +14,63 @@ const spotifyApi = new SpotifyWebApi({
   clientSecret: "aab5a168f1d64e9484d4cee3f5c6282c",
   redirectUri: "http://localhost:3000",
 });
+const clientId = "20da193795de4266b95a81dc7c086624";
+const redirectUri = "http://localhost:5173"; // Update with your actual redirect URI
+const scopes = ["user-read-playback-state", "other-scopes-if-needed"]; // Add your required scopes
+const authorizeURL = spotifyApi.createAuthorizeURL(scopes, "");
+const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token&show_dialog=true`;
 
-function SpotifyService() {
-  const token = useMemo(() => {
-    if (spotifyApi.getAccessToken() === null) {
-      const token = window.location.hash.match(/access_token=([^&]*)/);
-      if (token) {
-        const accessToken = token[1];
-        spotifyApi.setAccessToken(accessToken);
-      }
-      console.log(spotifyApi.getAccessToken());
+function useSpotifyService(): IUseSpotifyService {
+  useEffect(() => {
+    const windowsUrlToken = window.location.hash.match(/access_token=([^&]*)/);
+    if (windowsUrlToken) {
+      const token = windowsUrlToken[1];
+      spotifyApi.setAccessToken(token);
+      console.warn("token set", spotifyApi.getAccessToken());
+
+      localStorage.setItem("access_token", token);
+      // Clear the access token from the URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else {
+      spotifyApi.setAccessToken(accessToken ?? "");
+      console.warn("token set", spotifyApi.getAccessToken());
     }
+  });
+
+  const accessToken = React.useMemo(() => {
+    const spotifyToken = spotifyApi.getAccessToken();
+    const localToken = localStorage.getItem("access_token");
+    const currentToken = spotifyToken ?? localToken;
+    return currentToken;
   }, []);
 
-  function loginSpotDoc() {
-    const clientId = "20da193795de4266b95a81dc7c086624";
-    const redirectUri = "http://localhost:5173"; // Update with your actual redirect URI
-    const scope = "user-read-private user-read-email"; // Add the required scopes
+  const loginSpotDoc = () => {
+    if (accessToken == null) {
+      // Redirect the user to the Spotify login page
+      window.location.href = authorizeURL;
+      window.location.href = spotifyLoginUrl;
+    } else {
+      console.log("already logged in");
+    }
+  };
 
-    // Create the Spotify login URL
-    const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token&show_dialog=true`;
-
-    // Redirect the user to the Spotify login page
-    window.location.href = spotifyLoginUrl;
-  }
-
-  async function logCurrentlyPlayedTrack() {
+  const logCurrentlyPlayedTrack = async () => {
     console.log("logCurrentlyPlayedTrack Function");
-    console.log(token);
     console.log(spotifyApi.getAccessToken());
-    console.log(spotifyApi.getMe());
-    const artistAlbums = await spotifyApi.getArtistAlbums(
-      "43ZHCT0cAZBISjO8DG9PnE"
-    );
-    console.log("Artist albums", artistAlbums.body);
-    const currentPlayingTrack = await spotifyApi.getMyCurrentPlayingTrack();
-    console.log("Current playing track", currentPlayingTrack.body);
-    // Your code to log the currently played track here
-  }
+    try {
+      const currentPlayingTrack = await spotifyApi.getMyCurrentPlayingTrack();
+      console.log("Current playing track", currentPlayingTrack.body);
+    } catch (error) {
+      console.warn(error);
+    }
+  };
 
-  // Return any functions or data you want to expose from this service
   return {
     logCurrentlyPlayedTrack,
-    token,
+    accessToken,
     loginSpotDoc,
   };
 }
 
-export { SpotifyService };
+export { useSpotifyService };
+export type { IUseSpotifyService };

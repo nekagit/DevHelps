@@ -1,5 +1,5 @@
 import { Button, Card, ListGroup } from "react-bootstrap";
-import { SpotifyService } from "../service/SpotifyService";
+import { useSpotifyService } from "../service/SpotifyService";
 
 interface IProps {
   title: string;
@@ -12,7 +12,8 @@ interface IProps {
 function BasicCard(props: IProps) {
   const { title, width, height, color, border } = props;
   const borderStyle = "1px solid black";
-
+  const spotifyService = useSpotifyService();
+  const { loginSpotDoc, logCurrentlyPlayedTrack, accessToken } = spotifyService;
   return (
     <>
       <Card
@@ -26,23 +27,17 @@ function BasicCard(props: IProps) {
         <Card.Header>{title}</Card.Header>
         <Card.Body>
           <ListGroup>
-            <Button className="btn" onClick={SpotifyService.loginSpotDoc}>
+            <Button className="btn" onClick={loginSpotDoc}>
               login
             </Button>
             <ListGroup.Item>
-              <Button
-                className="btn"
-                onClick={SpotifyService.logCurrentlyPlayedTrack}
-              >
+              <Button className="btn" onClick={() => logCurrentlyPlayedTrack()}>
                 Currently played track
               </Button>
             </ListGroup.Item>
             <ListGroup.Item>previous song</ListGroup.Item>
             <ListGroup.Item>add to playlist</ListGroup.Item>
-            <ListGroup.Item>
-              show me all details and descriptions
-            </ListGroup.Item>
-            <ListGroup.Item>fave</ListGroup.Item>
+            <ListGroup.Item>{accessToken}</ListGroup.Item>
           </ListGroup>
         </Card.Body>
       </Card>

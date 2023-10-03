@@ -23,9 +23,13 @@ const stateKey = 'spotify_auth_state';
 
 const app = express();
 const port = 3000;
+const corsOptions = {
+  origin: 'http://localhost:5173', // Replace with your frontend's URL
+  credentials: true,
+};
 
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 const executeScriptsSequentially = async (scriptName, scriptParameter) => {

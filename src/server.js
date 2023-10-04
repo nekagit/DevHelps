@@ -4,22 +4,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import path from "path";
-import querystring from "querystring";
-
-const client_id = '20da193795de4266b95a81dc7c086624'; // Your client id
-const redirect_uri = 'http://localhost:5137'; // Your redirect uri
-
-const generateRandomString = function (length) {
-  let text = '';
-  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
-
-const stateKey = 'spotify_auth_state';
 
 const app = express();
 const port = 3000;
@@ -83,102 +67,36 @@ app.post("/execute-script", async (req, res) => {
     });
   }
 });
-
-app.get('/login', function(req, res) {
-
-  var state = generateRandomString(16);
-  res.cookie(stateKey, state);
-
-  // your application requests authorization
-  var scope = 'user-read-private user-read-email';
-  res.redirect('https://accounts.spotify.com/authorize?' +
-    querystring.stringify({
-      response_type: 'code',
-      client_id: client_id,
-      scope: scope,
-      redirect_uri: redirect_uri,
-      state: state
-    }));
-});
-
-app.get('/callback', async function (req, res) {
-  var code = req.query.code || null;
-  var state = req.query.state || null;
-  var storedState = req.cookies ? req.cookies[stateKey] : null;
-
-  if (state === null || state !== storedState) {
-    res.redirect('/#' +
-      querystring.stringify({
-        error: 'state_mismatch'
-      }));
-  } else {
-    res.clearCookie(stateKey);
-
-    try {
-      const authOptions = {
-        url: 'https://accounts.spotify.com/api/token',
-        method: 'post',
-        data: querystring.stringify({
-          code: code,
-          redirect_uri: redirect_uri,
-          grant_type: 'authorization_code'
-        }),
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      };
-
-      const authResponse = await axios(authOptions);
-
-      const access_token = authResponse.data.access_token;
-      const refresh_token = authResponse.data.refresh_token;
-
-      const options = {
-        url: 'https://api.spotify.com/v1/me',
-        headers: { 'Authorization': 'Bearer ' + access_token },
-      };
-
-      const spotifyResponse = await axios(options);
-
-      console.log(spotifyResponse.data);
-
-      res.redirect('/#' +
-        querystring.stringify({
-          access_token: access_token,
-          refresh_token: refresh_token
-        }));
-    } catch (error) {
-      res.redirect('/#' +
-        querystring.stringify({
-          error: 'invalid_token'
-        }));
-    }
-  }
-});
-
-app.get('/refresh_token', async function (req, res) {
+app.get('/refresh_token', async function(req, res) {
   var refresh_token = req.query.refresh_token;
-
+  const client_id = "20da193795de4266b95a81dc7c086624";
+  const client_secret = "aab5a168f1d64e9484d4cee3f5c6282c";
+  
   const authOptions = {
     url: 'https://accounts.spotify.com/api/token',
     method: 'post',
-    data: querystring.stringify({
+    headers: {
+      'Authorization': 'Basic ' + ((`${client_id}:${client_secret}`).toString('base64'))
+    },
+    data: new URLSearchParams({
       grant_type: 'refresh_token',
       refresh_token: refresh_token
-    }),
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
+    })
   };
-
   try {
-    const authResponse = await axios(authOptions);
-    const access_token = authResponse.data.access_token;
-    res.send({
-      'access_token': access_token
-    });
+    const response = await axios(authOptions);
+    console.log(response.data);
+    if (response.status === 200) {
+      var access_token = response.data.access_token;
+      res.send({
+        'access_token': access_token
+      });
+    } else {
+      res.status(response.status).send({ 'error': 'Unable to refresh token' });
+    }
   } catch (error) {
-    // Handle error
+    console.error('Error refreshing token:', error);
+    res.status(500).send({ 'error': 'Internal server error' });
   }
 });
 

@@ -1,19 +1,17 @@
-import { SetStateAction, useState } from "react";
-import { Button, Card, Form, ListGroup } from "react-bootstrap";
+import { Button, Card, Flex, Text, TextInput } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { useSpotifyService } from "../service/SpotifyService";
 
 interface IProps {
   title: string;
   path?: string;
-  height: string;
+  height?: string;
   color?: string;
   border?: string;
 }
 
 function BasicCard(props: IProps) {
-  const { title, height, color, border } = props;
-  const [songName, setSongName] = useState("");
-  const [albumId, setAlbumId] = useState("");
+  const { title, color, border } = props;
   const borderStyle = "1px solid black";
   const spotifyService = useSpotifyService();
   const {
@@ -25,97 +23,127 @@ function BasicCard(props: IProps) {
     playSongByName,
     playAlbumById,
   } = spotifyService;
-  const handleSongChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setSongName(e.target.value);
-  };
-  const handleAlbumIdChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setAlbumId(e.target.value);
-  };
+  const form = useForm({
+    initialValues: {
+      songName: "",
+      albumId: "",
+    },
+  });
   return (
     <>
       <Card
+        shadow="sm"
+        radius="md"
+        withBorder
         style={{
-          width: "50%",
-          height: height,
           backgroundColor: color,
           border: border ?? borderStyle,
         }}
       >
-        <Card.Header>{title}</Card.Header>
-        <Card.Body>
-          <ListGroup>
+        <Card.Section bg="rgba(111, 0, 0, .1)">
+          <Flex
+            gap="sm"
+            justify="center"
+            align="center"
+            direction="row"
+            wrap="wrap"
+          >
+            <Text fw={500}> {title} </Text>
+          </Flex>
+          <hr />
+
+          <Flex
+            gap="sm"
+            justify="center"
+            align="center"
+            direction="row"
+            wrap="wrap"
+          >
+            <div
+              style={
+                accessToken
+                  ? { backgroundColor: "green" }
+                  : { backgroundColor: "red" }
+              }
+            >
+              {accessToken ? "Access Token available" : "No Access"}
+            </div>
+
             <Button className="btn" onClick={loginSpotDoc}>
               login
             </Button>
+          </Flex>
+          <hr />
+
+          <Flex
+            gap="sm"
+            justify="space-around"
+            align="center"
+            direction="row"
+            wrap="wrap"
+          >
+            <Button onClick={() => logCurrentlyPlayedTrack()}>
+              Currently Played
+            </Button>
+            Name: {currentSong.name}
             <br />
-            <Form>
-              <ListGroup.Item>
-                <Button
-                  className="btn"
-                  onClick={() => logCurrentlyPlayedTrack()}
-                >
-                  Currently played track
-                </Button>
-                <br />
-                <Form.Label>Name: {currentSong.name}</Form.Label>
-                <br />
-                <Form.Label>AlbumId: {currentSong.albumId}</Form.Label>
-                <br />
-                <Form.Label>Artist: {currentSong.artists}</Form.Label>
-                <br />
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Button className="btn" onClick={() => nextSong()}>
-                  Next Track
-                </Button>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Form.Group controlId="Form.SongName">
-                  <Form.Label>Enter SongName:</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={songName}
-                    onChange={handleSongChange}
-                    placeholder="Type something..."
-                  />
-                </Form.Group>
-                <Button
-                  className="btn"
-                  onClick={() => playSongByName(songName)}
-                >
-                  Play Song By Name
-                </Button>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Form.Group controlId="Form.SongName">
-                  <Form.Label>Enter AlbumId:</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={albumId}
-                    onChange={handleAlbumIdChange}
-                    placeholder="Type something..."
-                  />
-                </Form.Group>
-                <Button className="btn" onClick={() => playAlbumById(albumId)}>
-                  Play Album By Id
-                </Button>
-              </ListGroup.Item>
-              <ListGroup.Item
-                style={
-                  accessToken
-                    ? { backgroundColor: "green" }
-                    : { backgroundColor: "red" }
-                }
-              >
-                {accessToken ? "Access Token available" : "No Access"}
-              </ListGroup.Item>
-            </Form>
-          </ListGroup>
-        </Card.Body>
+            AlbumId: {currentSong.albumId}
+            <br />
+            Artist: {currentSong.artists}
+            <br />
+          </Flex>
+          <hr />
+
+          <Flex
+            gap="sm"
+            justify="center"
+            align="center"
+            direction="row"
+            wrap="wrap"
+          >
+            <Button onClick={() => nextSong()}>Next Track</Button>
+          </Flex>
+          <hr />
+          <Flex
+            gap="sm"
+            justify="space-around"
+            align="flex-end"
+            direction="row"
+            wrap="wrap"
+          >
+            <TextInput
+              width={"100%"}
+              label="songName"
+              placeholder="Type something..."
+              {...form.getInputProps("songName")}
+            />
+            <Button onClick={() => playSongByName(form.values.songName)}>
+              Play Song By Name
+            </Button>
+          </Flex>
+          <hr />
+          <Flex
+            gap="sm"
+            justify="space-around"
+            align="flex-end"
+            direction="row"
+            wrap="wrap"
+          >
+            <TextInput
+              width={"100%"}
+              label="albumId"
+              placeholder="Type something..."
+              {...form.getInputProps("albumId")}
+            />
+            <Button
+              className="btn"
+              onClick={() => playAlbumById(form.values.albumId)}
+            >
+              Play Album By Id
+            </Button>
+          </Flex>
+          <br />
+        </Card.Section>
       </Card>
     </>
   );

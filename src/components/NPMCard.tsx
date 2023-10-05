@@ -1,15 +1,16 @@
-import { Button, Card, ListGroup } from "react-bootstrap";
+import { Button, Card, Flex, rem, Text } from "@mantine/core";
+import { IconPlayerPlay } from "@tabler/icons-react";
 
 interface IProps {
   title: string;
   path: string;
-  height: string;
+  height?: string;
   color?: string;
   border?: string;
 }
 
 function NPMCard(props: IProps) {
-  const { title, path, height, color, border } = props;
+  const { title, path, color, border } = props;
   const borderStyle = "1px solid black";
 
   const handleNPMAction = async (scriptName: string) => {
@@ -39,45 +40,53 @@ function NPMCard(props: IProps) {
   return (
     <>
       <Card
+        shadow="sm"
+        radius="md"
+        withBorder
         style={{
-          width: "50%",
-          height: height,
           backgroundColor: color,
           border: border ?? borderStyle,
         }}
       >
-        <Card.Header>{title}</Card.Header>
-        <Card.Body>
-          <ListGroup>
-            <ListGroup.Item>
-              <Button onClick={() => handleNPMAction("npm run start.bat")}>
-                npm run start'
-              </Button>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Button onClick={() => handleNPMAction("npm run tests.bat")}>
-                npm run test
-              </Button>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Button onClick={() => handleNPMAction("npm run test.bat")}>
-                npm run specific test
-              </Button>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Button onClick={() => handleNPMAction("npm install.bat")}>
-                npm i
-              </Button>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Button onClick={() => handleNPMAction("npm run tsc.bat")}>
-                npm run tsc
-              </Button>
-            </ListGroup.Item>
-
-            {/* Add more ListGroup items with corresponding script names */}
-          </ListGroup>
-        </Card.Body>
+        <Card.Section bg="rgba(0, 0, 333, .1)">
+          <Flex
+            gap="sm"
+            justify="center"
+            align="flex-end"
+            direction="row"
+            wrap="wrap"
+          >
+            <Text fw={500}> {title} </Text>
+          </Flex>
+          <Flex
+            mih={50}
+            gap="md"
+            justify="center"
+            align="center"
+            direction="row"
+            wrap="wrap"
+          >
+            <Button onClick={() => handleNPMAction("npm run start.bat")}>
+              <IconPlayerPlay
+                style={{ width: rem(21), height: rem(21) }}
+                stroke={1.5}
+                color="var(--mantine-color-red-filled)"
+              />
+            </Button>
+            <Button onClick={() => handleNPMAction("npm run tests.bat")}>
+              tests
+            </Button>
+            <Button onClick={() => handleNPMAction("npm run test.bat")}>
+              test
+            </Button>
+            <Button onClick={() => handleNPMAction("npm install.bat")}>
+              install
+            </Button>
+            <Button onClick={() => handleNPMAction("npm run tsc.bat")}>
+              TSC
+            </Button>
+          </Flex>
+        </Card.Section>
       </Card>
     </>
   );

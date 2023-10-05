@@ -1,38 +1,42 @@
-import React, { useState } from "react";
-import { Button, Card, Form, ListGroup } from "react-bootstrap";
+import { Button, Card, Flex, Text, TextInput } from "@mantine/core";
+import { useForm } from "@mantine/form";
 
 interface IProps {
   title: string;
   path: string;
-  height: string;
+  height?: string;
   color?: string;
   border?: string;
 }
 
 function GitHubCard(props: IProps) {
-  const { title, path, height, color, border } = props;
+  const { title, path, color, border } = props;
   const borderStyle = "1px solid black";
-  const [branchName, setBranchName] = useState("");
-  const [branchNames, setBranchNames] = useState([""]);
-  const [commitMessage, setCommitMessage] = useState("");
-  const [branchCheckout, setBranchCheckout] = useState("");
+  const form = useForm({
+    initialValues: {
+      branchName: "",
+      branchSync: "",
+      commitMessage: "",
+      checkoutBranch: "",
+    },
+  });
 
   function getScriptParameter(scriptName: string) {
     switch (scriptName) {
       case "create-branch.bat": {
-        return branchName;
+        return form.values.branchName;
       }
       case "sync-develop.bat": {
-        return branchNames;
+        return form.values.branchSync;
       }
       case "commit-Implemented.bat": {
         return "";
       }
       case "commit.bat": {
-        return commitMessage;
+        return form.values.commitMessage;
       }
       case "checkoutBranch.bat": {
-        return branchCheckout;
+        return form.values.checkoutBranch;
       }
     }
   }
@@ -62,106 +66,106 @@ function GitHubCard(props: IProps) {
       console.error("Error:", error);
     }
   };
-
-  const handleBranchNameChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setBranchName(event.target.value);
-  };
-
-  const handleBranchNamesChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const branchNamesSplitted = event.target.value.split(",");
-    setBranchNames(branchNamesSplitted);
-  };
-
-  const handleCommitMessageChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setCommitMessage(event.target.value);
-  };
-
-  const handleCheckoutBranchChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setBranchCheckout(event.target.value);
-  };
-
   return (
     <>
       <Card
+        shadow="sm"
+        withBorder
         style={{
-          width: "50%",
-          height: height,
           backgroundColor: color,
           border: border ?? borderStyle,
         }}
       >
-        <Card.Header>{title}</Card.Header>
-        <Card.Body>
-          <ListGroup>
-            <ListGroup.Item>
-              {/* Input field for branch name */}
-              <Form.Group>
-                <Form.Control
-                  type="text"
-                  placeholder="Branch Name"
-                  value={branchName}
-                  onChange={handleBranchNameChange}
-                />
-              </Form.Group>
-              <Button onClick={() => handleGitAction("create-branch.bat")}>
-                Create Branch from 'develop'
-              </Button>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Form.Group>
-                <Form.Control
-                  type="text"
-                  placeholder="Branch Names to sync with"
-                  value={branchNames}
-                  onChange={handleBranchNamesChange}
-                />
-              </Form.Group>
-              <Button onClick={() => handleGitAction("sync-develop.bat")}>
-                Sync All with 'develop'
-              </Button>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Button onClick={() => handleGitAction("commit-Implemented.bat")}>
-                Commit as "Update"
-              </Button>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Form.Group>
-                <Form.Control
-                  type="text"
-                  placeholder="Commitmessage"
-                  value={commitMessage}
-                  onChange={handleCommitMessageChange}
-                />
-              </Form.Group>
-              <Button onClick={() => handleGitAction("commit.bat")}>
-                Commit with message
-              </Button>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Form.Group>
-                <Form.Control
-                  type="text"
-                  placeholder="Checkout Branch"
-                  value={branchCheckout}
-                  onChange={handleCheckoutBranchChange}
-                />
-              </Form.Group>
-              <Button onClick={() => handleGitAction("checkoutBranch.bat")}>
-                Checkout
-              </Button>
-            </ListGroup.Item>
-            {/* Add more ListGroup items with corresponding script names */}
-          </ListGroup>
-        </Card.Body>
+        <Card.Section bg="rgba(0, 222, 0, .1)">
+          <Flex
+            gap="sm"
+            justify="center"
+            align="flex-end"
+            direction="row"
+            wrap="wrap"
+          >
+            <Text fw={500}> {title} </Text>
+          </Flex>
+          <hr />
+          <Flex
+            gap="sm"
+            justify="space-around"
+            align="flex-end"
+            direction="row"
+            wrap="wrap"
+          >
+            <TextInput
+              width={"100%"}
+              label="branchName"
+              {...form.getInputProps("branchName")}
+              placeholder="Branch Name"
+            />
+            <Button onClick={() => handleGitAction("create-branch.bat")}>
+              Create
+            </Button>
+          </Flex>
+          <hr />
+          <Flex
+            gap="sm"
+            justify="space-around"
+            align="flex-end"
+            direction="row"
+            wrap="wrap"
+          >
+            <TextInput
+              width={"100%"}
+              label="branchSync"
+              {...form.getInputProps("branchSync")}
+              placeholder="Branch Names to sync with"
+            />
+            <Button onClick={() => handleGitAction("sync-develop.bat")}>
+              Sync All
+            </Button>
+          </Flex>
+          <hr />
+          <Flex justify="center" align="center" direction="row" wrap="wrap">
+            <Button onClick={() => handleGitAction("commit-Implemented.bat")}>
+              Commit Current with Comment "Update"
+            </Button>
+          </Flex>
+          <hr />
+          <Flex
+            gap="sm"
+            justify="space-around"
+            align="flex-end"
+            direction="row"
+            wrap="wrap"
+          >
+            <TextInput
+              width={"100%"}
+              label="commitMessage"
+              {...form.getInputProps("commitMessage")}
+              placeholder="Commitmessage"
+            />
+            <Button onClick={() => handleGitAction("commit.bat")}>
+              Commit with Message
+            </Button>
+          </Flex>
+          <hr />
+          <Flex
+            gap="sm"
+            justify="space-around"
+            align="flex-end"
+            direction="row"
+            wrap="wrap"
+          >
+            <TextInput
+              width={"100%"}
+              label="checkoutBranch"
+              {...form.getInputProps("checkoutBranch")}
+              placeholder="Checkout Branch"
+            />
+            <Button onClick={() => handleGitAction("checkoutBranch.bat")}>
+              Checkout
+            </Button>
+          </Flex>
+          <br />
+        </Card.Section>
       </Card>
     </>
   );

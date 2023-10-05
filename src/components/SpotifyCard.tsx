@@ -4,14 +4,14 @@ import { useSpotifyService } from "../service/SpotifyService";
 
 interface IProps {
   title: string;
-  width: string;
+  path?: string;
   height: string;
   color?: string;
   border?: string;
 }
 
 function BasicCard(props: IProps) {
-  const { title, width, height, color, border } = props;
+  const { title, height, color, border } = props;
   const [songName, setSongName] = useState("");
   const [albumId, setAlbumId] = useState("");
   const borderStyle = "1px solid black";
@@ -39,7 +39,7 @@ function BasicCard(props: IProps) {
     <>
       <Card
         style={{
-          width: width,
+          width: "50%",
           height: height,
           backgroundColor: color,
           border: border ?? borderStyle,

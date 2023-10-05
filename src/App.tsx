@@ -1,24 +1,41 @@
-import { Card, Row } from "react-bootstrap";
+import React, { SetStateAction } from "react";
+import { Card, Form, Row } from "react-bootstrap";
 import GitHubCard from "./components/GitHubCard";
 import NPMCard from "./components/NPMCard";
 import SpotifyCard from "./components/SpotifyCard";
 import TicketSystemCard from "./components/TicketSystemCard";
 
 function App() {
+  const [path, setPath] = React.useState("");
+  const handlePath = (e: { target: { value: SetStateAction<string> } }) => {
+    setPath(e.target.value);
+  };
   return (
     <>
       <Card>
         <Card.Body>
-          
-        <Row>
-          <GitHubCard title="Git Commands" width="50%" height="100%" />
-          <SpotifyCard title="SpotifyWebAPI" width="50%" height="100%" />
-        </Row>
-        <br />
-        <Row>
-          <NPMCard title="NPM Commands" width="50%" height="100%" />
-          <TicketSystemCard title="Dev Tickets" width="50%" height="100%" />
-        </Row>
+          <Card.Title>
+            <Form>
+              <Form.Group controlId="Form.SongName">
+                <Form.Label>Enter Path for scripts:</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={path}
+                  onChange={(e) => handlePath(e)}
+                  placeholder="Type something..."
+                />
+              </Form.Group>
+            </Form>
+          </Card.Title>
+          <Row>
+            <GitHubCard title="Git Commands" path={path} height="100%" />
+            <SpotifyCard title="SpotifyWebAPI" path={path} height="100%" />
+          </Row>
+          <br />
+          <Row>
+            <NPMCard title="NPM Commands" path={path} height="100%" />
+            <TicketSystemCard title="Dev Tickets" path={path} height="100%" />
+          </Row>
         </Card.Body>
       </Card>
     </>

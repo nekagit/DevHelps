@@ -1,7 +1,4 @@
-REM Change to the directory where your Git repository is located
 pause
-cd C:\Users\NenadKalicanin\Desktop\Git\PBD\src\pbd.core.frontend-react
-
 REM Get the current branch name
 FOR /F %%i IN ('git rev-parse --abbrev-ref HEAD') DO SET currentBranch=%%i
 

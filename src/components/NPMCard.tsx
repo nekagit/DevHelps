@@ -1,18 +1,16 @@
-
 import { Button, Card, ListGroup } from "react-bootstrap";
 
 interface IProps {
   title: string;
-  width: string;
+  path: string;
   height: string;
   color?: string;
   border?: string;
 }
 
 function NPMCard(props: IProps) {
-  const { title, width, height, color, border } = props;
+  const { title, path, height, color, border } = props;
   const borderStyle = "1px solid black";
-
 
   const handleNPMAction = async (scriptName: string) => {
     try {
@@ -24,6 +22,7 @@ function NPMCard(props: IProps) {
         body: JSON.stringify({
           scriptName: scriptName,
           scriptParameters: [""],
+          path: path,
         }), // Include branchName in the request body
       });
 
@@ -41,7 +40,7 @@ function NPMCard(props: IProps) {
     <>
       <Card
         style={{
-          width: width,
+          width: "50%",
           height: height,
           backgroundColor: color,
           border: border ?? borderStyle,

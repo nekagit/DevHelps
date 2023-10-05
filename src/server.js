@@ -35,7 +35,6 @@ const executeScriptsSequentially = async (scriptName, scriptParameter, targetPat
     });
   });
 };
-
 app.post("/execute-script", async (req, res) => {
   try {
     const { scriptName, scriptParameters, path: targetPath } = req.body;

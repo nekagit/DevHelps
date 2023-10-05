@@ -18,34 +18,35 @@ app.use(cookieParser());
 
 const executeScriptsSequentially = async (scriptName, scriptParameter, targetPath) => {
   const scriptPath = path.join(
-    "C:\\Users\\NenadKalicanin\\Desktop\\DevHelps\\src\\scripts",
+    targetPath + "\\src\\scripts",
     scriptName
   );
+  const finalPath = path.join("", targetPath);
 
   console.log(`Executing script with parameter: ${scriptName} ${scriptParameter}`);
-
+  console.log("Executing script in directory:", finalPath);
+  
+  const finalCommand =  `cd /d "${finalPath}" && start cmd /K "${scriptPath} ${scriptParameter}"`
+  console.log("Executing script with command: ", finalCommand);
+  
   await new Promise((resolve, reject) => {
-    exec(
-      `cd ${targetPath} && start cmd /K "${scriptPath} ${scriptParameter}"`,
-      (error, stdout, stderr) => {
-        if (error) {
-          reject(`Error executing script: ${error.message}`);
-        } else {
-          console.log(stdout);
-          console.error(stderr);
-          console.log("heheh");
-
-          resolve();
-        }
+    exec(finalCommand, (error, stdout, stderr) => {
+      if (error) {
+        reject(`Error executing script: ${error.message}`);
+      } else {
+        console.log(stdout);
+        console.error(stderr);
+        console.log("heheh");
+        resolve();
       }
-    );
+    });
   });
 };
 
 app.post("/execute-script", async (req, res) => {
   try {
     const { scriptName, scriptParameters, path: targetPath } = req.body;
-    console.log(scriptName);
+    console.log("target path", targetPath);
     if (scriptParameters != undefined) {
       console.log(scriptParameters, "script parameters");
       const scriptParameterss = Array.isArray(scriptParameters)

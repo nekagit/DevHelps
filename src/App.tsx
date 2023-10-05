@@ -6,9 +6,10 @@ import SpotifyCard from "./components/SpotifyCard";
 import TicketSystemCard from "./components/TicketSystemCard";
 
 function App() {
-  const [path, setPath] = React.useState("");
+  const [path, setPath] = React.useState(localStorage.getItem("path") ?? "");
   const handlePath = (e: { target: { value: SetStateAction<string> } }) => {
     setPath(e.target.value);
+    localStorage.setItem("path", path);
   };
   return (
     <>

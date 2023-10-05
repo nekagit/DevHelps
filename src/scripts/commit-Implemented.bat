@@ -9,6 +9,9 @@ IF NOT "%currentBranch%"=="develop" (
 
 REM Stage all changes, including new files
 git add --all
+git commit -m "Auto-commit changes"
+git pull
+git push
 
 REM Check if there are any changes to commit
 git diff-index --quiet HEAD

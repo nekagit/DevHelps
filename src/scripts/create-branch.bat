@@ -3,7 +3,6 @@ REM Get the current branch name
 FOR /F %%i IN ('git rev-parse --abbrev-ref HEAD') DO SET currentBranch=%%i
 
 IF NOT "%currentBranch%"=="develop" (
-
 git add --all
 git commit -m "Auto-commit changes"
 git pull

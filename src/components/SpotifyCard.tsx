@@ -93,7 +93,6 @@ function BasicCard(props: IProps) {
             <br />
           </Flex>
           <hr />
-
           <Flex
             gap="sm"
             justify="center"

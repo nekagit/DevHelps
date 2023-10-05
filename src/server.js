@@ -21,22 +21,15 @@ const executeScriptsSequentially = async (scriptName, scriptParameter, targetPat
     targetPath + "\\src\\scripts",
     scriptName
   );
-  const finalPath = path.join("", targetPath);
-
-  console.log(`Executing script with parameter: ${scriptName} ${scriptParameter}`);
-  console.log("Executing script in directory:", finalPath);
-  
+  const finalPath = targetPath;
+  console.log(finalPath)
   const finalCommand =  `cd /d "${finalPath}" && start cmd /K "${scriptPath} ${scriptParameter}"`
-  console.log("Executing script with command: ", finalCommand);
   
   await new Promise((resolve, reject) => {
-    exec(finalCommand, (error, stdout, stderr) => {
+    exec(finalCommand, (error) => {
       if (error) {
         reject(`Error executing script: ${error.message}`);
       } else {
-        console.log(stdout);
-        console.error(stderr);
-        console.log("heheh");
         resolve();
       }
     });
@@ -46,15 +39,11 @@ const executeScriptsSequentially = async (scriptName, scriptParameter, targetPat
 app.post("/execute-script", async (req, res) => {
   try {
     const { scriptName, scriptParameters, path: targetPath } = req.body;
-    console.log("target path", targetPath);
     if (scriptParameters != undefined) {
-      console.log(scriptParameters, "script parameters");
       const scriptParameterss = Array.isArray(scriptParameters)
         ? scriptParameters
         : scriptParameters.split(",");
-      console.log(scriptParameterss, "array parameters");
       for (const scriptParameter of scriptParameterss) {
-        console.log(scriptParameter, "current parameter");
         await executeScriptsSequentially(scriptName, scriptParameter, targetPath);
       }
     } else {

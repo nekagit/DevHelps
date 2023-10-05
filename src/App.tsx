@@ -9,7 +9,7 @@ import TicketSystemCard from "./components/TicketSystemCard";
 
 const myPaths = {
   home: " C:\\Users\\Nenad\\Desktop\\DevsHelp\\DevHelps",
-  work: " C:\\Users\\Nenad\\Desktop\\DevsHelp\\DevHelpser",
+  work: " Mulance",
 };
 function App() {
   const form = useForm({

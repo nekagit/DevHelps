@@ -1,0 +1,5 @@
+/* YourComponent.css */
+/* Remove scrollbars completely for WebKit browsers */
+.scrollbar-hidden-container::-webkit-scrollbar {
+  display: none;
+}

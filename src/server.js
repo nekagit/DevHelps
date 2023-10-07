@@ -17,14 +17,17 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 
 const executeScriptsSequentially = async (scriptName, scriptParameter, targetPath) => {
+ 
   const scriptPath = path.join(
     targetPath + "\\src\\scripts",
     scriptName
   );
-  const finalPath = targetPath;
-  console.log(finalPath)
-  const finalCommand =  `cd /d "${finalPath}" && start cmd /K "${scriptPath} ${scriptParameter}"`
-  
+  console.log(targetPath)
+
+  const gitCommand =  `cd /d ${targetPath} && start cmd /K "${scriptPath} ${scriptParameter}"`
+  const npmCommand =  `cd /d ${targetPath}\\src\\scripts && start ` + scriptName
+  const finalCommand = scriptName.startsWith("npm") == true ?  npmCommand : gitCommand
+  console.log("\n",finalCommand, "\n")
   await new Promise((resolve, reject) => {
     exec(finalCommand, (error) => {
       if (error) {

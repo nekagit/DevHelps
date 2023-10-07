@@ -1,5 +1,7 @@
-import { Button, Card, Flex, rem, Text } from "@mantine/core";
+import { Button, Card, Flex, rem, Select, Text } from "@mantine/core";
 import { IconPlayerPlay } from "@tabler/icons-react";
+import { useState } from "react";
+import paths from "../../assets/paths.json";
 
 interface IProps {
   title: string;
@@ -10,8 +12,10 @@ interface IProps {
 }
 
 function NPMCard(props: IProps) {
-  const { title, path, color, border } = props;
+  const { title, color } = props;
   const borderStyle = "1px solid black";
+  const allPaths = Object.values(paths);
+  const [path, setPath] = useState("");
 
   const handleNPMAction = async (scriptName: string) => {
     try {
@@ -37,6 +41,9 @@ function NPMCard(props: IProps) {
     }
   };
 
+  const handleSelect = (e: string | null) => {
+    setPath(e ?? "");
+  };
   return (
     <>
       <Card
@@ -45,10 +52,20 @@ function NPMCard(props: IProps) {
         withBorder
         style={{
           backgroundColor: color,
-          border: border ?? borderStyle,
+          border: borderStyle,
+          margin: "21px",
         }}
       >
-        <Card.Section bg="rgba(0, 0, 333, .1)">
+        <Card.Section bg="rgba(0, 0, 333, .1)" style={{ padding: "21px" }}>
+          <hr />
+          <Select
+            key={"path"}
+            label="path"
+            placeholder="Pick value"
+            value={path}
+            onChange={(e: string | null) => handleSelect(e)}
+            data={allPaths}
+          />
           <Flex
             gap="sm"
             justify="center"
@@ -66,23 +83,23 @@ function NPMCard(props: IProps) {
             direction="row"
             wrap="wrap"
           >
-            <Button onClick={() => handleNPMAction("npm run start.bat")}>
+            <Button onClick={() => handleNPMAction("npm-run-start.bat")}>
               <IconPlayerPlay
                 style={{ width: rem(21), height: rem(21) }}
                 stroke={1.5}
                 color="var(--mantine-color-red-filled)"
               />
             </Button>
-            <Button onClick={() => handleNPMAction("npm run tests.bat")}>
+            <Button onClick={() => handleNPMAction("npm-run-tests.bat")}>
               tests
             </Button>
-            <Button onClick={() => handleNPMAction("npm run test.bat")}>
+            <Button onClick={() => handleNPMAction("npm-run-test.bat")}>
               test
             </Button>
-            <Button onClick={() => handleNPMAction("npm install.bat")}>
+            <Button onClick={() => handleNPMAction("npm-install.bat")}>
               install
             </Button>
-            <Button onClick={() => handleNPMAction("npm run tsc.bat")}>
+            <Button onClick={() => handleNPMAction("npm-run-tsc.bat")}>
               TSC
             </Button>
           </Flex>

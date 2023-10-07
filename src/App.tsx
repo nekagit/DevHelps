@@ -2,6 +2,7 @@ import { useState } from "react";
 import SplitPane, { Pane } from "split-pane-react";
 import appTs from "./AppTS";
 import FormCard from "./components/Cards/FormCard";
+import NPMCard from "./components/Cards/NPMCard";
 import TicketSystemCard from "./components/Cards/TicketSystemCard";
 function App() {
   const { gitCard, SpotifyCard } = appTs();
@@ -60,7 +61,7 @@ function App() {
             style={{ overflow: "auto" }}
             className="scrollbar-hidden-container"
           >
-            {/* <NPMCard title="NPM Commands" path={form.values.path} /> */}
+            <NPMCard title="NPM Commands" path={""} />
 
             <TicketSystemCard title="Dev Tickets" />
           </Pane>

@@ -8,7 +8,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import CardsJson from "../../assets/CardsJson.json";
 import paths from "../../assets/paths.json";
 import { Helpers } from "../../helpers/Helpers";
@@ -17,18 +17,26 @@ import { useSpotifyService } from "../../service/SpotifyService";
 import GitHubCard from "./GitHubCard";
 
 function FormCard(props: IFormCard) {
+  const gitHubCard = CardsJson.AllCards[0];
   const allPaths = Object.values(paths);
   const spotifyService = useSpotifyService();
-
-  const { title, color, borderStyle, textFields, eventButtons, badges } = props;
   const [path, setPath] = useState("");
-  const gitHubCard = CardsJson.AllCards[0];
+
   const form = useForm({
     initialValues: {
       path: "",
       ...Helpers().getInitialObject(gitHubCard.data.textFields),
     },
   });
+  const {
+    title,
+    color,
+    borderStyle,
+    textFields,
+    eventButtons,
+    badges,
+    pathNeeded,
+  } = props;
   const {
     loginSpotDoc,
     logCurrentlyPlayedTrack,
@@ -38,8 +46,19 @@ function FormCard(props: IFormCard) {
     playSongByName,
     playAlbumById,
   } = spotifyService;
-  console.log(accessToken);
-  console.log(currentSong);
+  const { result, leftSide, rightSide } = useMemo(() => {
+    const { result, resultArray } = Helpers().formatSongData(currentSong);
+    return {
+      result,
+      leftSide: resultArray
+        .slice(0, resultArray.length / 2)
+        .map((x) => x + "\n"),
+      rightSide: resultArray
+        .slice(resultArray.length / 2, resultArray.length - 1)
+        .map((x) => x + "\n"),
+    };
+  }, [currentSong]);
+  console.log(result);
   const executeAction = (
     action: string,
     scriptName: string,
@@ -89,15 +108,21 @@ function FormCard(props: IFormCard) {
       >
         <Card.Section bg={color} style={{ padding: "21px" }}>
           <Text fw={500}> {title} </Text>
-          <hr />
-          <Select
-            key={"path"}
-            label="path"
-            placeholder="Pick value"
-            value={path}
-            onChange={(e: string | null) => handleSelect(e)}
-            data={allPaths}
-          />
+          {pathNeeded != undefined && pathNeeded == true ? (
+            <>
+              <hr />
+              <Select
+                key={"path"}
+                label="path"
+                placeholder="Pick value"
+                value={path}
+                onChange={(e: string | null) => handleSelect(e)}
+                data={allPaths}
+              />
+            </>
+          ) : (
+            <></>
+          )}
           <hr />
           <Flex
             gap="sm"
@@ -113,7 +138,7 @@ function FormCard(props: IFormCard) {
                   size="xl"
                   variant="gradient"
                   gradient={
-                    accessToken != undefined
+                    accessToken != ""
                       ? { from: "green", to: "green", deg: 90 }
                       : { from: "red", to: "red", deg: 90 }
                   }
@@ -123,7 +148,7 @@ function FormCard(props: IFormCard) {
               </>
             ))}
           </Flex>
-          <hr />
+          <br />
           <Flex
             gap="sm"
             justify="center"
@@ -131,7 +156,19 @@ function FormCard(props: IFormCard) {
             direction="row"
             wrap="wrap"
           >
-            <div>{JSON.stringify("currentSong")}</div>
+            <div>
+              <Text size="sm">Song Played:</Text>
+              <Flex
+                gap="sm"
+                justify="center"
+                align="flex-end"
+                direction="row"
+                wrap="wrap"
+              >
+                <pre>{leftSide}</pre>
+                <pre>{rightSide}</pre>
+              </Flex>
+            </div>
           </Flex>
           <hr />
           <Flex

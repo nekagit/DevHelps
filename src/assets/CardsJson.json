@@ -4,6 +4,7 @@
       "name": "GitHubCard",
       "data": {
         "title": "Git Commands",
+        "pathNeeded": true,
         "color": "rgba(0, 222, 0, .1)",
         "borderStyle": "1px solid black",
         "textFields": [
@@ -70,6 +71,7 @@
       "name": "SpotifyCard",
       "data": {
         "title": "Spotify API Commands",
+        "pathNeeded": false,
         "color": "rgba(0, 0, 222, .1)",
         "borderStyle": "1px solid black",
         "textFields": [

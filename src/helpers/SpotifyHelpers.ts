@@ -23,7 +23,6 @@ export const SpotifyHelpers = (spotifyApi: SpotifyWebApi) => {
     }
   };
 
-  // Example code to refresh the token from your React component
   const refreshAccessToken = () => {
     const refreshToken = localStorage.getItem("refresh_token");
     fetch(`/refresh_token?refresh_token=${refreshToken}`)
@@ -31,14 +30,12 @@ export const SpotifyHelpers = (spotifyApi: SpotifyWebApi) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        return response.json(); // Parse the response body as JSON
+        return response.json();
       })
       .then((data) => {
         console.log(data);
-        const newAccessToken = data.access_token; // Assuming the response contains an "access_token" field
+        const newAccessToken = data.access_token;
         console.log(newAccessToken);
-        // Update the access token in your React state or wherever you store it
-        // You may also want to store the new token in localStorage
       })
       .catch((error) => {
         console.error("Error refreshing token:", error);
@@ -47,6 +44,7 @@ export const SpotifyHelpers = (spotifyApi: SpotifyWebApi) => {
 
   const windowsUrlTokenizer = () => {
     const windowsUrlToken = window.location.hash.match(/access_token=([^&]*)/);
+    console.log(windowsUrlToken);
     if (windowsUrlToken) {
       const token = windowsUrlToken[1];
       spotifyApi.setAccessToken(token);

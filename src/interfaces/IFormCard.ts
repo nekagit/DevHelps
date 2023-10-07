@@ -4,6 +4,7 @@ import { ITextField } from "./ITextField";
 
 export interface IFormCard {
   title?: string;
+  pathNeeded?: boolean;
   path?: string;
   borderStyle: string;
   color?: string;

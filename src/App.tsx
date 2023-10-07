@@ -43,6 +43,7 @@ function App() {
               borderStyle={gitCard.githubFormCard.borderStyle}
               textFields={gitCard.githubFormCard.textFields}
               eventButtons={gitCard.githubFormCard.eventButtons}
+              pathNeeded={gitCard.githubFormCard.pathNeeded}
             />
           </Pane>
           <Pane

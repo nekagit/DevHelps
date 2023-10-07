@@ -11,6 +11,7 @@ function GitHubCard() {
     borderStyle: gitHubCard.data.borderStyle,
     textFields: gitHubCard.data.textFields as ITextField[],
     eventButtons: gitHubCard.data.eventButtons as IEventButton[],
+    pathNeeded: gitHubCard.data.pathNeeded,
   };
 
   const handleGitAction = async (

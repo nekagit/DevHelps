@@ -35,16 +35,16 @@ function useSpotifyService(): IUseSpotifyService {
 
   useEffect(() => {
     SpotifyHelpers(spotifyApi).windowsUrlTokenizer();
-    const token = spotifyApi.getAccessToken();
+    const token =
+      spotifyApi.getAccessToken() || localStorage.getItem("access_token");
     if (token === undefined) {
       console.log("problem");
     } else {
-      setAccessToken(token);
+      setAccessToken(token ?? "");
     }
   }, [spotifyApi, accessToken]);
 
   const loginSpotDoc = () => {
-    console.log(accessToken);
     window.location.href = spotifyLoginUrl;
   };
 
@@ -84,11 +84,11 @@ function useSpotifyService(): IUseSpotifyService {
         if (data.body.is_playing) {
           const track: SpotifyApi.TrackObjectFull = data.body
             .item as SpotifyApi.TrackObjectFull;
-          console.log(track);
           if (track) {
             const artists = track.artists
               .map((artist) => artist.name)
               .join(", ");
+            console.warn("asdfasdf");
             setCurrentSong({
               name: track.name,
               artists: artists,

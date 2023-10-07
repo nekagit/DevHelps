@@ -6,10 +6,10 @@ import TicketSystemCard from "./components/Cards/TicketSystemCard";
 function AppTs() {
   const gitCard = GitHubCard();
   return {
-    SpotifyCard,
-    TicketSystemCard,
     gitCard,
+    SpotifyCard,
     NPMCard,
+    TicketSystemCard,
   };
 }
 export default AppTs;

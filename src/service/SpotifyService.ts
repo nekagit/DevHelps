@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
-import SpotifyWebApi from "spotify-web-api-node";
+import {
+  default as ArtistObjectSimplified,
+  default as SpotifyWebApi,
+} from "spotify-web-api-node";
 import spotifyCredentials from "../assets/SpotifyCredentials.json";
 import { SpotifyHelpers } from "../helpers/SpotifyHelpers";
 import {
@@ -13,8 +16,12 @@ function useSpotifyService(): IUseSpotifyService {
   const [accessToken, setAccessToken] = React.useState("");
   const [currentSong, setCurrentSong] = React.useState<IUseSpotifyCurrentSong>({
     name: "",
-    albumId: "",
     artists: "",
+    albumId: "",
+    albumName: "",
+    albumType: "",
+    releaseDate: "",
+    artist: {} as unknown as ArtistObjectSimplified,
   });
 
   const spotifyApi: SpotifyWebApi = React.useMemo(() => {
@@ -82,15 +89,15 @@ function useSpotifyService(): IUseSpotifyService {
             const artists = track.artists
               .map((artist) => artist.name)
               .join(", ");
-            console.log("Currently playing track:");
-            console.log("Name:", track.name);
-            console.log("Artist(s):", artists);
-            console.log("Album:", track.album.name);
             setCurrentSong({
               name: track.name,
               artists: artists,
               albumId: track.album.id,
-            } as IUseSpotifyCurrentSong);
+              albumName: track.album.name,
+              albumType: track.album.type,
+              releaseDate: track.album.release_date,
+              artist: track.artists as unknown as ArtistObjectSimplified,
+            });
           }
         } else {
           console.log("No track is currently playing.");

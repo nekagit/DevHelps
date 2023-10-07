@@ -1,18 +1,10 @@
-import { Button, Card, Flex, Text, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
 import { useSpotifyService } from "../../service/SpotifyService";
 
-interface IProps {
-  title: string;
-  path?: string;
-  height?: string;
-  color?: string;
-  border?: string;
-}
+import CardsJson from "../../assets/CardsJson.json";
+import FormCard from "./FormCard";
 
-function BasicCard(props: IProps) {
-  const { title, color, border } = props;
-  const borderStyle = "1px solid black";
+function SpotifyCard() {
+  const spotifyCard = CardsJson.AllCards[1];
   const spotifyService = useSpotifyService();
   const {
     loginSpotDoc,
@@ -23,129 +15,33 @@ function BasicCard(props: IProps) {
     playSongByName,
     playAlbumById,
   } = spotifyService;
-  const form = useForm({
-    initialValues: {
-      songName: "",
-      albumId: "",
-    },
-  });
+
+  const spotifyFormCard = {
+    title: spotifyCard.name,
+    color: spotifyCard.data.color,
+    borderStyle: spotifyCard.data.borderStyle,
+    textFields: spotifyCard.data.textFields,
+    eventButtons: spotifyCard.data.eventButtons,
+    badges: spotifyCard.data.badges,
+    accessToken,
+    currentSong,
+    nextSong,
+    playSongByName,
+    playAlbumById,
+    logCurrentlyPlayedTrack,
+    loginSpotDoc,
+  };
+
   return (
-    <>
-      <Card
-        shadow="sm"
-        radius="md"
-        withBorder
-        style={{
-          backgroundColor: color,
-          border: border ?? borderStyle,
-        }}
-      >
-        <Card.Section bg="rgba(111, 0, 0, .1)">
-          <Flex
-            gap="sm"
-            justify="center"
-            align="center"
-            direction="row"
-            wrap="wrap"
-          >
-            <Text fw={500}> {title} </Text>
-          </Flex>
-          <hr />
-
-          <Flex
-            gap="sm"
-            justify="center"
-            align="center"
-            direction="row"
-            wrap="wrap"
-          >
-            <div
-              style={
-                accessToken
-                  ? { backgroundColor: "green" }
-                  : { backgroundColor: "red" }
-              }
-            >
-              {accessToken ? "Access Token available" : "No Access"}
-            </div>
-
-            <Button className="btn" onClick={loginSpotDoc}>
-              login
-            </Button>
-          </Flex>
-          <hr />
-
-          <Flex
-            gap="sm"
-            justify="space-around"
-            align="center"
-            direction="row"
-            wrap="wrap"
-          >
-            <Button onClick={() => logCurrentlyPlayedTrack()}>
-              Currently Played
-            </Button>
-            Name: {currentSong.name}
-            <br />
-            AlbumId: {currentSong.albumId}
-            <br />
-            Artist: {currentSong.artists}
-            <br />
-          </Flex>
-          <hr />
-          <Flex
-            gap="sm"
-            justify="center"
-            align="center"
-            direction="row"
-            wrap="wrap"
-          >
-            <Button onClick={() => nextSong()}>Next Track</Button>
-          </Flex>
-          <hr />
-          <Flex
-            gap="sm"
-            justify="space-around"
-            align="flex-end"
-            direction="row"
-            wrap="wrap"
-          >
-            <TextInput
-              width={"100%"}
-              label="songName"
-              placeholder="Type something..."
-              {...form.getInputProps("songName")}
-            />
-            <Button onClick={() => playSongByName(form.values.songName)}>
-              Play Song By Name
-            </Button>
-          </Flex>
-          <hr />
-          <Flex
-            gap="sm"
-            justify="space-around"
-            align="flex-end"
-            direction="row"
-            wrap="wrap"
-          >
-            <TextInput
-              width={"100%"}
-              label="albumId"
-              placeholder="Type something..."
-              {...form.getInputProps("albumId")}
-            />
-            <Button
-              className="btn"
-              onClick={() => playAlbumById(form.values.albumId)}
-            >
-              Play Album By Id
-            </Button>
-          </Flex>
-          <br />
-        </Card.Section>
-      </Card>
-    </>
+    <FormCard
+      key={spotifyCard.name}
+      title={spotifyFormCard.title}
+      color={spotifyFormCard.color}
+      borderStyle={spotifyFormCard.borderStyle}
+      textFields={spotifyFormCard.textFields}
+      eventButtons={spotifyFormCard.eventButtons}
+      badges={spotifyFormCard.badges}
+    />
   );
 }
-
-export default BasicCard;
+export default SpotifyCard;

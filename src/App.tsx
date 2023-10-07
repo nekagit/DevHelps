@@ -5,18 +5,30 @@ import FormCard from "./components/Cards/FormCard";
 import TicketSystemCard from "./components/Cards/TicketSystemCard";
 function App() {
   const { gitCard, SpotifyCard } = appTs();
-  const [sizes, setSizes] = useState([333, 333, "auto"]);
+  const [sizes, setSizes] = useState([1000, 1000, 500]);
+  const customSashRenderer = () => {
+    return (
+      <div
+        className="custom-sash"
+        style={{
+          background: "#333",
+          width: "4px",
+          cursor: "col-resize",
+        }}
+      />
+    );
+  };
 
   return (
     <>
-      <hr />
       <div style={{ height: 1000 }}>
         <SplitPane
           split="vertical"
           sizes={sizes}
-          onChange={setSizes}
-          // @ts-expect-error - kp bis jetzt
-          sashRender={() => {}}
+          onChange={(newSizes) => {
+            setSizes(newSizes);
+          }}
+          sashRender={customSashRenderer}
         >
           <Pane
             minSize={50}
@@ -25,8 +37,10 @@ function App() {
             className="scrollbar-hidden-container"
           >
             <FormCard
+              key={gitCard.githubFormCard.title}
               title={gitCard.githubFormCard.title}
               color={gitCard.githubFormCard.color}
+              borderStyle={gitCard.githubFormCard.borderStyle}
               textFields={gitCard.githubFormCard.textFields}
               eventButtons={gitCard.githubFormCard.eventButtons}
             />
@@ -37,7 +51,7 @@ function App() {
             style={{ overflow: "auto" }}
             className="scrollbar-hidden-container"
           >
-            <SpotifyCard title="SpotifyWebAPI" />
+            <SpotifyCard />
           </Pane>
           <Pane
             minSize={50}
@@ -49,7 +63,6 @@ function App() {
 
             <TicketSystemCard title="Dev Tickets" />
           </Pane>
-          <div></div>
         </SplitPane>
       </div>
       ;

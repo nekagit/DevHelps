@@ -1,4 +1,4 @@
-// Define the interface for the SpotifyService
+import ArtistObjectSimplified from "spotify-web-api-node";
 export interface IUseSpotifyService {
   logCurrentlyPlayedTrack: () => Promise<void>;
   accessToken: string | null;
@@ -13,4 +13,8 @@ export interface IUseSpotifyCurrentSong {
   name: string;
   artists: string;
   albumId: string;
+  albumName: string;
+  albumType: string;
+  releaseDate: string;
+  artist?: ArtistObjectSimplified;
 }

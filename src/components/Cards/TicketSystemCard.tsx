@@ -7,7 +7,7 @@ interface IProps {
 }
 
 function BasicCard(props: IProps) {
-  const { title, color, border } = props;
+  const { title, color } = props;
   const borderStyle = "1px solid black";
   return (
     <>
@@ -17,7 +17,8 @@ function BasicCard(props: IProps) {
         withBorder
         style={{
           backgroundColor: color,
-          border: border ?? borderStyle,
+          border: borderStyle,
+          margin: "21px",
         }}
       >
         <Card.Section bg="rgba(0, 0, 0, .1)">

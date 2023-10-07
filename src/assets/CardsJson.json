@@ -65,6 +65,68 @@
           }
         ]
       }
+    },
+    {
+      "name": "SpotifyCard",
+      "data": {
+        "title": "Spotify API Commands",
+        "color": "rgba(0, 0, 222, .1)",
+        "borderStyle": "1px solid black",
+        "textFields": [
+          {
+            "key": "playBySongName",
+            "label": "Song Name",
+            "name": "Play by Song Name",
+            "placeholder": "Fill in Name of Song to be played",
+            "button": {
+              "action": "playSongByName",
+              "key": "playButton",
+              "name": "Play by Song Name",
+              "label": "Play"
+            }
+          },
+          {
+            "key": "playByAlbumId",
+            "label": "Album Id",
+            "name": "Play by AlbumId",
+            "placeholder": "Fill in ID of Album to be played",
+            "button": {
+              "action": "playAlbumById",
+              "key": "playButton",
+              "name": "Play by Album Id",
+              "label": "Play"
+            }
+          }
+        ],
+        "eventButtons": [
+          {
+            "key": "loginSpotify",
+            "name": "Login Spotify",
+            "label": "Login",
+            "action": "loginSpotDoc"
+          },
+          {
+            "key": "nextTrack",
+            "name": "Next Track",
+            "label": "Next Track",
+            "action": "nextSong"
+          },
+          {
+            "key": "currentTrack",
+            "name": "Current Track",
+            "label": "Current Track",
+            "action": "logCurrentlyPlayedTrack"
+          }
+        ],
+        "badges": [
+          {
+            "key": "loggedIn",
+            "name": "Login Status",
+            "label": "Login Status",
+            "condition": false
+          }
+        ]
+      }
     }
   ]
 }

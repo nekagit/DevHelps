@@ -4,16 +4,12 @@ export const SpotifyHelpers = (spotifyApi: SpotifyWebApi) => {
   const refreshToken = async () => {
     try {
       const refreshToken = localStorage.getItem("access_token");
-      console.log(refreshToken);
 
       if (!refreshToken) {
         console.error("Refresh token not found in localStorage");
         return;
       }
-      const refershTokenSpot = spotifyApi.refreshAccessToken;
-      console.log(refershTokenSpot);
       const newAccessToken = await spotifyApi.getRefreshToken();
-      console.log("token refreshed", newAccessToken);
       spotifyApi.setAccessToken(newAccessToken ?? "");
 
       localStorage.setItem("access_token", newAccessToken ?? "");
@@ -32,11 +28,7 @@ export const SpotifyHelpers = (spotifyApi: SpotifyWebApi) => {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log(data);
-        const newAccessToken = data.access_token;
-        console.log(newAccessToken);
-      })
+
       .catch((error) => {
         console.error("Error refreshing token:", error);
       });

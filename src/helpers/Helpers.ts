@@ -17,8 +17,8 @@ export function Helpers() {
     const songKeys = Object.keys(songJson);
     const songValue = Object.values(songJson);
     const songs = songKeys.map((x, i) => ({ [x]: songValue[i] }));
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const resultArray = Object.entries(songs).map(([keys, values]) => {
-      console.log(keys);
       if (typeof Object.values(values)[0] === "object") {
         return `${Object.keys(values)[0]}: {};`;
       }

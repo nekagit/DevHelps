@@ -46,7 +46,7 @@ function FormCard(props: IFormCard) {
     playSongByName,
     playAlbumById,
   } = spotifyService;
-  const { result, leftSide, rightSide } = useMemo(() => {
+  const { leftSide, rightSide } = useMemo(() => {
     const { result, resultArray } = Helpers().formatSongData(currentSong);
     return {
       result,
@@ -58,7 +58,6 @@ function FormCard(props: IFormCard) {
         .map((x) => x + "\n"),
     };
   }, [currentSong]);
-  console.log(result);
   const executeAction = (
     action: string,
     scriptName: string,

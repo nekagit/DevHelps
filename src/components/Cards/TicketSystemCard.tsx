@@ -2,7 +2,6 @@ import { Card, Flex, Text } from "@mantine/core";
 
 interface IProps {
   title: string;
-  path: string;
   color?: string;
   border?: string;
 }

@@ -1,6 +1,6 @@
 import { Button, Card, Flex, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useSpotifyService } from "../service/SpotifyService";
+import { useSpotifyService } from "../../service/SpotifyService";
 
 interface IProps {
   title: string;

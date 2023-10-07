@@ -1,25 +1,22 @@
 import { Button, Card, Flex, Select, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
-import CardsJson from "../assets/CardsJson.json";
-import paths from "../assets/paths.json";
-import { Helpers } from "../helpers/Helpers";
-import { IFormCard } from "../interfaces/IFormCard";
+import CardsJson from "../../assets/CardsJson.json";
+import paths from "../../assets/paths.json";
+import { Helpers } from "../../helpers/Helpers";
+import { IFormCard } from "../../interfaces/IFormCard";
+
 function FormCard(props: IFormCard) {
   const allPaths = Object.values(paths);
   const { title, color, textFields, eventButtons } = props;
   const [path, setPath] = useState("");
   const gitHubCard = CardsJson.AllCards[0];
-  const formData = Helpers().getInitialObject(gitHubCard.data.textFields);
   const form = useForm({
     initialValues: {
       path: "",
-      ...formData,
+      ...Helpers().getInitialObject(gitHubCard.data.textFields),
     },
   });
-  console.log(form.values.path);
-  console.log(formData);
-  console.log(form.values);
 
   const handleSelect = (e: string | null) => {
     setPath(e ?? "");
@@ -78,7 +75,6 @@ function FormCard(props: IFormCard) {
                 wrap="wrap"
               >
                 <TextInput
-                  width={"100%"}
                   label={field.label}
                   {...form.getInputProps(field.name)}
                   placeholder={field.placeholder}

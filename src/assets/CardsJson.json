@@ -1,0 +1,70 @@
+{
+  "AllCards": [
+    {
+      "name": "GitHubCard",
+      "data": {
+        "title": "Git Commands",
+        "color": "rgba(0, 222, 0, .1)",
+        "borderStyle": "1px solid black",
+        "textFields": [
+          {
+            "key": "createBranch",
+            "label": "Create Branch",
+            "name": "BranchName",
+            "placeholder": "Fill in Name of Branch to be created",
+            "button": {
+              "action": "handleGitAction",
+              "key": "createButton",
+              "name": "create-branch.bat",
+              "label": "Create"
+            }
+          },
+          {
+            "key": "syncBranch",
+            "label": "Sync Branch",
+            "name": "SyncName",
+            "placeholder": "Fill in Name of Branch to be synchronized with main",
+            "button": {
+              "action": "handleGitAction",
+              "key": "syncButton",
+              "name": "sync-develop.bat",
+              "label": "Sync"
+            }
+          },
+          {
+            "key": "commitBranch",
+            "label": "Commit Branch",
+            "name": "CommitMessage",
+            "placeholder": "Fill in a Message for Branch commit",
+            "button": {
+              "action": "handleGitAction",
+              "key": "commitButton",
+              "name": "commit.bat",
+              "label": "Commit"
+            }
+          },
+          {
+            "key": "checkoutBranch",
+            "label": "Checkout Branch",
+            "name": "CheckoutBranch",
+            "placeholder": "Fill in Name of Branch to checkout",
+            "button": {
+              "action": "handleGitAction",
+              "key": "checkoutButton",
+              "name": "checkoutBranch.bat",
+              "label": "Checkout"
+            }
+          }
+        ],
+        "eventButtons": [
+          {
+            "key": "commitBranch",
+            "name": "CommitButton",
+            "label": "Commit",
+            "action": "handleGitAction"
+          }
+        ]
+      }
+    }
+  ]
+}

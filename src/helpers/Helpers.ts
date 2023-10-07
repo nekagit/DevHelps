@@ -10,13 +10,7 @@ export function Helpers<T>() {
       acc[field] = "";
       return acc;
     }, initialObject);
-    console.log(resultObject);
     return resultObject;
-  };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const getCardsDataFromJson = (json: any) => {
-    const stringJson = JSON.stringify(json);
-    console.log(stringJson);
   };
 
   const executeAction = (
@@ -35,7 +29,6 @@ export function Helpers<T>() {
 
   return {
     getInitialObject,
-    getCardsDataFromJson,
     executeAction,
   };
 }

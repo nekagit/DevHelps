@@ -1,24 +1,35 @@
-import {
-  Button,
-  Card,
-  ComboboxData,
-  Flex,
-  Select,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { Button, Card, Flex, Select, Text, TextInput } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { useState } from "react";
+import CardsJson from "../assets/CardsJson.json";
+import paths from "../assets/paths.json";
 import { Helpers } from "../helpers/Helpers";
 import { IFormCard } from "../interfaces/IFormCard";
-
 function FormCard(props: IFormCard) {
+  const allPaths = Object.values(paths);
+  const { title, color, textFields, eventButtons } = props;
   const [path, setPath] = useState("");
+  const gitHubCard = CardsJson.AllCards[0];
+  const formData = Helpers().getInitialObject(gitHubCard.data.textFields);
+  const form = useForm({
+    initialValues: {
+      path: "",
+      ...formData,
+    },
+  });
+  console.log(form.values.path);
+  console.log(formData);
+  console.log(form.values);
+
   const handleSelect = (e: string | null) => {
     setPath(e ?? "");
   };
-
-  const { title, color, textFields, eventButtons, form } = props;
-  console.log("form.values.path:", form.values.path);
+  const getFormValue = (fieldName: string) => {
+    const formFieldIndex = Object.keys(form.values).findIndex(
+      (x) => x == fieldName
+    );
+    return Object.values(form.values)[formFieldIndex];
+  };
 
   return (
     <>
@@ -29,7 +40,7 @@ function FormCard(props: IFormCard) {
             placeholder="Pick value"
             value={path}
             onChange={(e: string | null) => handleSelect(e)}
-            data={form.values.path as ComboboxData}
+            data={allPaths}
           />
           <Flex
             gap="sm"
@@ -79,7 +90,7 @@ function FormCard(props: IFormCard) {
                     Helpers().executeAction(
                       field.button.action,
                       field.button.name,
-                      field.name,
+                      getFormValue(field.name),
                       path ?? ""
                     );
                   }}

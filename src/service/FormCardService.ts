@@ -1,18 +1,17 @@
 import { useForm } from "@mantine/form";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import CardsJson from "../assets/CardsJson.json";
 import paths from "../assets/paths.json";
 import { Helpers } from "../helpers/Helpers";
 import { SpotifyHelpers } from "../helpers/SpotifyHelpers";
 import { useSpotifyService } from "./SpotifyService";
-
 function FormCardService() {
   const gitHubCard = CardsJson.AllCards[0];
   const spotCard = CardsJson.AllCards[1];
   const allPaths = Object.values(paths);
   const spotifyService = useSpotifyService();
   const [path, setPath] = useState("");
-
+  const folderInput = useRef(null);
   const form = useForm({
     initialValues: {
       path: "",
@@ -100,6 +99,12 @@ function FormCardService() {
     );
     return Object.values(form.values)[formFieldIndex];
   };
+
+  const handleAddingPath = (fieldName: string) => {
+    const formValue = getFormValue(fieldName);
+    console.log(formValue);
+  };
+
   return {
     handleSelect,
     loginSpotDoc,
@@ -111,11 +116,13 @@ function FormCardService() {
     spotifyActions,
     executeScriptRequest,
     getFormValue,
+    handleAddingPath,
     leftSide,
     rightSide,
     accessToken,
     allPaths,
     path,
+    folderInput,
     form,
   };
 }

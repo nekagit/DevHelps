@@ -29,6 +29,7 @@ function FormCard(props: IFormCard) {
     allPaths,
     path,
     form,
+    handleAddingPath,
     handleSelect,
     spotifyActions,
     executeScriptRequest,
@@ -73,6 +74,15 @@ function FormCard(props: IFormCard) {
                 onChange={(e: string | null) => handleSelect(e)}
                 data={allPaths}
               />
+              <TextInput name="newPath" {...form.getInputProps("newPath")} />
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleAddingPath("newPath");
+                }}
+              >
+                Add Path
+              </Button>
             </>
           ) : (
             <></>

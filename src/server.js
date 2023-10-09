@@ -24,6 +24,7 @@ app.post("/execute-script", async (req, res) => {
         ? scriptParameters
         : scriptParameters.split(",");
       for (const scriptParameter of scriptParameterss) {
+        console.log("loop", scriptParameter)
         await executeScriptsSequentially(scriptName, scriptParameter, targetPath);
       }
     } else {
@@ -48,17 +49,19 @@ const executeScriptsSequentially = async (scriptName, scriptParameter, targetPat
     targetPath + "\\src\\scripts",
     scriptName
   );
-  console.log(targetPath)
+  console.log(targetPath, "targetpath")
 
   const gitCommand =  `cd /d ${targetPath} && start cmd /K "${scriptPath} ${scriptParameter}"`
   const npmCommand =  `cd /d ${targetPath}\\src\\scripts && start ` + scriptName + " " + targetPath
   const finalCommand = scriptName.startsWith("npm") ?  npmCommand : gitCommand
-  console.log("\n",finalCommand, "\n")
+  console.log("\n",finalCommand, "\n", "finalCommand")
    await new Promise((resolve, reject) => {
     exec(finalCommand, (error) => {
       if (error) {
         reject(`Error executing script: ${error.message}`);
       } else {
+    console.log( "resolved")
+
         resolve();
       }
     });

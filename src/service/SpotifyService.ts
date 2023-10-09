@@ -12,7 +12,6 @@ import {
 
 function useSpotifyService(): IUseSpotifyService {
   const { clientId, clientSecret, redirectUri, scope } = spotifyCredentials;
-  const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token&show_dialog=true`;
   const [accessToken, setAccessToken] = React.useState("");
   const [currentSong, setCurrentSong] = React.useState<IUseSpotifyCurrentSong>({
     name: "",
@@ -23,6 +22,7 @@ function useSpotifyService(): IUseSpotifyService {
     releaseDate: "",
     artist: {} as unknown as ArtistObjectSimplified,
   });
+  const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token&show_dialog=true`;
 
   const spotifyApi: SpotifyWebApi = React.useMemo(() => {
     return new SpotifyWebApi({
@@ -34,15 +34,25 @@ function useSpotifyService(): IUseSpotifyService {
   }, [accessToken, clientId, clientSecret, redirectUri]);
 
   useEffect(() => {
-    SpotifyHelpers(spotifyApi).windowsUrlTokenizer();
-    const token =
-      spotifyApi.getAccessToken() || localStorage.getItem("access_token");
-    if (token === undefined) {
-      console.log("problem");
+    const storageAccessToken = localStorage.getItem("access_token");
+    if (storageAccessToken == undefined) {
+      const spotifyAccessToken = spotifyApi.getAccessToken();
+      if (spotifyAccessToken == undefined) {
+        SpotifyHelpers(spotifyApi).windowsUrlTokenizer();
+      } else {
+        setAccessToken(spotifyAccessToken);
+      }
     } else {
-      setAccessToken(token ?? "");
+      setAccessToken(storageAccessToken);
     }
   }, [spotifyApi, accessToken]);
+
+  const handleRefreshToken = () => {
+    console.log("handleREfresh");
+    localStorage.removeItem("access_token");
+    const refreshToken = spotifyApi.getRefreshToken();
+    console.log(refreshToken);
+  };
 
   const loginSpotDoc = () => {
     window.location.href = spotifyLoginUrl;
@@ -88,7 +98,6 @@ function useSpotifyService(): IUseSpotifyService {
             const artists = track.artists
               .map((artist) => artist.name)
               .join(", ");
-            console.warn("asdfasdf");
             setCurrentSong({
               name: track.name,
               artists: artists,
@@ -116,6 +125,7 @@ function useSpotifyService(): IUseSpotifyService {
     playAlbumById,
     currentSong,
     loginSpotDoc,
+    handleRefreshToken,
   };
 }
 

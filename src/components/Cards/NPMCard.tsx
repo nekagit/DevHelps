@@ -57,15 +57,6 @@ function NPMCard(props: IProps) {
         }}
       >
         <Card.Section bg="rgba(0, 0, 333, .1)" style={{ padding: "21px" }}>
-          <hr />
-          <Select
-            key={"path"}
-            label="path"
-            placeholder="Pick value"
-            value={path}
-            onChange={(e: string | null) => handleSelect(e)}
-            data={allPaths}
-          />
           <Flex
             gap="sm"
             justify="center"
@@ -75,6 +66,17 @@ function NPMCard(props: IProps) {
           >
             <Text fw={500}> {title} </Text>
           </Flex>
+          <hr />
+
+          <Select
+            key={"path"}
+            label="path"
+            placeholder="Pick value"
+            value={path}
+            onChange={(e: string | null) => handleSelect(e)}
+            data={allPaths}
+          />
+          <hr />
           <Flex
             mih={50}
             gap="md"

@@ -7,6 +7,7 @@ export interface IUseSpotifyService {
   playSongByName: (name: string) => Promise<void>;
   playAlbumById: (id: string) => Promise<void>;
   loginSpotDoc: () => void;
+  handleRefreshToken: () => void;
 }
 
 export interface IUseSpotifyCurrentSong {

@@ -9,9 +9,11 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useMemo, useState } from "react";
+import SpotifyWebApi from "spotify-web-api-node";
 import CardsJson from "../../assets/CardsJson.json";
 import paths from "../../assets/paths.json";
 import { Helpers } from "../../helpers/Helpers";
+import { SpotifyHelpers } from "../../helpers/SpotifyHelpers";
 import { IFormCard } from "../../interfaces/IFormCard";
 import { useSpotifyService } from "../../service/SpotifyService";
 import GitHubCard from "./GitHubCard";
@@ -45,9 +47,11 @@ function FormCard(props: IFormCard) {
     nextSong,
     playSongByName,
     playAlbumById,
+    handleRefreshToken,
   } = spotifyService;
   const { leftSide, rightSide } = useMemo(() => {
-    const { result, resultArray } = Helpers().formatSongData(currentSong);
+    const { result, resultArray } =
+      SpotifyHelpers(SpotifyWebApi).formatSongData(currentSong);
     return {
       result,
       leftSide: resultArray
@@ -81,6 +85,9 @@ function FormCard(props: IFormCard) {
     }
     if (action === "playSongByName") {
       playSongByName(currentValue);
+    }
+    if (action === "handleRefreshToken") {
+      handleRefreshToken();
     }
   };
 
@@ -151,23 +158,14 @@ function FormCard(props: IFormCard) {
           <Flex
             gap="sm"
             justify="center"
-            align="flex-end"
+            align="center"
             direction="row"
             wrap="wrap"
+            style={{ width: "88%" }}
+            className="scrollbar-hidden-container"
           >
-            <div>
-              <Text size="sm">Song Played:</Text>
-              <Flex
-                gap="sm"
-                justify="center"
-                align="flex-end"
-                direction="row"
-                wrap="wrap"
-              >
-                <pre>{leftSide}</pre>
-                <pre>{rightSide}</pre>
-              </Flex>
-            </div>
+            <pre>{leftSide}</pre>
+            <pre>{rightSide}</pre>
           </Flex>
           <hr />
           <Flex

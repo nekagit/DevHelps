@@ -107,6 +107,13 @@
             "label": "Login",
             "action": "loginSpotDoc"
           },
+
+          {
+            "key": "refreshToken",
+            "name": "Refresh Token",
+            "label": "Refresh Token",
+            "action": "handleRefreshToken"
+          },
           {
             "key": "nextTrack",
             "name": "Next Track",

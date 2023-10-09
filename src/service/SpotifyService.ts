@@ -35,12 +35,12 @@ function useSpotifyService(): IUseSpotifyService {
 
   useEffect(() => {
     const storageAccessToken = localStorage.getItem("access_token");
-    if (storageAccessToken == undefined) {
+    if (storageAccessToken == null) {
       const spotifyAccessToken = spotifyApi.getAccessToken();
-      if (spotifyAccessToken == undefined) {
+      if (spotifyAccessToken == "") {
         SpotifyHelpers(spotifyApi).windowsUrlTokenizer();
       } else {
-        setAccessToken(spotifyAccessToken);
+        setAccessToken(spotifyAccessToken ?? "");
       }
     } else {
       setAccessToken(storageAccessToken);
@@ -48,10 +48,9 @@ function useSpotifyService(): IUseSpotifyService {
   }, [spotifyApi, accessToken]);
 
   const handleRefreshToken = () => {
-    console.log("handleREfresh");
     localStorage.removeItem("access_token");
-    const refreshToken = spotifyApi.getRefreshToken();
-    console.log(refreshToken);
+    setAccessToken("");
+    spotifyApi.setAccessToken("");
   };
 
   const loginSpotDoc = () => {
@@ -63,6 +62,7 @@ function useSpotifyService(): IUseSpotifyService {
   };
 
   const playSongByName = async (name: string) => {
+    console.log(name);
     const searchResults = await spotifyApi.searchTracks(name, {
       limit: 1,
     });

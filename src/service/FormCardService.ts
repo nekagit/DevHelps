@@ -50,6 +50,7 @@ function FormCardService() {
   const handleSelect = (e: string | null) => {
     setPath(e ?? "");
   };
+
   const executeScriptRequest = async (
     scriptName: string,
     scriptParameter: string,
@@ -71,6 +72,7 @@ function FormCardService() {
       console.error("Error:", error);
     }
   };
+
   const spotifyActions = (action: string, formValue: string) => {
     if (action === "loginSpotDoc") {
       loginSpotDoc();
@@ -91,15 +93,10 @@ function FormCardService() {
       handleRefreshToken();
     }
   };
+
   const getFormValue = (fieldName: string) => {
     const formFieldIndex = Object.keys(form.values).findIndex(
       (x) => x == fieldName
-    );
-    console.log(
-      Object.keys(form.values),
-      fieldName,
-      formFieldIndex,
-      Object.values(form.values)[formFieldIndex]
     );
     return Object.values(form.values)[formFieldIndex];
   };

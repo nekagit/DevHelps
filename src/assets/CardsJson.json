@@ -5,6 +5,7 @@
       "data": {
         "title": "Git Commands",
         "pathNeeded": true,
+        "songDataDisplay": false,
         "color": "rgba(0, 222, 0, .1)",
         "borderStyle": "1px solid black",
         "textFields": [
@@ -71,6 +72,7 @@
       "name": "SpotifyCard",
       "data": {
         "title": "Spotify API Commands",
+        "songDataDisplay": false,
         "pathNeeded": false,
         "color": "rgba(0, 0, 222, .1)",
         "borderStyle": "1px solid black",
@@ -111,7 +113,7 @@
           {
             "key": "refreshToken",
             "name": "Refresh Token",
-            "label": "Refresh Token",
+            "label": "Delete Token",
             "action": "handleRefreshToken"
           },
           {
@@ -142,6 +144,7 @@
       "data": {
         "title": "NPM Commands",
         "pathNeeded": true,
+        "songDataDisplay": false,
         "color": "rgba(222, 0,0 , .1)",
         "borderStyle": "1px solid black",
         "textFields": [],

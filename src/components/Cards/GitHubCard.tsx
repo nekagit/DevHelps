@@ -1,11 +1,12 @@
 import CardsJson from "../../assets/CardsJson.json";
 import { IEventButton } from "../../interfaces/IEventButton";
+import { IFormCard } from "../../interfaces/IFormCard";
 import { ITextField } from "../../interfaces/ITextField";
 import FormCard from "./FormCard";
 
 function GitHubCard() {
   const gitHubCard = CardsJson.AllCards[0];
-  const githubFormCard = {
+  const githubFormCard: IFormCard = {
     title: gitHubCard.name,
     color: gitHubCard.data.color,
     borderStyle: gitHubCard.data.borderStyle,

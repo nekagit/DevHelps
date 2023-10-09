@@ -172,8 +172,8 @@
           },
           {
             "key": "npm-run-tsc.bat",
-            "name": "Run Start",
-            "label": "Run Tsc",
+            "name": "Run Tsc",
+            "label": "Tsc",
             "action": "handleNPMAction"
           }
         ],

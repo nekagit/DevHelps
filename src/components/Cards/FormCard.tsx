@@ -20,16 +20,85 @@ function FormCard(props: IFormCard) {
     badges,
     pathNeeded,
   } = props;
+
   const {
-    handleSelect,
-    executeAction,
     leftSide,
     rightSide,
     accessToken,
     allPaths,
     path,
     form,
+    handleSelect,
+    loginSpotDoc,
+    logCurrentlyPlayedTrack,
+    nextSong,
+    playSongByName,
+    playAlbumById,
+    handleRefreshToken,
   } = FormCardService();
+
+  const executeScriptRequest = async (
+    scriptName: string,
+    scriptParameter: string,
+    path: string
+  ) => {
+    try {
+      await fetch("http://localhost:3000/execute-script", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          scriptName: scriptName,
+          scriptParameters: scriptParameter,
+          path: path,
+        }),
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const executeAction = (
+    action: string,
+    scriptName: string,
+    scriptKey: string,
+    path: string
+  ) => {
+    const formValue = getFormValue(scriptName);
+    console.log(formValue);
+    if (action === "handleGitAction") {
+      executeScriptRequest(scriptName, formValue, path);
+    }
+    if (action === "handleNPMAction") {
+      executeScriptRequest(scriptKey, "", path);
+    }
+    if (action === "loginSpotDoc") {
+      loginSpotDoc();
+    }
+    if (action === "nextSong") {
+      nextSong();
+    }
+    if (action === "logCurrentlyPlayedTrack") {
+      logCurrentlyPlayedTrack();
+    }
+    if (action === "playAlbumById") {
+      playAlbumById(formValue);
+    }
+    if (action === "playSongByName") {
+      playSongByName(formValue);
+    }
+    if (action === "handleRefreshToken") {
+      handleRefreshToken();
+    }
+  };
+
+  const getFormValue = (fieldName: string) => {
+    const formFieldIndex = Object.keys(form.values).findIndex(
+      (x) => x == fieldName
+    );
+    return Object.values(form.values)[formFieldIndex];
+  };
   return (
     <>
       <Card

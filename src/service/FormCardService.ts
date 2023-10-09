@@ -9,7 +9,6 @@ import { useSpotifyService } from "./SpotifyService";
 function FormCardService() {
   const gitHubCard = CardsJson.AllCards[0];
   const spotCard = CardsJson.AllCards[1];
-  // const npmCard = CardsJson.AllCards[3];
   const allPaths = Object.values(paths);
   const spotifyService = useSpotifyService();
   const [path, setPath] = useState("");
@@ -25,12 +24,12 @@ function FormCardService() {
   const {
     loginSpotDoc,
     logCurrentlyPlayedTrack,
-    accessToken,
-    currentSong,
     nextSong,
     playSongByName,
     playAlbumById,
     handleRefreshToken,
+    accessToken,
+    currentSong,
     spotifyApi,
   } = spotifyService;
 
@@ -48,51 +47,18 @@ function FormCardService() {
     };
   }, [currentSong, spotifyApi]);
 
-  const executeAction = (
-    action: string,
-    scriptName: string,
-    scriptKey: string,
-    path: string
-  ) => {
-    console.log(action, "action", "\n", scriptName, "scriptName", "\n", path);
-    const formValue = getFormValue(scriptName);
-    console.log(formValue);
-    if (action === "handleGitAction") {
-      Helpers().executeScriptRequest(scriptName, formValue, path);
-    }
-    if (action === "loginSpotDoc") {
-      loginSpotDoc();
-    }
-    if (action === "nextSong") {
-      nextSong();
-    }
-    if (action === "logCurrentlyPlayedTrack") {
-      logCurrentlyPlayedTrack();
-    }
-    if (action === "playAlbumById") {
-      playAlbumById(formValue);
-    }
-    if (action === "playSongByName") {
-      playSongByName(formValue);
-    }
-    if (action === "handleRefreshToken") {
-      handleRefreshToken();
-    }
-  };
-
   const handleSelect = (e: string | null) => {
     setPath(e ?? "");
   };
 
-  const getFormValue = (fieldName: string) => {
-    const formFieldIndex = Object.keys(form.values).findIndex(
-      (x) => x == fieldName
-    );
-    return Object.values(form.values)[formFieldIndex];
-  };
   return {
     handleSelect,
-    executeAction,
+    loginSpotDoc,
+    logCurrentlyPlayedTrack,
+    nextSong,
+    playSongByName,
+    playAlbumById,
+    handleRefreshToken,
     leftSide,
     rightSide,
     accessToken,

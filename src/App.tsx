@@ -3,6 +3,7 @@ import SplitPane, { Pane } from "split-pane-react";
 import appTs from "./AppTS";
 import NPMCard from "./components/Cards/NPMCard";
 import TicketSystemCard from "./components/Cards/TicketSystemCard";
+
 function App() {
   const { GitHubCard, SpotifyCard } = appTs();
   const [sizes, setSizes] = useState([1000, 1000, 500]);
@@ -11,7 +12,7 @@ function App() {
       <div
         className="custom-sash"
         style={{
-          background: "#333",
+          background: "black",
           width: "4px",
           cursor: "col-resize",
         }}
@@ -52,8 +53,7 @@ function App() {
             style={{ overflow: "auto" }}
             className="scrollbar-hidden-container"
           >
-            <NPMCard title="NPM Commands" path={""} />
-
+            <NPMCard />
             <TicketSystemCard title="Dev Tickets" />
           </Pane>
         </SplitPane>

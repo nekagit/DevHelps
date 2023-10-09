@@ -7,12 +7,11 @@ REM Check if the current branch is one of 'develop'
 If NOT "%current_branch%"=="develop" (
   git add --all
   git commit -m "Auto-commit changes"
-  git pull
-  git push
 )
 
-REM Attempt to checkout 'develop'
+REM Attempt to checkout 'develop or master'
 git checkout develop 2>nul
+git checkout master 2>nul
 
 REM Sync with the 'develop' branch (pull changes)
 git pull
@@ -23,7 +22,8 @@ git checkout %branchName% 2>nul
 echo %branchName%
 
 REM Merge with 'develop'
-git merge develop
+git merge master 2>nul
+git merge develop 2>nul
 git push
 REM Exit the batch script
 exit

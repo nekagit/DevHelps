@@ -12,7 +12,29 @@ export function Helpers() {
     return defaultValues;
   };
 
+  const executeScriptRequest = async (
+    scriptName: string,
+    scriptParameter: string,
+    path: string
+  ) => {
+    try {
+      await fetch("http://localhost:3000/execute-script", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          scriptName: scriptName,
+          scriptParameters: scriptParameter,
+          path: path,
+        }),
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   return {
     getInitialObject,
+    executeScriptRequest,
   };
 }

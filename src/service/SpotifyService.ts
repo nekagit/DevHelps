@@ -126,6 +126,7 @@ function useSpotifyService(): IUseSpotifyService {
     currentSong,
     loginSpotDoc,
     handleRefreshToken,
+    spotifyApi,
   };
 }
 

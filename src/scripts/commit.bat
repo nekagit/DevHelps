@@ -12,7 +12,6 @@ SET commitMessage=%1
 
 REM Check if a commit message was provided
 IF "%commitMessage%"=="" (
-  echo Please provide a commit message as a parameter.
   exit /b 1
 )
 

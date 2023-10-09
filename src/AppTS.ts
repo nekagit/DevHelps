@@ -4,9 +4,8 @@ import SpotifyCard from "./components/Cards/SpotifyCard";
 import TicketSystemCard from "./components/Cards/TicketSystemCard";
 
 function AppTs() {
-  const gitCard = GitHubCard();
   return {
-    gitCard,
+    GitHubCard,
     SpotifyCard,
     NPMCard,
     TicketSystemCard,

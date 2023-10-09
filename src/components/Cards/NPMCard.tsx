@@ -2,11 +2,11 @@ import { Button, Card, Flex, rem, Select, Text } from "@mantine/core";
 import { IconPlayerPlay } from "@tabler/icons-react";
 import { useState } from "react";
 import paths from "../../assets/paths.json";
+import { Helpers } from "../../helpers/Helpers";
 
 interface IProps {
   title: string;
   path: string;
-  height?: string;
   color?: string;
   border?: string;
 }
@@ -18,32 +18,13 @@ function NPMCard(props: IProps) {
   const [path, setPath] = useState("");
 
   const handleNPMAction = async (scriptName: string) => {
-    try {
-      const response = await fetch("http://localhost:3000/execute-script", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          scriptName: scriptName,
-          scriptParameters: [""],
-          path: path,
-        }), // Include branchName in the request body
-      });
-
-      if (response.ok) {
-        console.log(`Git script "${scriptName}" executed successfully.`);
-      } else {
-        console.error("Error executing Git script.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    Helpers().executeScriptRequest(scriptName, path);
   };
 
   const handleSelect = (e: string | null) => {
     setPath(e ?? "");
   };
+
   return (
     <>
       <Card
@@ -70,7 +51,7 @@ function NPMCard(props: IProps) {
 
           <Select
             key={"path"}
-            label="path"
+            label="path to DevHelps"
             placeholder="Pick value"
             value={path}
             onChange={(e: string | null) => handleSelect(e)}

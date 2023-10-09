@@ -136,6 +136,49 @@
           }
         ]
       }
+    },
+    {
+      "name": "NPMCard",
+      "data": {
+        "title": "NPM Commands",
+        "pathNeeded": true,
+        "color": "rgba(222, 0,0 , .1)",
+        "borderStyle": "1px solid black",
+        "textFields": [],
+        "eventButtons": [
+          {
+            "key": "npm-run-start.bat",
+            "name": "Run Start",
+            "label": "Start",
+            "action": "handleNPMAction"
+          },
+          {
+            "key": "npm-install.bat",
+            "name": "Run Install",
+            "label": "Install",
+            "action": "handleNPMAction"
+          },
+          {
+            "key": "npm-run-tests.bat",
+            "name": "Run Tests",
+            "label": "Tests",
+            "action": "handleNPMAction"
+          },
+          {
+            "key": "npm-run-specific-test.bat",
+            "name": "Run Test",
+            "label": "Test",
+            "action": "handleNPMAction"
+          },
+          {
+            "key": "npm-run-tsc.bat",
+            "name": "Run Start",
+            "label": "Run Tsc",
+            "action": "handleNPMAction"
+          }
+        ],
+        "badges": []
+      }
     }
   ]
 }

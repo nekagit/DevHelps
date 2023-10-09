@@ -1,11 +1,10 @@
 import { useState } from "react";
 import SplitPane, { Pane } from "split-pane-react";
 import appTs from "./AppTS";
-import FormCard from "./components/Cards/FormCard";
 import NPMCard from "./components/Cards/NPMCard";
 import TicketSystemCard from "./components/Cards/TicketSystemCard";
 function App() {
-  const { gitCard, SpotifyCard } = appTs();
+  const { GitHubCard, SpotifyCard } = appTs();
   const [sizes, setSizes] = useState([1000, 1000, 500]);
   const customSashRenderer = () => {
     return (
@@ -37,15 +36,7 @@ function App() {
             style={{ overflow: "auto" }}
             className="scrollbar-hidden-container"
           >
-            <FormCard
-              key={gitCard.githubFormCard.title}
-              title={gitCard.githubFormCard.title}
-              color={gitCard.githubFormCard.color}
-              borderStyle={gitCard.githubFormCard.borderStyle}
-              textFields={gitCard.githubFormCard.textFields}
-              eventButtons={gitCard.githubFormCard.eventButtons}
-              pathNeeded={gitCard.githubFormCard.pathNeeded}
-            />
+            <GitHubCard />
           </Pane>
           <Pane
             minSize={50}

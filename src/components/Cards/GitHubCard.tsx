@@ -15,7 +15,6 @@ function GitHubCard() {
     eventButtons: gitHubCard.data.eventButtons as IEventButton[],
     pathNeeded: gitHubCard.data.pathNeeded,
   };
-
   return (
     <FormCard
       key={githubFormCard.title}

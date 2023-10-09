@@ -43,7 +43,7 @@ function FormCard(props: IFormCard) {
     if (action === "handleGitAction") {
       console.log(fieldName, formValue, path);
       if (formValue != undefined) {
-        executeScriptRequest(fieldName, formValue, path);
+        executeScriptRequest(scriptKey, formValue, path);
       } else {
         executeScriptRequest(scriptKey, "", path);
       }

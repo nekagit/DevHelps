@@ -42,7 +42,11 @@ function FormCard(props: IFormCard) {
     const formValue = getFormValue(fieldName);
     if (action === "handleGitAction") {
       console.log(fieldName, formValue, path);
-      executeScriptRequest(fieldName, formValue, path);
+      if (formValue != undefined) {
+        executeScriptRequest(fieldName, formValue, path);
+      } else {
+        executeScriptRequest(scriptKey, "", path);
+      }
     }
     if (action === "handleNPMAction") {
       executeScriptRequest(scriptKey, "", path);

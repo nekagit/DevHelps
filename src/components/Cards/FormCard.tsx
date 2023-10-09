@@ -76,7 +76,7 @@ function FormCard(props: IFormCard) {
     if (action === "logCurrentlyPlayedTrack") {
       logCurrentlyPlayedTrack();
     }
-    if (action === "playAlbumByName") {
+    if (action === "playAlbumById") {
       playAlbumById(currentValue);
     }
     if (action === "playSongByName") {

@@ -19,6 +19,7 @@ function FormCard(props: IFormCard) {
     eventButtons,
     badges,
     pathNeeded,
+    songDataDisplay,
   } = props;
 
   const {
@@ -61,9 +62,9 @@ function FormCard(props: IFormCard) {
       >
         <Card.Section bg={color} style={{ padding: "21px" }}>
           <Text fw={500}> {title} </Text>
+          <hr />
           {pathNeeded != undefined && pathNeeded ? (
             <>
-              <hr />
               <Select
                 key={"path"}
                 label="path to DevHelps"
@@ -76,7 +77,6 @@ function FormCard(props: IFormCard) {
           ) : (
             <></>
           )}
-          <hr />
           <Flex
             gap="sm"
             justify="center"
@@ -101,20 +101,26 @@ function FormCard(props: IFormCard) {
               </>
             ))}
           </Flex>
+          {songDataDisplay ? (
+            <>
+              <Flex
+                gap="sm"
+                justify="center"
+                align="center"
+                direction="row"
+                wrap="wrap"
+                style={{ width: "88%" }}
+                className="scrollbar-hidden-container"
+              >
+                <pre>{leftSide}</pre>
+                <pre>{rightSide}</pre>
+              </Flex>
+              <hr />
+            </>
+          ) : (
+            <></>
+          )}
           <br />
-          <Flex
-            gap="sm"
-            justify="center"
-            align="center"
-            direction="row"
-            wrap="wrap"
-            style={{ width: "88%" }}
-            className="scrollbar-hidden-container"
-          >
-            <pre>{leftSide}</pre>
-            <pre>{rightSide}</pre>
-          </Flex>
-          <hr />
           <Flex
             gap="sm"
             justify="center"
@@ -123,20 +129,22 @@ function FormCard(props: IFormCard) {
             wrap="wrap"
           >
             {eventButtons?.map((button) => (
-              <Button
-                key={button.key}
-                onClick={(e) => {
-                  e.preventDefault();
-                  executeAction(
-                    button.action,
-                    button.key,
-                    button.key,
-                    path ?? ""
-                  );
-                }}
-              >
-                {button.label}
-              </Button>
+              <>
+                <Button
+                  key={button.key}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    executeAction(
+                      button.action,
+                      button.key,
+                      button.key,
+                      path ?? ""
+                    );
+                  }}
+                >
+                  {button.label}
+                </Button>
+              </>
             ))}
           </Flex>
           {textFields?.map((field) => (

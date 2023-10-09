@@ -72,7 +72,7 @@
       "name": "SpotifyCard",
       "data": {
         "title": "Spotify API Commands",
-        "songDataDisplay": false,
+        "songDataDisplay": true,
         "pathNeeded": false,
         "color": "rgba(0, 0, 222, .1)",
         "borderStyle": "1px solid black",

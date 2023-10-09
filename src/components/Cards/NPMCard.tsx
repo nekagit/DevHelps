@@ -8,6 +8,7 @@ function NPMCard() {
   const npmCard = CardsJson.AllCards[2];
   const npmFormCard: IFormCard = {
     title: npmCard.name,
+    songDataDisplay: npmCard.data.songDataDisplay,
     color: npmCard.data.color,
     borderStyle: npmCard.data.borderStyle,
     textFields: npmCard.data.textFields as ITextField[],
@@ -24,6 +25,7 @@ function NPMCard() {
         textFields={npmFormCard.textFields}
         eventButtons={npmFormCard.eventButtons}
         pathNeeded={npmFormCard.pathNeeded}
+        songDataDisplay={npmFormCard.songDataDisplay}
       />
     </>
   );

@@ -18,6 +18,7 @@ function SpotifyCard() {
 
   const spotifyFormCard = {
     title: spotifyCard.name,
+    songDataDisplay: spotifyCard.data.songDataDisplay,
     color: spotifyCard.data.color,
     borderStyle: spotifyCard.data.borderStyle,
     textFields: spotifyCard.data.textFields,
@@ -41,6 +42,7 @@ function SpotifyCard() {
       textFields={spotifyFormCard.textFields}
       eventButtons={spotifyFormCard.eventButtons}
       badges={spotifyFormCard.badges}
+      songDataDisplay={spotifyFormCard.songDataDisplay}
     />
   );
 }

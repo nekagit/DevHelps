@@ -8,6 +8,7 @@ function GitHubCard() {
   const gitHubCard = CardsJson.AllCards[0];
   const githubFormCard: IFormCard = {
     title: gitHubCard.name,
+    songDataDisplay: gitHubCard.data.songDataDisplay,
     color: gitHubCard.data.color,
     borderStyle: gitHubCard.data.borderStyle,
     textFields: gitHubCard.data.textFields as ITextField[],
@@ -24,6 +25,7 @@ function GitHubCard() {
       textFields={githubFormCard.textFields}
       eventButtons={githubFormCard.eventButtons}
       pathNeeded={githubFormCard.pathNeeded}
+      songDataDisplay={githubFormCard.songDataDisplay}
     />
   );
 }

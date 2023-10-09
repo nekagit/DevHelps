@@ -11,4 +11,5 @@ export interface IFormCard {
   textFields?: ITextField[];
   eventButtons?: IEventButton[];
   badges?: IBadge[];
+  songDataDisplay: boolean;
 }

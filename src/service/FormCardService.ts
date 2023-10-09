@@ -91,6 +91,18 @@ function FormCardService() {
       handleRefreshToken();
     }
   };
+  const getFormValue = (fieldName: string) => {
+    const formFieldIndex = Object.keys(form.values).findIndex(
+      (x) => x == fieldName
+    );
+    console.log(
+      Object.keys(form.values),
+      fieldName,
+      formFieldIndex,
+      Object.values(form.values)[formFieldIndex]
+    );
+    return Object.values(form.values)[formFieldIndex];
+  };
   return {
     handleSelect,
     loginSpotDoc,
@@ -101,6 +113,7 @@ function FormCardService() {
     handleRefreshToken,
     spotifyActions,
     executeScriptRequest,
+    getFormValue,
     leftSide,
     rightSide,
     accessToken,

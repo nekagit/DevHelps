@@ -31,6 +31,7 @@ function FormCard(props: IFormCard) {
     handleSelect,
     spotifyActions,
     executeScriptRequest,
+    getFormValue,
   } = FormCardService();
 
   const executeAction = (
@@ -54,18 +55,6 @@ function FormCard(props: IFormCard) {
     spotifyActions(action, "");
   };
 
-  const getFormValue = (fieldName: string) => {
-    const formFieldIndex = Object.keys(form.values).findIndex(
-      (x) => x == fieldName
-    );
-    console.log(
-      Object.keys(form.values),
-      fieldName,
-      formFieldIndex,
-      Object.values(form.values)[formFieldIndex]
-    );
-    return Object.values(form.values)[formFieldIndex];
-  };
   return (
     <>
       <Card

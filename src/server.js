@@ -19,7 +19,7 @@ app.use(cookieParser());
 app.post("/execute-script", async (req, res) => {
   try {
     const { scriptName, scriptParameters, path: targetPath } = req.body;
-    if (scriptParameters != "") {
+    if (scriptParameters != undefined) {
       const scriptParameterss = Array.isArray(scriptParameters)
         ? scriptParameters
         : scriptParameters.split(",");

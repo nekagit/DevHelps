@@ -50,7 +50,47 @@ function FormCardService() {
   const handleSelect = (e: string | null) => {
     setPath(e ?? "");
   };
-
+  const executeScriptRequest = async (
+    scriptName: string,
+    scriptParameter: string,
+    path: string
+  ) => {
+    try {
+      await fetch("http://localhost:3000/execute-script", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          scriptName: scriptName,
+          scriptParameters: scriptParameter,
+          path: path,
+        }),
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  const spotifyActions = (action: string, formValue: string) => {
+    if (action === "loginSpotDoc") {
+      loginSpotDoc();
+    }
+    if (action === "nextSong") {
+      nextSong();
+    }
+    if (action === "logCurrentlyPlayedTrack") {
+      logCurrentlyPlayedTrack();
+    }
+    if (action === "playAlbumById") {
+      playAlbumById(formValue);
+    }
+    if (action === "playSongByName") {
+      playSongByName(formValue);
+    }
+    if (action === "handleRefreshToken") {
+      handleRefreshToken();
+    }
+  };
   return {
     handleSelect,
     loginSpotDoc,
@@ -59,6 +99,8 @@ function FormCardService() {
     playSongByName,
     playAlbumById,
     handleRefreshToken,
+    spotifyActions,
+    executeScriptRequest,
     leftSide,
     rightSide,
     accessToken,

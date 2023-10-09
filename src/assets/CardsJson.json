@@ -15,8 +15,8 @@
             "placeholder": "Fill in Name of Branch to be created",
             "button": {
               "action": "handleGitAction",
-              "key": "createButton",
-              "name": "create-branch.bat",
+              "name": "Create Button",
+              "key": "create-branch.bat",
               "label": "Create"
             }
           },
@@ -27,8 +27,8 @@
             "placeholder": "Fill in Name of Branch to be synchronized with main",
             "button": {
               "action": "handleGitAction",
-              "key": "syncButton",
-              "name": "sync-develop.bat",
+              "name": "Sync Button",
+              "key": "sync-develop.bat",
               "label": "Sync"
             }
           },
@@ -39,8 +39,8 @@
             "placeholder": "Fill in a Message for Branch commit",
             "button": {
               "action": "handleGitAction",
-              "key": "commitButton",
-              "name": "commit.bat",
+              "name": "Commit Button",
+              "key": "commit.bat",
               "label": "Commit"
             }
           },
@@ -51,16 +51,16 @@
             "placeholder": "Fill in Name of Branch to checkout",
             "button": {
               "action": "handleGitAction",
-              "key": "checkoutButton",
-              "name": "checkoutBranch.bat",
+              "name": "Checkout Button",
+              "key": "checkoutBranch.bat",
               "label": "Checkout"
             }
           }
         ],
         "eventButtons": [
           {
-            "key": "commitBranch",
-            "name": "CommitButton",
+            "key": "commit-implemented.bat",
+            "name": "Commit Branch",
             "label": "Commit",
             "action": "handleGitAction"
           }

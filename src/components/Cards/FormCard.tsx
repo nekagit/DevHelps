@@ -29,74 +29,32 @@ function FormCard(props: IFormCard) {
     path,
     form,
     handleSelect,
-    loginSpotDoc,
-    logCurrentlyPlayedTrack,
-    nextSong,
-    playSongByName,
-    playAlbumById,
-    handleRefreshToken,
+    spotifyActions,
+    executeScriptRequest,
   } = FormCardService();
-
-  const executeScriptRequest = async (
-    scriptName: string,
-    scriptParameter: string,
-    path: string
-  ) => {
-    try {
-      await fetch("http://localhost:3000/execute-script", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          scriptName: scriptName,
-          scriptParameters: scriptParameter,
-          path: path,
-        }),
-      });
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
 
   const executeAction = (
     action: string,
-    scriptName: string,
+    fieldName: string,
     scriptKey: string,
     path: string
   ) => {
-    const formValue = getFormValue(scriptName);
-    console.log(formValue);
+    console.log(fieldName);
+    const formValue = getFormValue(fieldName);
     if (action === "handleGitAction") {
-      executeScriptRequest(scriptName, formValue, path);
+      executeScriptRequest(fieldName, formValue, path);
     }
     if (action === "handleNPMAction") {
       executeScriptRequest(scriptKey, "", path);
     }
-    if (action === "loginSpotDoc") {
-      loginSpotDoc();
-    }
-    if (action === "nextSong") {
-      nextSong();
-    }
-    if (action === "logCurrentlyPlayedTrack") {
-      logCurrentlyPlayedTrack();
-    }
-    if (action === "playAlbumById") {
-      playAlbumById(formValue);
-    }
-    if (action === "playSongByName") {
-      playSongByName(formValue);
-    }
-    if (action === "handleRefreshToken") {
-      handleRefreshToken();
-    }
+    spotifyActions(action, "");
   };
 
   const getFormValue = (fieldName: string) => {
     const formFieldIndex = Object.keys(form.values).findIndex(
       (x) => x == fieldName
     );
+    console.log(Object.keys(form.values), fieldName, formFieldIndex);
     return Object.values(form.values)[formFieldIndex];
   };
   return (
@@ -180,7 +138,7 @@ function FormCard(props: IFormCard) {
                   e.preventDefault();
                   executeAction(
                     button.action,
-                    button.name,
+                    button.key,
                     button.key,
                     path ?? ""
                   );
@@ -211,7 +169,7 @@ function FormCard(props: IFormCard) {
                     e.preventDefault();
                     executeAction(
                       field.button.action,
-                      field.button.name,
+                      field.name,
                       field.button.key,
                       path ?? ""
                     );

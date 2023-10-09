@@ -39,9 +39,9 @@ function FormCard(props: IFormCard) {
     scriptKey: string,
     path: string
   ) => {
-    console.log(fieldName);
     const formValue = getFormValue(fieldName);
     if (action === "handleGitAction") {
+      console.log(fieldName, formValue, path);
       executeScriptRequest(fieldName, formValue, path);
     }
     if (action === "handleNPMAction") {
@@ -54,7 +54,12 @@ function FormCard(props: IFormCard) {
     const formFieldIndex = Object.keys(form.values).findIndex(
       (x) => x == fieldName
     );
-    console.log(Object.keys(form.values), fieldName, formFieldIndex);
+    console.log(
+      Object.keys(form.values),
+      fieldName,
+      formFieldIndex,
+      Object.values(form.values)[formFieldIndex]
+    );
     return Object.values(form.values)[formFieldIndex];
   };
   return (

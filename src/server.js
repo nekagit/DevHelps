@@ -49,8 +49,8 @@ const executeScriptsSequentially = async (scriptName, scriptParameter, targetPat
     scriptName
   );
 
-  const gitCommand =  `cd /d ${targetPath} && start cmd /K "${scriptPath} ${scriptParameter}"`
-  const npmCommand =  `cd /d ${targetPath}\\src\\scripts && start cmd /K` + scriptName + " " + targetPath
+  const gitCommand =  `cd /d " C:\\Users\\NenadKalicanin\\Desktop\\Git\\DevsHelp\\DevHelps" && start cmd /K "${scriptPath} ${scriptParameter}"`
+  const npmCommand =  `cd /d " C:\\Users\\NenadKalicanin\\Desktop\\Git\\DevsHelp\\DevHelps\\src\\scripts && start cmd /K ` + scriptName + " " + targetPath
   const finalCommand = scriptName.startsWith("npm") ?  npmCommand : gitCommand
    await new Promise((resolve, reject) => {
     exec(finalCommand, (error) => {

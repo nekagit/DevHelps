@@ -1,6 +1,4 @@
 cd /d %1
-echo %1
-pause
 REM Get the current branch name
 FOR /F %%i IN ('git rev-parse --abbrev-ref HEAD') DO SET currentBranch=%%i
 

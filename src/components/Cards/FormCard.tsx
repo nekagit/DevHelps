@@ -27,10 +27,11 @@ function FormCard(props: IFormCard) {
     rightSide,
     accessToken,
     allPaths,
-    path,
+    pathDev,
+    pathProj,
     form,
-    handleAddingPath,
-    handleSelect,
+    handleSelectDev,
+    handleSelectProj,
     spotifyActions,
     executeScriptRequest,
     getFormValue,
@@ -40,13 +41,15 @@ function FormCard(props: IFormCard) {
     action: string,
     fieldName: string,
     scriptKey: string,
-    path: string
+    pathDev: string,
+    pathProj: string
   ) => {
     const formValue = getFormValue(fieldName);
     if (action === "handleGitAction") {
-      executeScriptRequest(scriptKey, formValue, path);
+      executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
     } else if (action === "handleNPMAction") {
-      executeScriptRequest(scriptKey, "", path);
+      console.log(pathDev, pathProj);
+      executeScriptRequest(scriptKey, "", [pathDev, pathProj]);
     } else spotifyActions(action, formValue);
   };
 
@@ -67,14 +70,22 @@ function FormCard(props: IFormCard) {
           {pathNeeded != undefined && pathNeeded ? (
             <>
               <Select
-                key={"path"}
-                label="path to DevHelps"
+                key={"pathDev"}
+                label="path to my DevHelps"
                 placeholder="Pick value"
-                value={path}
-                onChange={(e: string | null) => handleSelect(e)}
+                value={pathDev}
+                onChange={(e: string | null) => handleSelectDev(e)}
                 data={allPaths}
               />
-              <TextInput name="newPath" {...form.getInputProps("newPath")} />
+              <Select
+                key={"pathProj"}
+                label="path your Project"
+                placeholder="Pick value"
+                value={pathProj}
+                onChange={(e: string | null) => handleSelectProj(e)}
+                data={allPaths}
+              />
+              {/* <TextInput name="newPath" {...form.getInputProps("newPath")} />
               <Button
                 onClick={(e) => {
                   e.preventDefault();
@@ -82,7 +93,7 @@ function FormCard(props: IFormCard) {
                 }}
               >
                 Add Path
-              </Button>
+              </Button> */}
             </>
           ) : (
             <></>
@@ -148,7 +159,8 @@ function FormCard(props: IFormCard) {
                       button.action,
                       button.key,
                       button.key,
-                      path ?? ""
+                      pathDev,
+                      pathProj ?? ""
                     );
                   }}
                 >
@@ -180,7 +192,8 @@ function FormCard(props: IFormCard) {
                       field.button.action,
                       field.name,
                       field.button.key,
-                      path ?? ""
+                      pathDev,
+                      pathProj ?? ""
                     );
                   }}
                 >

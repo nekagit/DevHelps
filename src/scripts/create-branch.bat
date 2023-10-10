@@ -1,10 +1,9 @@
-REM Get the current branch name
+cd /d %1
 FOR /F %%i IN ('git rev-parse --abbrev-ref HEAD') DO SET currentBranch=%%i
 
 IF NOT "%currentBranch%"=="develop" (
-
-git add --all
-git commit -m "Auto-commit changes"
+  git add --all
+  git commit -m "Auto-commit changes"
 )
 REM Attempt to checkout 'develop'
 git checkout develop 2>nul
@@ -24,6 +23,5 @@ IF NOT "%newBranchName%"=="" (
   echo New branch name is empty. No branch created.
 )
 
-REM Exit the batch script
-exit
-taskkill /F /PID %PROCESSID%
+
+

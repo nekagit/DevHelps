@@ -1,4 +1,4 @@
-@echo off
+cd /d %1
 REM Get the current branch name
 FOR /F %%i IN ('git rev-parse --abbrev-ref HEAD') DO SET currentBranch=%%i
 
@@ -20,6 +20,5 @@ git commit -a -m "%commitMessage%"
 
 )
 
-REM Exit the batch script
-exit
-taskkill /F /PID %PROCESSID%
+
+

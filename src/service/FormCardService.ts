@@ -10,7 +10,8 @@ function FormCardService() {
   const spotCard = CardsJson.AllCards[1];
   const allPaths = Object.values(paths);
   const spotifyService = useSpotifyService();
-  const [path, setPath] = useState("");
+  const [pathDev, setPathDev] = useState("");
+  const [pathProj, setPathProj] = useState("");
   const folderInput = useRef(null);
   const form = useForm({
     initialValues: {
@@ -46,15 +47,19 @@ function FormCardService() {
     };
   }, [currentSong, spotifyApi]);
 
-  const handleSelect = (e: string | null) => {
-    setPath(e ?? "");
+  const handleSelectDev = (e: string | null) => {
+    setPathDev(e ?? "");
+  };
+  const handleSelectProj = (e: string | null) => {
+    setPathProj(e ?? "");
   };
 
   const executeScriptRequest = async (
     scriptName: string,
     scriptParameter: string,
-    path: string
+    paths: string[]
   ) => {
+    console.log(paths[0]);
     try {
       await fetch("http://localhost:3000/execute-script", {
         method: "POST",
@@ -64,7 +69,8 @@ function FormCardService() {
         body: JSON.stringify({
           scriptName: scriptName,
           scriptParameters: scriptParameter,
-          path: path,
+          pathDev: paths[0],
+          pathProj: paths[1],
         }),
       });
     } catch (error) {
@@ -106,7 +112,8 @@ function FormCardService() {
   };
 
   return {
-    handleSelect,
+    handleSelectDev,
+    handleSelectProj,
     loginSpotDoc,
     logCurrentlyPlayedTrack,
     nextSong,
@@ -121,7 +128,8 @@ function FormCardService() {
     rightSide,
     accessToken,
     allPaths,
-    path,
+    pathDev,
+    pathProj,
     folderInput,
     form,
   };

@@ -1,3 +1,4 @@
+cd /d %1
 FOR /F %%i IN ('git rev-parse --abbrev-ref HEAD') DO SET currentBranch=%%i
 
 REM Check if the current branch is 'develop', 'master', or 'main'
@@ -15,5 +16,4 @@ REM Attempt to checkout 'branch'
 git checkout %checkoutBranch% 2>nul
 
 echo Successfull checkout to %checkoutBranch%
-exit
-taskkill /F /PID %PROCESSID%
+

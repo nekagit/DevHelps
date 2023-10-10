@@ -1,3 +1,5 @@
+cd /d %1
+
 REM Get the branch name from the command line argument
 SET branchName=%~1
 echo %branchName%
@@ -25,6 +27,5 @@ REM Merge with 'develop'
 git merge master 2>nul
 git merge develop 2>nul
 git push
-REM Exit the batch script
-exit
-taskkill /F /PID %PROCESSID%
+
+

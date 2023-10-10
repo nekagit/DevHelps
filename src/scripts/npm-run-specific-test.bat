@@ -1,5 +1,5 @@
-set testClass=%1
+cd /d %1
+set testClass=%2
 npm run test %testClass%
-REM Exit the batch script
-exit
-taskkill /F /PID %PROCESSID%
+
+

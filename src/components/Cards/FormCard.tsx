@@ -1,4 +1,5 @@
 import { Card, Text } from "@mantine/core";
+import { useState } from "react";
 import { IFormCard } from "../../interfaces/IFormCard";
 import FormCardService from "../../service/FormCardService";
 import DirectorySetup from "../Inputs/directorySetup";
@@ -8,6 +9,8 @@ import SongDataDisplay from "../Inputs/songDataDisplay";
 import TextFields from "../Inputs/textFields";
 
 function FormCard(props: IFormCard) {
+  const [pathDev, setPathDev] = useState("");
+  const [pathProj, setPathProj] = useState("");
   const {
     title,
     color,
@@ -19,13 +22,8 @@ function FormCard(props: IFormCard) {
     songDataDisplay,
   } = props;
 
-  const {
-    pathDev,
-    pathProj,
-    spotifyActions,
-    executeScriptRequest,
-    getFormValue,
-  } = FormCardService();
+  const { spotifyActions, executeScriptRequest, getFormValue } =
+    FormCardService();
 
   const executeAction = (
     action: string,
@@ -34,10 +32,9 @@ function FormCard(props: IFormCard) {
   ) => {
     const formValue = getFormValue(fieldName);
     if (action === "handleGitAction") {
-      console.log(pathDev, pathProj);
-      executeScriptRequest(scriptKey, formValue);
+      executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
     } else if (action === "handleNPMAction") {
-      executeScriptRequest(scriptKey, "");
+      executeScriptRequest(scriptKey, "", [pathDev, pathProj]);
     } else spotifyActions(action, formValue);
   };
 
@@ -55,7 +52,13 @@ function FormCard(props: IFormCard) {
         <Card.Section bg={color} style={{ padding: "21px" }}>
           <Text fw={500}> {title} </Text>
           <hr />
-          <DirectorySetup pathNeeded={pathNeeded} />
+          <DirectorySetup
+            pathNeeded={pathNeeded}
+            pathDev={pathDev}
+            pathProj={pathProj}
+            setPathDev={setPathDev}
+            setPathProj={setPathProj}
+          />
           <FormBadges badges={badges} />
           <SongDataDisplay songDataDisplay={songDataDisplay} />
           <EventButtons

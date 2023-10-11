@@ -1,18 +1,16 @@
 import { useForm } from "@mantine/form";
-import { useMemo, useRef, useState } from "react";
+import { useMemo } from "react";
 import CardsJson from "../assets/CardsJson.json";
 import paths from "../assets/paths.json";
 import { Helpers } from "../helpers/Helpers";
 import { SpotifyHelpers } from "../helpers/SpotifyHelpers";
 import { useSpotifyService } from "./SpotifyService";
+const gitHubCard = CardsJson.AllCards[0];
+const spotCard = CardsJson.AllCards[1];
+const allPaths = Object.values(paths);
+
 function FormCardService() {
-  const gitHubCard = CardsJson.AllCards[0];
-  const spotCard = CardsJson.AllCards[1];
-  const allPaths = Object.values(paths);
   const spotifyService = useSpotifyService();
-  const [pathDev, setPathDev] = useState("");
-  const [pathProj, setPathProj] = useState("");
-  const folderInput = useRef(null);
   const form = useForm({
     initialValues: {
       path: "",
@@ -20,7 +18,7 @@ function FormCardService() {
       ...Helpers().getInitialObject(spotCard.data.textFields),
     },
   });
-  console.log(pathDev, "pahtDev", pathProj, "PathProj");
+
   const {
     loginSpotDoc,
     logCurrentlyPlayedTrack,
@@ -47,20 +45,12 @@ function FormCardService() {
     };
   }, [currentSong, spotifyApi]);
 
-  const handleSelectDev = (e: string | null) => {
-    console.log(e);
-    setPathDev(e ?? "");
-  };
-  const handleSelectProj = (e: string | null) => {
-    console.log(e);
-
-    setPathProj(e ?? "");
-  };
-
   const executeScriptRequest = async (
     scriptName: string,
-    scriptParameter: string
+    scriptParameter: string,
+    paths: string[]
   ) => {
+    console.log(paths[0], paths[1]);
     try {
       await fetch("http://localhost:3000/execute-script", {
         method: "POST",
@@ -70,8 +60,8 @@ function FormCardService() {
         body: JSON.stringify({
           scriptName: scriptName,
           scriptParameters: scriptParameter,
-          pathDev: pathDev,
-          pathProj: pathProj,
+          pathDev: paths[0],
+          pathProj: paths[1],
         }),
       });
     } catch (error) {
@@ -108,8 +98,6 @@ function FormCardService() {
   };
 
   return {
-    handleSelectDev,
-    handleSelectProj,
     loginSpotDoc,
     logCurrentlyPlayedTrack,
     nextSong,
@@ -123,9 +111,6 @@ function FormCardService() {
     rightSide,
     accessToken,
     allPaths,
-    pathDev,
-    pathProj,
-    folderInput,
     form,
   };
 }

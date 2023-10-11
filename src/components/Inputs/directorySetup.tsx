@@ -3,12 +3,21 @@ import FormCardService from "../../service/FormCardService";
 
 interface IProps {
   pathNeeded?: boolean;
+  setPathDev: React.Dispatch<React.SetStateAction<string>>;
+  setPathProj: React.Dispatch<React.SetStateAction<string>>;
+  pathDev: string;
+  pathProj: string;
 }
 function DirectorySetup(props: IProps) {
-  const { pathNeeded } = props;
-  const { allPaths, pathDev, pathProj, handleSelectDev, handleSelectProj } =
-    FormCardService();
+  const { pathNeeded, setPathDev, setPathProj, pathDev, pathProj } = props;
+  const { allPaths } = FormCardService();
 
+  const handleSelectDev = (e: string | null) => {
+    if (e != null) setPathDev(e);
+  };
+  const handleSelectProj = (e: string | null) => {
+    if (e != null) setPathProj(e);
+  };
   return (
     <>
       {pathNeeded != undefined && pathNeeded ? (

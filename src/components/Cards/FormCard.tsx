@@ -34,7 +34,7 @@ function FormCard(props: IFormCard) {
     if (action === "handleGitAction") {
       executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
     } else if (action === "handleNPMAction") {
-      executeScriptRequest(scriptKey, "", [pathDev, pathProj]);
+      executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
     } else spotifyActions(action, formValue);
   };
 

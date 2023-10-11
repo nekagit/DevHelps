@@ -11,6 +11,7 @@ function SongDataDisplay(props: IProps) {
     <>
       {songDataDisplay ? (
         <>
+          <br />
           <Flex
             gap="sm"
             justify="center"
@@ -28,7 +29,6 @@ function SongDataDisplay(props: IProps) {
       ) : (
         <></>
       )}
-      <br />
     </>
   );
 }

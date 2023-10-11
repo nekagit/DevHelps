@@ -7,6 +7,7 @@ import { SpotifyHelpers } from "../helpers/SpotifyHelpers";
 import { useSpotifyService } from "./SpotifyService";
 const gitHubCard = CardsJson.AllCards[0];
 const spotCard = CardsJson.AllCards[1];
+const npmCard = CardsJson.AllCards[2];
 const allPaths = Object.values(paths);
 
 function FormCardService() {
@@ -16,6 +17,7 @@ function FormCardService() {
       path: "",
       ...Helpers().getInitialObject(gitHubCard.data.textFields),
       ...Helpers().getInitialObject(spotCard.data.textFields),
+      ...Helpers().getInitialObject(npmCard.data.textFields),
     },
   });
 
@@ -50,7 +52,7 @@ function FormCardService() {
     scriptParameter: string,
     paths: string[]
   ) => {
-    console.log(paths[0], paths[1]);
+    console.log(scriptParameter);
     try {
       await fetch("http://localhost:3000/execute-script", {
         method: "POST",
@@ -91,6 +93,7 @@ function FormCardService() {
   };
 
   const getFormValue = (fieldName: string) => {
+    console.log(form.values, fieldName);
     const formFieldIndex = Object.keys(form.values).findIndex(
       (x) => x == fieldName
     );

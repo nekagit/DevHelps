@@ -38,6 +38,7 @@ function DirectorySetup(props: IProps) {
             onChange={(e: string | null) => handleSelectProj(e)}
             data={allPaths}
           />
+          <br />
         </>
       ) : (
         <></>

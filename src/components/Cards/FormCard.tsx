@@ -1,5 +1,8 @@
 import { Card, Text } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { useState } from "react";
+import CardsJson from "../../assets/CardsJson.json";
+import { Helpers } from "../../helpers/Helpers";
 import { IFormCard } from "../../interfaces/IFormCard";
 import FormCardService from "../../service/FormCardService";
 import DirectorySetup from "../Inputs/directorySetup";
@@ -8,7 +11,27 @@ import FormBadges from "../Inputs/formBadges";
 import SongDataDisplay from "../Inputs/songDataDisplay";
 import TextFields from "../Inputs/textFields";
 
+const gitHubCard = CardsJson.AllCards[0];
+const spotCard = CardsJson.AllCards[1];
+const npmCard = CardsJson.AllCards[2];
+
 function FormCard(props: IFormCard) {
+  const form = useForm({
+    initialValues: {
+      path: "",
+      ...Helpers().getInitialObject(gitHubCard.data.textFields),
+      ...Helpers().getInitialObject(spotCard.data.textFields),
+      ...Helpers().getInitialObject(npmCard.data.textFields),
+    },
+  });
+  const getFormValue = (fieldName: string) => {
+    console.log(form.values, fieldName);
+    const formFieldIndex = Object.keys(form.values).findIndex(
+      (x) => x == fieldName
+    );
+    return Object.values(form.values)[formFieldIndex];
+  };
+
   const [pathDev, setPathDev] = useState("");
   const [pathProj, setPathProj] = useState("");
   const {
@@ -22,8 +45,7 @@ function FormCard(props: IFormCard) {
     songDataDisplay,
   } = props;
 
-  const { spotifyActions, executeScriptRequest, getFormValue } =
-    FormCardService();
+  const { spotifyActions, executeScriptRequest } = FormCardService();
 
   const executeAction = (
     action: string,
@@ -31,6 +53,7 @@ function FormCard(props: IFormCard) {
     scriptKey: string
   ) => {
     const formValue = getFormValue(fieldName);
+    console.log(fieldName, formValue, scriptKey);
     if (action === "handleGitAction") {
       executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
     } else if (action === "handleNPMAction") {
@@ -65,7 +88,11 @@ function FormCard(props: IFormCard) {
             eventButtons={eventButtons}
             executeAction={executeAction}
           />
-          <TextFields textFields={textFields} executeAction={executeAction} />
+          <TextFields
+            textFields={textFields}
+            executeAction={executeAction}
+            form={form}
+          />
         </Card.Section>
       </Card>
     </>

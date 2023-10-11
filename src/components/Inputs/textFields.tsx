@@ -1,15 +1,22 @@
 import { Button, Flex, TextInput } from "@mantine/core";
+import { UseFormReturnType } from "@mantine/form";
 import { ITextField } from "../../interfaces/ITextField";
-import FormCardService from "../../service/FormCardService";
 
 interface IProps {
   textFields?: ITextField[];
   executeAction: (action: string, name: string, key: string) => void;
+  form: UseFormReturnType<
+    {
+      path: string;
+    },
+    (values: { path: string }) => {
+      path: string;
+    }
+  >;
 }
 
 function TextFields(props: IProps) {
-  const { textFields, executeAction } = props;
-  const { form } = FormCardService();
+  const { textFields, executeAction, form } = props;
   return (
     <>
       {textFields?.map((field) => (
@@ -24,7 +31,7 @@ function TextFields(props: IProps) {
           >
             <TextInput
               label={field.label}
-              {...form.getInputProps(field.name)}
+              {...form.getInputProps(field.key)}
               placeholder={field.placeholder}
             />
 

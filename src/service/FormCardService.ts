@@ -1,25 +1,11 @@
-import { useForm } from "@mantine/form";
 import { useMemo } from "react";
-import CardsJson from "../assets/CardsJson.json";
 import paths from "../assets/paths.json";
-import { Helpers } from "../helpers/Helpers";
 import { SpotifyHelpers } from "../helpers/SpotifyHelpers";
 import { useSpotifyService } from "./SpotifyService";
-const gitHubCard = CardsJson.AllCards[0];
-const spotCard = CardsJson.AllCards[1];
-const npmCard = CardsJson.AllCards[2];
 const allPaths = Object.values(paths);
 
 function FormCardService() {
   const spotifyService = useSpotifyService();
-  const form = useForm({
-    initialValues: {
-      path: "",
-      ...Helpers().getInitialObject(gitHubCard.data.textFields),
-      ...Helpers().getInitialObject(spotCard.data.textFields),
-      ...Helpers().getInitialObject(npmCard.data.textFields),
-    },
-  });
 
   const {
     loginSpotDoc,
@@ -92,14 +78,6 @@ function FormCardService() {
     }
   };
 
-  const getFormValue = (fieldName: string) => {
-    console.log(form.values, fieldName);
-    const formFieldIndex = Object.keys(form.values).findIndex(
-      (x) => x == fieldName
-    );
-    return Object.values(form.values)[formFieldIndex];
-  };
-
   return {
     loginSpotDoc,
     logCurrentlyPlayedTrack,
@@ -109,12 +87,10 @@ function FormCardService() {
     handleRefreshToken,
     spotifyActions,
     executeScriptRequest,
-    getFormValue,
     leftSide,
     rightSide,
     accessToken,
     allPaths,
-    form,
   };
 }
 export default FormCardService;

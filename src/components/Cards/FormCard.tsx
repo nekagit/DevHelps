@@ -1,14 +1,11 @@
-import {
-  Badge,
-  Button,
-  Card,
-  Flex,
-  Select,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { Card, Text } from "@mantine/core";
 import { IFormCard } from "../../interfaces/IFormCard";
 import FormCardService from "../../service/FormCardService";
+import DirectorySetup from "../Inputs/directorySetup";
+import EventButtons from "../Inputs/eventButtons";
+import FormBadges from "../Inputs/formBadges";
+import SongDataDisplay from "../Inputs/songDataDisplay";
+import TextFields from "../Inputs/textFields";
 
 function FormCard(props: IFormCard) {
   const {
@@ -23,15 +20,8 @@ function FormCard(props: IFormCard) {
   } = props;
 
   const {
-    leftSide,
-    rightSide,
-    accessToken,
-    allPaths,
     pathDev,
     pathProj,
-    form,
-    handleSelectDev,
-    handleSelectProj,
     spotifyActions,
     executeScriptRequest,
     getFormValue,
@@ -40,16 +30,14 @@ function FormCard(props: IFormCard) {
   const executeAction = (
     action: string,
     fieldName: string,
-    scriptKey: string,
-    pathDev: string,
-    pathProj: string
+    scriptKey: string
   ) => {
     const formValue = getFormValue(fieldName);
     if (action === "handleGitAction") {
-      executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
-    } else if (action === "handleNPMAction") {
       console.log(pathDev, pathProj);
-      executeScriptRequest(scriptKey, "", [pathDev, pathProj]);
+      executeScriptRequest(scriptKey, formValue);
+    } else if (action === "handleNPMAction") {
+      executeScriptRequest(scriptKey, "");
     } else spotifyActions(action, formValue);
   };
 
@@ -67,141 +55,14 @@ function FormCard(props: IFormCard) {
         <Card.Section bg={color} style={{ padding: "21px" }}>
           <Text fw={500}> {title} </Text>
           <hr />
-          {pathNeeded != undefined && pathNeeded ? (
-            <>
-              <Select
-                key={"pathDev"}
-                label="path to my DevHelps"
-                placeholder="Pick value"
-                value={pathDev}
-                onChange={(e: string | null) => handleSelectDev(e)}
-                data={allPaths}
-              />
-              <Select
-                key={"pathProj"}
-                label="path your Project"
-                placeholder="Pick value"
-                value={pathProj}
-                onChange={(e: string | null) => handleSelectProj(e)}
-                data={allPaths}
-              />
-              {/* <TextInput name="newPath" {...form.getInputProps("newPath")} />
-              <Button
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleAddingPath("newPath");
-                }}
-              >
-                Add Path
-              </Button> */}
-            </>
-          ) : (
-            <></>
-          )}
-          <Flex
-            gap="sm"
-            justify="center"
-            align="flex-end"
-            direction="row"
-            wrap="wrap"
-          >
-            {badges?.map((badge) => (
-              <>
-                <Badge
-                  key={badge.key}
-                  size="xl"
-                  variant="gradient"
-                  gradient={
-                    accessToken != ""
-                      ? { from: "green", to: "green", deg: 90 }
-                      : { from: "red", to: "red", deg: 90 }
-                  }
-                >
-                  {badge.name}
-                </Badge>
-              </>
-            ))}
-          </Flex>
-          {songDataDisplay ? (
-            <>
-              <Flex
-                gap="sm"
-                justify="center"
-                align="center"
-                direction="row"
-                wrap="wrap"
-                style={{ width: "88%" }}
-                className="scrollbar-hidden-container"
-              >
-                <pre>{leftSide}</pre>
-                <pre>{rightSide}</pre>
-              </Flex>
-              <hr />
-            </>
-          ) : (
-            <></>
-          )}
-          <br />
-          <Flex
-            gap="sm"
-            justify="center"
-            align="flex-end"
-            direction="row"
-            wrap="wrap"
-          >
-            {eventButtons?.map((button) => (
-              <>
-                <Button
-                  key={button.key}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    executeAction(
-                      button.action,
-                      button.key,
-                      button.key,
-                      pathDev,
-                      pathProj ?? ""
-                    );
-                  }}
-                >
-                  {button.label}
-                </Button>
-              </>
-            ))}
-          </Flex>
-          {textFields?.map((field) => (
-            <div key={field.key}>
-              <hr />
-              <Flex
-                gap="sm"
-                justify="space-around"
-                align="flex-end"
-                direction="row"
-                wrap="wrap"
-              >
-                <TextInput
-                  label={field.label}
-                  {...form.getInputProps(field.name)}
-                  placeholder={field.placeholder}
-                />
-
-                <Button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    executeAction(
-                      field.button.action,
-                      field.name,
-                      field.button.key,
-                      pathDev,
-                      pathProj ?? ""
-                    );
-                  }}
-                >
-                  {field.button.label}
-                </Button>
-              </Flex>
-            </div>
-          ))}
+          <DirectorySetup pathNeeded={pathNeeded} />
+          <FormBadges badges={badges} />
+          <SongDataDisplay songDataDisplay={songDataDisplay} />
+          <EventButtons
+            eventButtons={eventButtons}
+            executeAction={executeAction}
+          />
+          <TextFields textFields={textFields} executeAction={executeAction} />
         </Card.Section>
       </Card>
     </>

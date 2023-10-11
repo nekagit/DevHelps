@@ -20,7 +20,7 @@ function FormCardService() {
       ...Helpers().getInitialObject(spotCard.data.textFields),
     },
   });
-
+  console.log(pathDev, "pahtDev", pathProj, "PathProj");
   const {
     loginSpotDoc,
     logCurrentlyPlayedTrack,
@@ -48,18 +48,19 @@ function FormCardService() {
   }, [currentSong, spotifyApi]);
 
   const handleSelectDev = (e: string | null) => {
+    console.log(e);
     setPathDev(e ?? "");
   };
   const handleSelectProj = (e: string | null) => {
+    console.log(e);
+
     setPathProj(e ?? "");
   };
 
   const executeScriptRequest = async (
     scriptName: string,
-    scriptParameter: string,
-    paths: string[]
+    scriptParameter: string
   ) => {
-    console.log(paths[0]);
     try {
       await fetch("http://localhost:3000/execute-script", {
         method: "POST",
@@ -69,8 +70,8 @@ function FormCardService() {
         body: JSON.stringify({
           scriptName: scriptName,
           scriptParameters: scriptParameter,
-          pathDev: paths[0],
-          pathProj: paths[1],
+          pathDev: pathDev,
+          pathProj: pathProj,
         }),
       });
     } catch (error) {
@@ -106,11 +107,6 @@ function FormCardService() {
     return Object.values(form.values)[formFieldIndex];
   };
 
-  const handleAddingPath = (fieldName: string) => {
-    const formValue = getFormValue(fieldName);
-    console.log(formValue);
-  };
-
   return {
     handleSelectDev,
     handleSelectProj,
@@ -123,7 +119,6 @@ function FormCardService() {
     spotifyActions,
     executeScriptRequest,
     getFormValue,
-    handleAddingPath,
     leftSide,
     rightSide,
     accessToken,

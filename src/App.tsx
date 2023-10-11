@@ -8,16 +8,7 @@ function App() {
   const { GitHubCard, SpotifyCard } = appTs();
   const [sizes, setSizes] = useState([1000, 1000, 500]);
   const customSashRenderer = () => {
-    return (
-      <div
-        className="custom-sash"
-        style={{
-          background: "black",
-          width: "4px",
-          cursor: "col-resize",
-        }}
-      />
-    );
+    return <div className="custom-sash" />;
   };
 
   return (

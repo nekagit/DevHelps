@@ -8,7 +8,7 @@ REM Stage all changes, including new files
 git add --all
 
 REM Get the commit message from the command line argument (e.g., 'My commit message')
-SET commitMessage=%1
+SET commitMessage=%2
 
 REM Check if a commit message was provided
 IF "%commitMessage%"=="" (

@@ -9,7 +9,7 @@ REM Attempt to checkout 'develop'
 git checkout develop 2>nul
 
 REM Get the new branch name from the command line argument (e.g., 'new-branch-name')
-SET newBranchName=%1
+SET newBranchName=%2
 echo %newBranchName%
 
 REM Check if newBranchName is not empty

@@ -9,7 +9,7 @@ IF NOT "%currentBranch%"=="develop" (
 ) 
 
 REM Get the new branch name from the command line argument (e.g., 'new-branch-name')
-SET checkoutBranch=%1
+SET checkoutBranch=%2
 echo %checkoutBranch%
 
 REM Attempt to checkout 'branch'

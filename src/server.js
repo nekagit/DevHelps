@@ -41,6 +41,7 @@ app.post("/execute-script", async (req, res) => {
     });
   }
 });
+
 const executeScriptsSequentially = async (scriptName, scriptParameter, pathDev,pathProj) => {
   const gitCommand = `start cmd /c "cd /d ${pathDev}\\src\\scripts && ${scriptName} ${pathProj} ${scriptParameter} && pause"`;
   const npmCommand = `start cmd /c "cd /d ${pathDev}\\src\\scripts && ${scriptName} ${pathProj} ${scriptParameter} && pause"`;
@@ -57,8 +58,6 @@ const executeScriptsSequentially = async (scriptName, scriptParameter, pathDev,p
     });
   });
 };
-// C:\Users\Nenad\Desktop\DevsHelp\DevHelps\src
-
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import {
   default as ArtistObjectSimplified,
   default as SpotifyWebApi,
@@ -46,6 +46,20 @@ function useSpotifyService(): IUseSpotifyService {
       setAccessToken(storageAccessToken);
     }
   }, [spotifyApi, accessToken]);
+
+  const { leftSide, rightSide } = useMemo(() => {
+    const { result, resultArray } =
+      SpotifyHelpers(spotifyApi).formatSongData(currentSong);
+    return {
+      result,
+      leftSide: resultArray
+        .slice(0, resultArray.length / 2)
+        .map((x) => x + "\n"),
+      rightSide: resultArray
+        .slice(resultArray.length / 2, resultArray.length - 1)
+        .map((x) => x + "\n"),
+    };
+  }, [currentSong, spotifyApi]);
 
   const handleRefreshToken = () => {
     localStorage.removeItem("access_token");
@@ -98,7 +112,7 @@ function useSpotifyService(): IUseSpotifyService {
             const artists = track.artists
               .map((artist) => artist.name)
               .join(", ");
-            setCurrentSong({
+            const song = {
               name: track.name,
               artists: artists,
               albumId: track.album.id,
@@ -106,7 +120,9 @@ function useSpotifyService(): IUseSpotifyService {
               albumType: track.album.type,
               releaseDate: track.album.release_date,
               artist: track.artists as unknown as ArtistObjectSimplified,
-            });
+            };
+            console.log(song);
+            setCurrentSong(song);
           }
         } else {
           console.log("No track is currently playing.");
@@ -126,7 +142,8 @@ function useSpotifyService(): IUseSpotifyService {
     currentSong,
     loginSpotDoc,
     handleRefreshToken,
-    spotifyApi,
+    leftSide,
+    rightSide,
   };
 }
 

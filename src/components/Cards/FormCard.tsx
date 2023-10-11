@@ -53,12 +53,14 @@ function FormCard(props: IFormCard) {
     scriptKey: string
   ) => {
     const formValue = getFormValue(fieldName);
-    console.log(fieldName, formValue, scriptKey);
     if (action === "handleGitAction") {
       executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
     } else if (action === "handleNPMAction") {
       executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
-    } else spotifyActions(action, formValue);
+    } else {
+      console.log(fieldName, formValue, scriptKey, action);
+      spotifyActions(action, formValue);
+    }
   };
 
   return (

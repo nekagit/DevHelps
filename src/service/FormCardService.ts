@@ -1,6 +1,4 @@
-import { useMemo } from "react";
 import paths from "../assets/paths.json";
-import { SpotifyHelpers } from "../helpers/SpotifyHelpers";
 import { useSpotifyService } from "./SpotifyService";
 const allPaths = Object.values(paths);
 
@@ -14,24 +12,7 @@ function FormCardService() {
     playSongByName,
     playAlbumById,
     handleRefreshToken,
-    accessToken,
-    currentSong,
-    spotifyApi,
   } = spotifyService;
-
-  const { leftSide, rightSide } = useMemo(() => {
-    const { result, resultArray } =
-      SpotifyHelpers(spotifyApi).formatSongData(currentSong);
-    return {
-      result,
-      leftSide: resultArray
-        .slice(0, resultArray.length / 2)
-        .map((x) => x + "\n"),
-      rightSide: resultArray
-        .slice(resultArray.length / 2, resultArray.length - 1)
-        .map((x) => x + "\n"),
-    };
-  }, [currentSong, spotifyApi]);
 
   const executeScriptRequest = async (
     scriptName: string,
@@ -87,9 +68,6 @@ function FormCardService() {
     handleRefreshToken,
     spotifyActions,
     executeScriptRequest,
-    leftSide,
-    rightSide,
-    accessToken,
     allPaths,
   };
 }

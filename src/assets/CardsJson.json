@@ -16,7 +16,7 @@
             "placeholder": "Fill in Name of Branch to be created",
             "button": {
               "action": "handleGitAction",
-              "name": "Create Button",
+              "name": "createBranch",
               "key": "create-branch.bat",
               "label": "Create"
             }
@@ -28,7 +28,7 @@
             "placeholder": "Fill in Name of Branch to be synchronized with main",
             "button": {
               "action": "handleGitAction",
-              "name": "Sync Button",
+              "name": "syncBranch",
               "key": "sync-develop.bat",
               "label": "Sync"
             }
@@ -40,7 +40,7 @@
             "placeholder": "Fill in a Message for Branch commit",
             "button": {
               "action": "handleGitAction",
-              "name": "Commit Button",
+              "name": "commitBranch",
               "key": "commit.bat",
               "label": "Commit"
             }
@@ -52,7 +52,7 @@
             "placeholder": "Fill in Name of Branch to checkout",
             "button": {
               "action": "handleGitAction",
-              "name": "Checkout Button",
+              "name": "checkoutBranch",
               "key": "checkoutBranch.bat",
               "label": "Checkout"
             }
@@ -85,7 +85,7 @@
             "button": {
               "action": "playSongByName",
               "key": "playButton",
-              "name": "Play by Song Name",
+              "name": "playBySongName",
               "label": "Play"
             }
           },
@@ -97,7 +97,7 @@
             "button": {
               "action": "playAlbumById",
               "key": "playButton",
-              "name": "Play by Album Id",
+              "name": "playByAlbumId",
               "label": "Play"
             }
           }
@@ -155,7 +155,7 @@
             "placeholder": "Fill in Name of Package to be installed",
             "button": {
               "action": "handleNPMAction",
-              "name": "Install Button",
+              "name": "npmInstallPackage",
               "key": "npm-install-package.bat",
               "label": "Install"
             }

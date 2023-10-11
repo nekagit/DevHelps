@@ -4,7 +4,7 @@ import FormCardService from "../../service/FormCardService";
 
 interface IProps {
   textFields?: ITextField[];
-  executeAction: (action: string, script: string, key: string) => void;
+  executeAction: (action: string, name: string, key: string) => void;
 }
 
 function TextFields(props: IProps) {
@@ -33,7 +33,7 @@ function TextFields(props: IProps) {
                 e.preventDefault();
                 executeAction(
                   field.button.action,
-                  field.name,
+                  field.button.name,
                   field.button.key
                 );
               }}

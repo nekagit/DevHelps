@@ -23,7 +23,7 @@ function EventButtons(props: IProps) {
               key={button.key}
               onClick={(e) => {
                 e.preventDefault();
-                executeAction(button.action, button.key, button.key);
+                executeAction(button.action, button.name, button.key);
               }}
             >
               {button.label}

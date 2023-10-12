@@ -25,5 +25,5 @@ echo %branchName%
 REM Merge with 'develop'
 git merge develop 2>nul
 git push
-
+pause
 

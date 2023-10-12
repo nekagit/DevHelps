@@ -11,7 +11,6 @@ If NOT "%current_branch%"=="develop" (
 
 REM Attempt to checkout 'develop or master'
 git checkout develop 2>nul
-git checkout master 2>nul
 
 REM Sync with the 'develop' branch (pull changes)
 git pull
@@ -22,7 +21,6 @@ git checkout %branchName% 2>nul
 echo %branchName%
 
 REM Merge with 'develop'
-git merge master 2>nul
 git merge develop 2>nul
 git push
 REM Exit the batch script

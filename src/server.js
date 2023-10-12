@@ -41,15 +41,10 @@ app.post("/execute-script", async (req, res) => {
     });
   }
 });
-const executeScriptsSequentially = async (scriptName, scriptParameter, targetPath) => {
- 
-  const scriptPath = path.join(
-    targetPath + "\\src\\scripts",
-    scriptName
-  );
 
-  const gitCommand =  `cd /d ${targetPath} && start cmd /K "${scriptPath} ${scriptParameter}"`
-  const npmCommand =  `cd /d ${targetPath}\\src\\scripts && start cmd /K` + scriptName + " " + targetPath
+const executeScriptsSequentially = async (scriptName, scriptParameter, pathDev,pathProj) => {
+  const gitCommand = `start cmd /c "cd /d ${pathDev}\\src\\scripts && ${scriptName} ${pathProj} ${scriptParameter} && pause"`;
+  const npmCommand = `start cmd /c "cd /d ${pathDev}\\src\\scripts && ${scriptName} ${pathProj} ${scriptParameter} && pause"`;
   const finalCommand = scriptName.startsWith("npm") ?  npmCommand : gitCommand
   console.log(finalCommand, "scriptParameter", scriptParameter)
   await new Promise((resolve, reject) => {

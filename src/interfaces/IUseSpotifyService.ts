@@ -1,7 +1,4 @@
-import {
-  default as ArtistObjectSimplified,
-  default as SpotifyWebApi,
-} from "spotify-web-api-node";
+import { default as ArtistObjectSimplified } from "spotify-web-api-node";
 export interface IUseSpotifyService {
   logCurrentlyPlayedTrack: () => Promise<void>;
   accessToken: string | null;
@@ -11,7 +8,8 @@ export interface IUseSpotifyService {
   playAlbumById: (id: string) => Promise<void>;
   loginSpotDoc: () => void;
   handleRefreshToken: () => void;
-  spotifyApi: SpotifyWebApi;
+  leftSide: string[];
+  rightSide: string[];
 }
 
 export interface IUseSpotifyCurrentSong {

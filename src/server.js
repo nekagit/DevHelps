@@ -2,7 +2,6 @@ import { exec } from "child_process";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
-import path from "path";
 
 
 const app = express();
@@ -18,16 +17,16 @@ app.use(cookieParser());
 
 app.post("/execute-script", async (req, res) => {
   try {
-    const { scriptName, scriptParameters, path: targetPath } = req.body;
+    const { scriptName, scriptParameters, pathDev, pathProj } = req.body;
     if (scriptParameters != undefined) {
       const scriptParameterss = Array.isArray(scriptParameters)
         ? scriptParameters
         : scriptParameters.split(",");
       for (const scriptParameter of scriptParameterss) {
-        await executeScriptsSequentially(scriptName, scriptParameter, targetPath);
+        await executeScriptsSequentially(scriptName, scriptParameter, pathDev, pathProj);
       }
     } else {
-      await executeScriptsSequentially(scriptName, "", targetPath);
+      await executeScriptsSequentially(scriptName, "", pathDev, pathProj);
     }
 
     res.status(200).json({
@@ -49,21 +48,21 @@ const executeScriptsSequentially = async (scriptName, scriptParameter, targetPat
     scriptName
   );
 
-  const gitCommand =  `cd /d " C:\\Users\\NenadKalicanin\\Desktop\\Git\\DevsHelp\\DevHelps" && start cmd /K "${scriptPath} ${scriptParameter}"`
-  const npmCommand =  `cd /d " C:\\Users\\NenadKalicanin\\Desktop\\Git\\DevsHelp\\DevHelps\\src\\scripts && start cmd /K ` + scriptName + " " + targetPath
+  const gitCommand =  `cd /d ${targetPath} && start cmd /K "${scriptPath} ${scriptParameter}"`
+  const npmCommand =  `cd /d ${targetPath}\\src\\scripts && start cmd /K` + scriptName + " " + targetPath
   const finalCommand = scriptName.startsWith("npm") ?  npmCommand : gitCommand
-   await new Promise((resolve, reject) => {
+  console.log(finalCommand, "scriptParameter", scriptParameter)
+  await new Promise((resolve, reject) => {
     exec(finalCommand, (error) => {
       if (error) {
         reject(`Error executing script: ${error.message}`);
       } else {
+        console.log("resolved")
         resolve();
       }
     });
   });
 };
-
-
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

@@ -1,5 +1,4 @@
-@echo off
-
+cd /d %1
 REM Get the current branch name
 FOR /F %%i IN ('git rev-parse --abbrev-ref HEAD') DO SET currentBranch=%%i
 
@@ -12,6 +11,5 @@ IF NOT "%currentBranch%"=="develop" (
   git push
 ) 
 
-REM Exit the batch script
-exit
-taskkill /F /PID %PROCESSID%
+
+

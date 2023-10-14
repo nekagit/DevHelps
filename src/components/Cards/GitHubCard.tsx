@@ -5,6 +5,8 @@ import { ITextField } from "../../interfaces/ITextField";
 import FormCard from "./FormCard";
 
 function GitHubCard() {
+  console.log("render")
+
   const gitHubCard = CardsJson.AllCards[0];
   const githubFormCard: IFormCard = {
     title: gitHubCard.name,

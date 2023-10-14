@@ -2,7 +2,8 @@ import { IUseSpotifyCurrentSong } from "../interfaces/IUseSpotifyService";
 
 export const SpotifyHelpers = () => {
   const formatSongData = (songJson: IUseSpotifyCurrentSong) => {
-    const songKeys = Object.keys(songJson);
+  console.log("render")
+  const songKeys = Object.keys(songJson);
     const songValue = Object.values(songJson);
     const songs = songKeys.map((x, i) => ({ [x]: songValue[i] }));
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

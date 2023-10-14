@@ -3,10 +3,16 @@ import { IBadge } from "../../interfaces/IBadge";
 import { useSpotifyService } from "../../service/SpotifyService";
 interface IProps {
   badges?: IBadge[];
+  accessToken:string;
 }
-function FormBadges(props: IProps) {
-  const { badges } = props;
-  const { accessToken } = useSpotifyService();
+  console.log("render")
+  function FormBadges(props: IProps) {
+  const { badges, accessToken } = props;
+  const setConditions = () =>{
+    badges?.map(x => x.key == "accessToken" ? x.condition = accessToken.length > 1 : x)
+  }
+  console.log(accessToken)
+  setConditions()
   return (
     <>
       <Flex
@@ -23,7 +29,7 @@ function FormBadges(props: IProps) {
               size="xl"
               variant="gradient"
               gradient={
-                accessToken != ""
+                badge.condition
                   ? { from: "green", to: "green", deg: 90 }
                   : { from: "red", to: "red", deg: 90 }
               }

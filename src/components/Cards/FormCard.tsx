@@ -16,9 +16,9 @@ const spotCard = CardsJson.AllCards[1];
 const npmCard = CardsJson.AllCards[2];
 
 function FormCard(props: IFormCard) {
+  console.log("render")
   const [pathDev, setPathDev] = useState("");
   const [pathProj, setPathProj] = useState("");
-  const { spotifyActions, executeScriptRequest } = FormCardService();
   const form = useForm({
     initialValues: {
       path: "",
@@ -37,6 +37,9 @@ function FormCard(props: IFormCard) {
     pathNeeded,
     songDataDisplay,
   } = props;
+  const { spotifyActions, 
+    executeScriptRequest,
+     allPaths, leftSide, rightSide, accessToken } = FormCardService();
 
   const getFormValue = (fieldName: string) => {
     console.log(form.values, fieldName);
@@ -81,9 +84,10 @@ function FormCard(props: IFormCard) {
             pathProj={pathProj}
             setPathDev={setPathDev}
             setPathProj={setPathProj}
+            allPaths={allPaths}
           />
-          <FormBadges badges={badges} />
-          <SongDataDisplay songDataDisplay={songDataDisplay} />
+          <FormBadges badges={badges} accessToken={accessToken} />
+          <SongDataDisplay songDataDisplay={songDataDisplay} leftSide={leftSide} rightSide={rightSide} />
           <EventButtons
             eventButtons={eventButtons}
             executeAction={executeAction}

@@ -131,7 +131,7 @@
         ],
         "badges": [
           {
-            "key": "loggedIn",
+            "key": "accessToken",
             "name": "Login Status",
             "label": "Login Status",
             "condition": false

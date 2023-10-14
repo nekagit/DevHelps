@@ -3,117 +3,88 @@ import {
   default as ArtistObjectSimplified,
   default as SpotifyWebApi,
 } from "spotify-web-api-node";
-import spotifyCredentials from "../assets/SpotifyCredentials.json";
 import { SpotifyHelpers } from "../helpers/SpotifyHelpers";
 import {
   IUseSpotifyCurrentSong,
   IUseSpotifyService,
 } from "../interfaces/IUseSpotifyService";
+import spotifyCredentials from "../assets/SpotifyCredentials.json";
 
+const { clientId, redirectUri, clientSecret,scope } = spotifyCredentials;
+const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token&show_dialog=true`;
 function useSpotifyService(): IUseSpotifyService {
-  const { clientId, clientSecret, redirectUri, scope } = spotifyCredentials;
-  const [accessToken, setAccessToken] = React.useState("");
-  const [currentSong, setCurrentSong] = React.useState<IUseSpotifyCurrentSong>({
-    name: "",
-    artists: "",
-    albumId: "",
-    albumName: "",
-    albumType: "",
-    releaseDate: "",
-    artist: {} as unknown as ArtistObjectSimplified,
-  });
-  const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token&show_dialog=true`;
 
-  const spotifyApi: SpotifyWebApi = React.useMemo(() => {
+const windowsUrlTokenizer = () => {
+  const windowsUrlToken = window.location.hash.match(/access_token=([^&]*)/);
+  if (windowsUrlToken) {
+    const token = windowsUrlToken[1];
+    console.warn("token with url", token);
+    if (token != "") localStorage.setItem("access_token", token);
+    window.history.replaceState({}, document.title, window.location.pathname);
+  } else {
+     localStorage.setItem("access_token", "");
+      console.log("no access token")
+  }
+};
+
+ useEffect(() => {
+  const currentToken = localStorage.getItem("access_token") ?? ""
+  console.log(currentToken)
+  if(currentToken != "") {
+    console.log("status quo, accessToken")
+  } else {
+    windowsUrlTokenizer();
+    const storageAccessToken = localStorage.getItem("access_token") ?? "";
+    console.log("windowUrltokenizeser", storageAccessToken)
+  }
+}, []);
+
+const accessToken = useMemo(() => {
+  return localStorage.getItem("access_token") != null ? localStorage.getItem("access_token") : ""
+}, [])
+const goOutAccessToken = accessToken != null ? accessToken : ""
+  const spotifyApi: SpotifyWebApi = useMemo(() => {
     return new SpotifyWebApi({
       clientId: clientId,
       clientSecret: clientSecret,
       redirectUri: redirectUri,
-      accessToken: accessToken ?? "",
+      accessToken: goOutAccessToken 
     });
-  }, [accessToken, clientId, clientSecret, redirectUri]);
+  }, []);
 
-  useEffect(() => {
-    const storageAccessToken = localStorage.getItem("access_token");
-    if (storageAccessToken == null) {
-      const spotifyAccessToken = spotifyApi.getAccessToken();
-      if (spotifyAccessToken == "") {
-        windowsUrlTokenizer();
-      } else {
-        setAccessToken(spotifyAccessToken ?? "");
-      }
-    } else {
-      setAccessToken(storageAccessToken);
-    }
-  }, [spotifyApi, accessToken]);
 
-  const windowsUrlTokenizer = () => {
-    const windowsUrlToken = window.location.hash.match(/access_token=([^&]*)/);
-    if (windowsUrlToken) {
-      const token = windowsUrlToken[1];
-      spotifyApi.setAccessToken(token);
-      const newToken = spotifyApi.getAccessToken();
-      console.warn("token set with url", newToken);
-      if (newToken) localStorage.setItem("access_token", newToken);
-      window.history.replaceState({}, document.title, window.location.pathname);
-    } else {
-      const accessToken = spotifyApi.getAccessToken();
-      console.warn("accessToken", accessToken);
-      if (accessToken) localStorage.setItem("access_token", accessToken);
-    }
-  };
+  const [currentSong, setCurrentSong] = React.useState<IUseSpotifyCurrentSong>();
 
-  const handleRefreshToken = () => {
-    localStorage.removeItem("access_token");
-    setAccessToken("");
-    spotifyApi.setAccessToken("");
-  };
-
-  const loginSpotDoc = () => {
-    window.location.href = spotifyLoginUrl;
-  };
-
-  const nextSong = () => {
-    spotifyApi.skipToNext();
-  };
-
-  const playSongByName = async (name: string) => {
-    const searchResults = await spotifyApi.searchTracks(name, {
-      limit: 1,
-    });
-    if (
-      searchResults.body.tracks &&
-      searchResults.body.tracks.items.length > 0
-    ) {
-      const firstResult = searchResults.body.tracks.items[0];
-      const trackUri = firstResult.uri;
-      await spotifyApi.play({
-        uris: [trackUri],
-      });
-      console.log(`Now playing: ${firstResult.name}`);
-    } else {
-      console.log("No matching songs found.");
-    }
-  };
-
-  const playAlbumById = async (id: string) => {
-    await spotifyApi.play({
-      context_uri: `spotify:album:${id}`,
-    });
-  };
+  
+  const { leftSide, rightSide } = useMemo(() => {
+    const { result,  resultArray } = SpotifyHelpers().formatSongData(currentSong ?? {} as IUseSpotifyCurrentSong);
+   if( result && resultArray) {
+     console.log("current song ", result,resultArray )
+     return {
+       result,
+       leftSide: resultArray
+       .slice(0, resultArray.length / 2)
+       .map((x) => x + "\n"),
+       rightSide: resultArray
+       .slice(resultArray.length / 2, resultArray.length - 1)
+       .map((x) => x + "\n"),
+      };
+    }else return {result: "", leftSide: [""], rightSide: [""]}
+    }, [currentSong]);
 
   const logCurrentlyPlayedTrack = async () => {
+    console.log("logCurrentSong")
     spotifyApi
-      .getMyCurrentPlayingTrack()
-      .then((data) => {
+    .getMyCurrentPlayingTrack()
+    .then((data) => {
         if (data.body.is_playing) {
           const track: SpotifyApi.TrackObjectFull = data.body
-            .item as SpotifyApi.TrackObjectFull;
+          .item as SpotifyApi.TrackObjectFull;
           if (track) {
             const artists = track.artists
               .map((artist) => artist.name)
               .join(", ");
-            const song = {
+              const song = {
               name: track.name,
               artists: artists,
               albumId: track.album.id,
@@ -131,17 +102,59 @@ function useSpotifyService(): IUseSpotifyService {
       .catch((error) => {
         console.error("Error playing next song:", error);
       });
-  };
-
-  return {
-    logCurrentlyPlayedTrack,
-    accessToken,
-    nextSong,
-    playSongByName,
-    playAlbumById,
-    currentSong,
-    loginSpotDoc,
-    handleRefreshToken
+    };
+    
+      const handleRefreshToken = () => {
+        localStorage.removeItem("access_token");
+        spotifyApi.setAccessToken("");
+      };
+    
+      const loginSpotDoc = () => {
+        window.location.href = spotifyLoginUrl;
+      };
+      
+    
+    const nextSong = () => {
+      spotifyApi.skipToNext();
+    };
+    
+    const playSongByName = async (name: string) => {
+      const searchResults = await spotifyApi.searchTracks(name, {
+        limit: 1,
+        });
+        if (
+          searchResults.body.tracks &&
+          searchResults.body.tracks.items.length > 0
+        ) {
+          const firstResult = searchResults.body.tracks.items[0];
+          const trackUri = firstResult.uri;
+          await spotifyApi.play({
+            uris: [trackUri],
+          });
+          console.log(`Now playing: ${firstResult.name}`);
+        } else {
+          console.log("No matching songs found.");
+        }
+      };
+    
+      const playAlbumById = async (id: string) => {
+        await spotifyApi.play({
+          context_uri: `spotify:album:${id}`,
+        });
+      };
+    
+    return {
+      windowsUrlTokenizer,
+      nextSong,
+      logCurrentlyPlayedTrack,
+      playSongByName,
+      playAlbumById,
+      currentSong,
+      loginSpotDoc,
+      handleRefreshToken,
+      leftSide,
+      rightSide,
+      accessToken: goOutAccessToken 
   };
 }
 

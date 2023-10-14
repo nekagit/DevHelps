@@ -7,10 +7,12 @@ interface IProps {
   setPathProj: React.Dispatch<React.SetStateAction<string>>;
   pathDev: string;
   pathProj: string;
+  allPaths: string[];
 }
+
 function DirectorySetup(props: IProps) {
-  const { pathNeeded, setPathDev, setPathProj, pathDev, pathProj } = props;
-  const { allPaths } = FormCardService();
+  console.log("render")
+  const { pathNeeded, setPathDev, setPathProj, pathDev, pathProj, allPaths } = props;
 
   const handleSelectDev = (e: string | null) => {
     if (e != null) setPathDev(e);

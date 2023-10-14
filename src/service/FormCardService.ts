@@ -1,3 +1,4 @@
+import SpotifyWebApi from "spotify-web-api-node";
 import paths from "../assets/paths.json";
 import { useSpotifyService } from "./SpotifyService";
 const allPaths = Object.values(paths);
@@ -12,6 +13,9 @@ function FormCardService() {
     playSongByName,
     playAlbumById,
     handleRefreshToken,
+    leftSide,
+    rightSide,
+    accessToken
   } = spotifyService;
 
   const executeScriptRequest = async (
@@ -69,6 +73,9 @@ function FormCardService() {
     spotifyActions,
     executeScriptRequest,
     allPaths,
+    leftSide,
+    rightSide,
+    accessToken
   };
 }
 export default FormCardService;

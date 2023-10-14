@@ -5,6 +5,8 @@ import { ITextField } from "../../interfaces/ITextField";
 import FormCard from "./FormCard";
 
 function NPMCard() {
+  console.log("render")
+
   const npmCard = CardsJson.AllCards[2];
   const npmFormCard: IFormCard = {
     title: npmCard.name,

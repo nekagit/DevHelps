@@ -6,7 +6,8 @@ interface IProps {
   executeAction: (action: string, script: string, key: string) => void;
 }
 
-function EventButtons(props: IProps) {
+  console.log("render")
+  function EventButtons(props: IProps) {
   const { eventButtons, executeAction } = props;
   return (
     <>

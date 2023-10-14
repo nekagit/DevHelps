@@ -1,3 +1,4 @@
+import SpotifyWebApi from "spotify-web-api-node";
 import { IBadge } from "./IBadge";
 import { IEventButton } from "./IEventButton";
 import { ITextField } from "./ITextField";
@@ -12,4 +13,5 @@ export interface IFormCard {
   eventButtons?: IEventButton[];
   badges?: IBadge[];
   songDataDisplay: boolean;
+  apis?: SpotifyWebApi[]
 }

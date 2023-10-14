@@ -16,6 +16,9 @@ const spotCard = CardsJson.AllCards[1];
 const npmCard = CardsJson.AllCards[2];
 
 function FormCard(props: IFormCard) {
+  const [pathDev, setPathDev] = useState("");
+  const [pathProj, setPathProj] = useState("");
+  const { spotifyActions, executeScriptRequest } = FormCardService();
   const form = useForm({
     initialValues: {
       path: "",
@@ -24,16 +27,6 @@ function FormCard(props: IFormCard) {
       ...Helpers().getInitialObject(npmCard.data.textFields),
     },
   });
-  const getFormValue = (fieldName: string) => {
-    console.log(form.values, fieldName);
-    const formFieldIndex = Object.keys(form.values).findIndex(
-      (x) => x == fieldName
-    );
-    return Object.values(form.values)[formFieldIndex];
-  };
-
-  const [pathDev, setPathDev] = useState("");
-  const [pathProj, setPathProj] = useState("");
   const {
     title,
     color,
@@ -45,7 +38,13 @@ function FormCard(props: IFormCard) {
     songDataDisplay,
   } = props;
 
-  const { spotifyActions, executeScriptRequest } = FormCardService();
+  const getFormValue = (fieldName: string) => {
+    console.log(form.values, fieldName);
+    const formFieldIndex = Object.keys(form.values).findIndex(
+      (x) => x == fieldName
+    );
+    return Object.values(form.values)[formFieldIndex];
+  };
 
   const executeAction = (
     action: string,
@@ -58,7 +57,6 @@ function FormCard(props: IFormCard) {
     } else if (action === "handleNPMAction") {
       executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
     } else {
-      console.log(fieldName, formValue, scriptKey, action);
       spotifyActions(action, formValue);
     }
   };

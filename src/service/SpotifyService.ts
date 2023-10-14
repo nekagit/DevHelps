@@ -38,7 +38,7 @@ function useSpotifyService(): IUseSpotifyService {
     if (storageAccessToken == null) {
       const spotifyAccessToken = spotifyApi.getAccessToken();
       if (spotifyAccessToken == "") {
-        SpotifyHelpers(spotifyApi).windowsUrlTokenizer();
+        windowsUrlTokenizer();
       } else {
         setAccessToken(spotifyAccessToken ?? "");
       }
@@ -47,19 +47,21 @@ function useSpotifyService(): IUseSpotifyService {
     }
   }, [spotifyApi, accessToken]);
 
-  const { leftSide, rightSide } = useMemo(() => {
-    const { result, resultArray } =
-      SpotifyHelpers(spotifyApi).formatSongData(currentSong);
-    return {
-      result,
-      leftSide: resultArray
-        .slice(0, resultArray.length / 2)
-        .map((x) => x + "\n"),
-      rightSide: resultArray
-        .slice(resultArray.length / 2, resultArray.length - 1)
-        .map((x) => x + "\n"),
-    };
-  }, [currentSong, spotifyApi]);
+  const windowsUrlTokenizer = () => {
+    const windowsUrlToken = window.location.hash.match(/access_token=([^&]*)/);
+    if (windowsUrlToken) {
+      const token = windowsUrlToken[1];
+      spotifyApi.setAccessToken(token);
+      const newToken = spotifyApi.getAccessToken();
+      console.warn("token set with url", newToken);
+      if (newToken) localStorage.setItem("access_token", newToken);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else {
+      const accessToken = spotifyApi.getAccessToken();
+      console.warn("accessToken", accessToken);
+      if (accessToken) localStorage.setItem("access_token", accessToken);
+    }
+  };
 
   const handleRefreshToken = () => {
     localStorage.removeItem("access_token");
@@ -76,7 +78,6 @@ function useSpotifyService(): IUseSpotifyService {
   };
 
   const playSongByName = async (name: string) => {
-    console.log(name);
     const searchResults = await spotifyApi.searchTracks(name, {
       limit: 1,
     });
@@ -121,7 +122,6 @@ function useSpotifyService(): IUseSpotifyService {
               releaseDate: track.album.release_date,
               artist: track.artists as unknown as ArtistObjectSimplified,
             };
-            console.log(song);
             setCurrentSong(song);
           }
         } else {
@@ -141,9 +141,7 @@ function useSpotifyService(): IUseSpotifyService {
     playAlbumById,
     currentSong,
     loginSpotDoc,
-    handleRefreshToken,
-    leftSide,
-    rightSide,
+    handleRefreshToken
   };
 }
 

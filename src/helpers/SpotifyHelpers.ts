@@ -1,23 +1,6 @@
-import SpotifyWebApi from "spotify-web-api-node";
 import { IUseSpotifyCurrentSong } from "../interfaces/IUseSpotifyService";
 
-export const SpotifyHelpers = (spotifyApi: SpotifyWebApi) => {
-  const windowsUrlTokenizer = () => {
-    const windowsUrlToken = window.location.hash.match(/access_token=([^&]*)/);
-    if (windowsUrlToken) {
-      const token = windowsUrlToken[1];
-      spotifyApi.setAccessToken(token);
-      const newToken = spotifyApi.getAccessToken();
-      console.warn("token set with url", newToken);
-      if (newToken) localStorage.setItem("access_token", newToken);
-      window.history.replaceState({}, document.title, window.location.pathname);
-    } else {
-      const accessToken = spotifyApi.getAccessToken();
-      console.warn("accessToken", accessToken);
-      if (accessToken) localStorage.setItem("access_token", accessToken);
-    }
-  };
-
+export const SpotifyHelpers = () => {
   const formatSongData = (songJson: IUseSpotifyCurrentSong) => {
     const songKeys = Object.keys(songJson);
     const songValue = Object.values(songJson);
@@ -32,5 +15,5 @@ export const SpotifyHelpers = (spotifyApi: SpotifyWebApi) => {
     });
     return { result: resultArray.join("\n"), resultArray };
   };
-  return { windowsUrlTokenizer, formatSongData };
+  return { formatSongData };
 };

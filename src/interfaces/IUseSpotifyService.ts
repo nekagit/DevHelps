@@ -8,8 +8,6 @@ export interface IUseSpotifyService {
   playAlbumById: (id: string) => Promise<void>;
   loginSpotDoc: () => void;
   handleRefreshToken: () => void;
-  leftSide: string[];
-  rightSide: string[];
 }
 
 export interface IUseSpotifyCurrentSong {

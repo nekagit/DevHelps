@@ -1,7 +1,7 @@
 import { default as ArtistObjectSimplified } from "spotify-web-api-node";
+import { default as TrackObjectSimplified } from "spotify-web-api-node";
 export interface IUseSpotifyService {
   logCurrentlyPlayedTrack: () => Promise<void>;
-  windowsUrlTokenizer: () => void;
   nextSong: () => void;
   currentSong?: IUseSpotifyCurrentSong;
   playSongByName: (name: string) => Promise<void>;
@@ -10,7 +10,9 @@ export interface IUseSpotifyService {
   handleRefreshToken: () => void;
   leftSide: string[];
   rightSide: string[];
-  accessToken: string;
+  leftSideAlbum?: string[];
+  rightSideAlbum?: string[];
+  accessToken?: string;
   searchArtists: (query: string) => void;
   searchAlbums: (query: string) => void;
   searchPlaylists: (query: string) => void;
@@ -18,15 +20,33 @@ export interface IUseSpotifyService {
   getArtist: (query: string) => void;
   getAlbum: (query: string) => void;
   createPlaylist: (name: string) => void;
-  addTracksToPlaylist: (playlistId: string, trackURI: string[]) => void;
+  addTracksToPlaylist: (formValue: string) => void;
 }
 
 export interface IUseSpotifyCurrentSong {
-  name: string;
-  artists: string;
-  albumId: string;
-  albumName: string;
-  albumType: string;
-  releaseDate: string;
+  name?: string;
+  id?: string;
+  artists?: string;
+  albumId?: string;
+  albumName?: string;
+  albumType?: string;
+  releaseDate?: string;
   artist?: ArtistObjectSimplified;
+}
+
+export interface IUseSpotifyCurrentAlbum {
+  name?: string;
+  id?: string;
+  tracks?: TrackObjectSimplified[];
+}
+
+export interface IUseSpotifyCurrentPlaylist {
+  name?: string;
+  id?: string;
+
+}
+
+export interface IUseSpotifyCurrentArtist {
+  name?: string;
+  id: string;
 }

@@ -14,6 +14,8 @@ function FormCardService() {
     handleRefreshToken,
     leftSide,
     rightSide,
+    leftSideAlbum,
+    rightSideAlbum,
     accessToken,
     createPlaylist,
     getAlbum,
@@ -21,7 +23,8 @@ function FormCardService() {
     searchAlbums,
     searchArtists,
     searchPlaylists,
-    searchTracks
+    searchTracks,
+    addTracksToPlaylist
   } = spotifyService;
 
   const executeScriptRequest = async (
@@ -66,8 +69,12 @@ console.log(action, formValue)
     }
     if (action === "handleRefreshToken") {
       handleRefreshToken();
-    }  if (action === "createPlaylist") {
+    }  
+    if (action === "createPlaylistByName") {
       createPlaylist(formValue);
+    }
+    if (action === "addToTrackToPlaylistByURI") {
+    addTracksToPlaylist(formValue);
     }
     if (action === "getAlbumByAlbumId") {
       getAlbum(formValue);
@@ -101,6 +108,7 @@ console.log(action, formValue)
     allPaths,
     leftSide,
     rightSide,
+    leftSideAlbum, rightSideAlbum,
     accessToken
   };
 }

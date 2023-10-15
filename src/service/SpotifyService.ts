@@ -5,39 +5,23 @@ import {
 } from "spotify-web-api-node";
 import { SpotifyHelpers } from "../helpers/SpotifyHelpers";
 import {
+  IUseSpotifyCurrentAlbum,
   IUseSpotifyCurrentSong,
+  IUseSpotifyCurrentPlaylist,
+  IUseSpotifyCurrentArtist,
   IUseSpotifyService,
 } from "../interfaces/IUseSpotifyService";
 import spotifyCredentials from "../assets/SpotifyCredentials.json";
 
 const { clientId, redirectUri, clientSecret,scope } = spotifyCredentials;
 const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token&show_dialog=true`;
+
 function useSpotifyService(): IUseSpotifyService {
 
-const windowsUrlTokenizer = () => {
-  const windowsUrlToken = window.location.hash.match(/access_token=([^&]*)/);
-  if (windowsUrlToken) {
-    const token = windowsUrlToken[1];
-    console.warn("token with url", token);
-    if (token != "") localStorage.setItem("access_token", token);
-    window.history.replaceState({}, document.title, window.location.pathname);
-  } else {
-     localStorage.setItem("access_token", "");
-      console.log("no access token")
-  }
-};
-
- useEffect(() => {
-  const currentToken = localStorage.getItem("access_token") ?? ""
-  if(currentToken != "") {
-    console.log("status quo, accessToken")
-  } else {
-    windowsUrlTokenizer();
-    const storageAccessToken = localStorage.getItem("access_token") ?? "";
-    console.log("windowUrltokenizeser", storageAccessToken)
-  }
-}, []);
-
+  const [currentSong, setCurrentSong] = React.useState<IUseSpotifyCurrentSong>();
+const [currentAlbumTracks, setCurrentAlbumTracks] = React.useState<IUseSpotifyCurrentAlbum>()
+const [currentPlaylist, setCurrentPlaylist] = React.useState<IUseSpotifyCurrentPlaylist>()
+const [currentArtist, setCurrentArtist] = React.useState<IUseSpotifyCurrentArtist>()
 const accessToken = useMemo(() => {
   return localStorage.getItem("access_token") != null ? localStorage.getItem("access_token") : ""
 }, [])
@@ -52,18 +36,45 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
   });
 }, []);
 
-  const [currentSong, setCurrentSong] = React.useState<IUseSpotifyCurrentSong>();
+useEffect(() => {
+  const currentToken = localStorage.getItem("access_token") ?? ""
+  if(currentToken != "") {
+    console.log("status quo, accessToken")
+  } else {
+    SpotifyHelpers().windowsUrlTokenizer();
+    const storageAccessToken = localStorage.getItem("access_token") ?? "";
+    console.log("windowUrltokenizeser", storageAccessToken)
+
+  }
+}, []);
+
+const { leftSide, rightSide } = useMemo(() => {
+  const { result,  resultArray } = SpotifyHelpers().formatSongData(currentSong ?? {} as IUseSpotifyCurrentSong);
+ if( result && resultArray) {
+   console.log("current song ", result,resultArray )
+   return {
+     result,
+     leftSide: resultArray
+     .slice(0, resultArray.length / 2)
+     .map((x) => x + "\n"),
+     rightSide: resultArray
+     .slice(resultArray.length / 2, resultArray.length - 1)
+     .map((x) => x + "\n"),
+    };
+  } else return {result: "", leftSide: [""], rightSide: [""]}
+  }, [currentSong]);
+
   
-  const { leftSide, rightSide } = useMemo(() => {
-    const { result,  resultArray } = SpotifyHelpers().formatSongData(currentSong ?? {} as IUseSpotifyCurrentSong);
+  const { leftSideAlbum, rightSideAlbum } = useMemo(() => {
+    console.log(currentAlbumTracks, "currentalbumtrakcs")
+    const { result,  resultArray } = SpotifyHelpers().formatSongData(currentAlbumTracks ?? {} as IUseSpotifyCurrentAlbum);
    if( result && resultArray) {
-     console.log("current song ", result,resultArray )
      return {
        result,
-       leftSide: resultArray
+       leftSideAlbum: resultArray
        .slice(0, resultArray.length / 2)
        .map((x) => x + "\n"),
-       rightSide: resultArray
+       rightSideAlbum: resultArray
        .slice(resultArray.length / 2, resultArray.length - 1)
        .map((x) => x + "\n"),
       };
@@ -71,7 +82,6 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
     }, [currentSong]);
 
   const logCurrentlyPlayedTrack = async () => {
-    console.log("logCurrentSong")
     spotifyApi
     .getMyCurrentPlayingTrack()
     .then((data) => {
@@ -84,6 +94,8 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
               .join(", ");
               const song = {
               name: track.name,
+              id: track.id,
+              trackUri: track.uri,
               artists: artists,
               albumId: track.album.id,
               albumName: track.album.name,
@@ -105,6 +117,8 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
       const handleRefreshToken = () => {
         localStorage.removeItem("access_token");
         spotifyApi.setAccessToken("");
+        window.location.reload()
+
       };
     
       const loginSpotDoc = () => {
@@ -115,24 +129,28 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
       spotifyApi.skipToNext();
     };    
 
-    const addTracksToPlaylist = (playlistId: string, tracksToAdd: string[]) => {
-      spotifyApi.addTracksToPlaylist(playlistId, tracksToAdd)
+    const addTracksToPlaylist = async (formValue: string) => {
+      const playlists = await spotifyApi.getUserPlaylists((await spotifyApi.getMe()).body.id).then((data)=>{return data.body.items})
+      const playlist = playlists.find((data) =>
+        {return data.name.toLocaleLowerCase() == formValue.split(",")[0].toLocaleLowerCase()});
+        const playlistId = playlist?.id
+      const tracks = formValue.split(",")
+      tracks.splice(0, 1)
+      spotifyApi.addTracksToPlaylist(playlistId ?? "", tracks)
+    .catch((error) => {
+      console.error("Error playing next song:", error);
+    });;
     };
 
     const createPlaylist = (name: string) => {
-      spotifyApi.createPlaylist(name).then((data) => {
-          console.log(data.body)
-      })
-      .catch((error) => {
-        console.error("Error playing next song:", error);
-      });;
+      spotifyApi.createPlaylist(name)
     }
         
     const getAlbum = (albumId: string) => {
-     console.log(albumId)
       spotifyApi.getAlbum(albumId).then((data) => {
-          console.log(data.body)
-          
+        const body = data.body
+        const currentAlbum = {name: body.name, id: body.id, artists: body.artists, tracks: body.tracks.items}  as unknown as IUseSpotifyCurrentAlbum
+        setCurrentAlbumTracks(currentAlbum)
       })
       .catch((error) => {
         console.error("Error playing next song:", error);
@@ -141,8 +159,10 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
     
     const getArtist = (artistId: string) => {
       spotifyApi.getArtist(artistId).then((data) => {
-          console.log(data.body)
-          
+        const body = data.body
+        const currentArtist = {name: body.name, id: body.id, genres: body.genres }  as unknown as IUseSpotifyCurrentArtist
+        setCurrentArtist(currentArtist)
+        console.log(currentArtist, "data.body")
       })
       .catch((error) => {
         console.error("Error playing next song:", error);
@@ -151,7 +171,6 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
 
     const searchArtists = (query: string) => {
       spotifyApi.searchArtists(query).then((data) => {
-          console.log(data.body)
           
       })
       .catch((error) => {
@@ -161,7 +180,6 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
     
     const searchAlbums = (query: string) => {
       spotifyApi.searchAlbums(query).then((data) => {
-          console.log(data.body)
           
       })
       .catch((error) => {
@@ -171,7 +189,6 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
     
     const searchTracks = (query: string) => {
       spotifyApi.searchTracks(query).then((data) => {
-          console.log(data.body)
           
       })
       .catch((error) => {
@@ -181,7 +198,6 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
     
     const searchPlaylists = (query: string) => {
       spotifyApi.searchPlaylists(query).then((data) => {
-          console.log(data.body)
           
       })
       .catch((error) => {
@@ -215,7 +231,6 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
       };
     
     return {
-      windowsUrlTokenizer,
       nextSong,
       logCurrentlyPlayedTrack,
       playSongByName,
@@ -225,6 +240,8 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
       handleRefreshToken,
       leftSide,
       rightSide,
+      leftSideAlbum,
+      rightSideAlbum,
       searchArtists,
       searchAlbums,
       searchPlaylists,
@@ -238,3 +255,63 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
 }
 
 export { useSpotifyService };
+// {
+//   "key": "getArtistByArtistId",
+//   "label": "Get by Artist Id",
+//   "name": "Show Details of ArtistId",
+//   "placeholder": "Fill in ArtistId of Album to be displayed",
+//   "button": {
+//     "action": "getArtistByArtistId",
+//     "key": "showButton",
+//     "name": "getArtistByArtistId",
+//     "label": "Show"
+//   }
+// },
+// {
+//   "key": "searchArtistByName",
+//   "label": "Search Artist Id",
+//   "name": "Show Details of ArtistId",
+//   "placeholder": "Fill in ArtistId of Album to be displayed",
+//   "button": {
+//     "action": "searchArtistByName",
+//     "key": "searchButton",
+//     "name": "searchArtistByName",
+//     "label": "Search"
+//   }
+// },
+// {
+//   "key": "searchAlbumByName",
+//   "label": "Search Album Id",
+//   "name": "Show Details of AlbumId",
+//   "placeholder": "Fill in AlbumId of Album to be displayed",
+//   "button": {
+//     "action": "searchAlbumByName",
+//     "key": "searchButton",
+//     "name": "searchAlbumByName",
+//     "label": "Search"
+//   }
+// },
+// {
+//   "key": "searchTracksByName",
+//   "label": "Search Track Id",
+//   "name": "Show Details of TrackId",
+//   "placeholder": "Fill in TrackId of Track to be displayed",
+//   "button": {
+//     "action": "searchTracksByName",
+//     "key": "searchButton",
+//     "name": "searchTracksByName",
+//     "label": "Search"
+//   }
+// },
+// {
+//   "key": "searchPlaylistByName",
+//   "label": "Search Playlist Id",
+//   "name": "Show Details of PlaylistId",
+//   "placeholder": "Fill in PlaylistId of Playlist to be displayed",
+//   "button": {
+//     "action": "searchPlaylistByName",
+//     "key": "searchButton",
+//     "name": "searchPlaylistByName",
+//     "label": "Search"
+//   }
+// }

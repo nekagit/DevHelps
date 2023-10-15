@@ -79,7 +79,7 @@
         "textFields": [
           {
             "key": "playBySongName",
-            "label": "Song Name",
+            "label": "Play Song By Name",
             "name": "Play by Song Name",
             "placeholder": "Fill in Name of Song to be played",
             "button": {
@@ -90,9 +90,9 @@
             }
           },
           {
-            "key": "playByArtistId",
-            "label": "Artist Id",
-            "name": "Play by ArtistId",
+            "key": "playByAlbumId",
+            "label": "Play by Album Id",
+            "name": "Play by AlbumId",
             "placeholder": "Fill in ID of Album to be played",
             "button": {
               "action": "playAlbumById",
@@ -102,8 +102,20 @@
             }
           },
           {
+            "key": "addToTrackToPlaylistByURI",
+            "label": "Add Track To by Playlist Id",
+            "name": "Add by Id",
+            "placeholder": "PlaylistId, ...trackIds",
+            "button": {
+              "action": "addToTrackToPlaylistByURI",
+              "key": "addButton",
+              "name": "addToTrackToPlaylistByURI",
+              "label": "Add"
+            }
+          },
+          {
             "key": "createPlaylistByName",
-            "label": "Playlist Name",
+            "label": "create Playlist by Name",
             "name": "Create by Name",
             "placeholder": "Fill in Name of Playlist to be created",
             "button": {
@@ -115,7 +127,7 @@
           },
           {
             "key": "getAlbumByAlbumId",
-            "label": "Album Id",
+            "label": "Get by Album Id",
             "name": "Show Details of AlbumId",
             "placeholder": "Fill in AlbumId of Album to be displayed",
             "button": {
@@ -123,66 +135,6 @@
               "key": "showButton",
               "name": "getAlbumByAlbumId",
               "label": "Show"
-            }
-          },
-          {
-            "key": "getArtistByArtistId",
-            "label": "Artist Id",
-            "name": "Show Details of ArtistId",
-            "placeholder": "Fill in ArtistId of Album to be displayed",
-            "button": {
-              "action": "getArtistByArtistId",
-              "key": "showButton",
-              "name": "getArtistByArtistId",
-              "label": "Show"
-            }
-          },
-          {
-            "key": "searchArtistByName",
-            "label": "Artist Id",
-            "name": "Show Details of ArtistId",
-            "placeholder": "Fill in ArtistId of Album to be displayed",
-            "button": {
-              "action": "searchArtistByName",
-              "key": "searchButton",
-              "name": "searchArtistByName",
-              "label": "Search"
-            }
-          },
-          {
-            "key": "searchAlbumByName",
-            "label": "Album Id",
-            "name": "Show Details of AlbumId",
-            "placeholder": "Fill in AlbumId of Album to be displayed",
-            "button": {
-              "action": "searchAlbumByName",
-              "key": "searchButton",
-              "name": "searchAlbumByName",
-              "label": "Search"
-            }
-          },
-          {
-            "key": "searchTracksByName",
-            "label": "Track Id",
-            "name": "Show Details of TrackId",
-            "placeholder": "Fill in TrackId of Track to be displayed",
-            "button": {
-              "action": "searchTracksByName",
-              "key": "searchButton",
-              "name": "searchTracksByName",
-              "label": "Search"
-            }
-          },
-          {
-            "key": "searchPlaylistByName",
-            "label": "Playlist Id",
-            "name": "Show Details of PlaylistId",
-            "placeholder": "Fill in PlaylistId of Playlist to be displayed",
-            "button": {
-              "action": "searchPlaylistByName",
-              "key": "searchButton",
-              "name": "searchPlaylistByName",
-              "label": "Search"
             }
           }
         ],

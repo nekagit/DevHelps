@@ -39,10 +39,9 @@ function FormCard(props: IFormCard) {
   } = props;
   const { spotifyActions, 
     executeScriptRequest,
-     allPaths, leftSide, rightSide, accessToken } = FormCardService();
+     allPaths, leftSide, rightSide, accessToken, leftSideAlbum, rightSideAlbum } = FormCardService();
 
   const getFormValue = (fieldName: string) => {
-    console.log(form.values, fieldName);
     const formFieldIndex = Object.keys(form.values).findIndex(
       (x) => x == fieldName
     );
@@ -60,7 +59,6 @@ function FormCard(props: IFormCard) {
     } else if (action === "handleNPMAction") {
       executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
     } else {
-      console.log(formValue, "formvalue")
       spotifyActions(action, formValue);
     }
   };
@@ -87,8 +85,8 @@ function FormCard(props: IFormCard) {
             setPathProj={setPathProj}
             allPaths={allPaths}
           />
-          <FormBadges badges={badges} accessToken={accessToken} />
-          <SongDataDisplay songDataDisplay={songDataDisplay} leftSide={leftSide} rightSide={rightSide} />
+          <FormBadges badges={badges} accessToken={accessToken ?? ""} />
+          <SongDataDisplay songDataDisplay={songDataDisplay} leftSide={leftSide} rightSide={rightSide} leftSideAlbum={leftSideAlbum} rightSideAlbum={rightSideAlbum} />
           <EventButtons
             eventButtons={eventButtons}
             executeAction={executeAction}

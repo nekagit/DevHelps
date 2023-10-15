@@ -42,19 +42,18 @@ const windowsUrlTokenizer = () => {
 const accessToken = useMemo(() => {
   return localStorage.getItem("access_token") != null ? localStorage.getItem("access_token") : ""
 }, [])
-const goOutAccessToken = accessToken != null ? accessToken : ""
-  const spotifyApi: SpotifyWebApi = useMemo(() => {
-    return new SpotifyWebApi({
-      clientId: clientId,
-      clientSecret: clientSecret,
-      redirectUri: redirectUri,
-      accessToken: goOutAccessToken 
-    });
-  }, []);
 
+const goOutAccessToken = accessToken != null ? accessToken : ""
+const spotifyApi: SpotifyWebApi = useMemo(() => {
+  return new SpotifyWebApi({
+    clientId: clientId,
+    clientSecret: clientSecret,
+    redirectUri: redirectUri,
+    accessToken: goOutAccessToken 
+  });
+}, []);
 
   const [currentSong, setCurrentSong] = React.useState<IUseSpotifyCurrentSong>();
-
   
   const { leftSide, rightSide } = useMemo(() => {
     const { result,  resultArray } = SpotifyHelpers().formatSongData(currentSong ?? {} as IUseSpotifyCurrentSong);
@@ -69,7 +68,7 @@ const goOutAccessToken = accessToken != null ? accessToken : ""
        .slice(resultArray.length / 2, resultArray.length - 1)
        .map((x) => x + "\n"),
       };
-    }else return {result: "", leftSide: [""], rightSide: [""]}
+    } else return {result: "", leftSide: [""], rightSide: [""]}
     }, [currentSong]);
 
   const logCurrentlyPlayedTrack = async () => {

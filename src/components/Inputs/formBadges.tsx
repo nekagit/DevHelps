@@ -1,6 +1,5 @@
 import { Badge, Flex } from "@mantine/core";
 import { IBadge } from "../../interfaces/IBadge";
-import { useSpotifyService } from "../../service/SpotifyService";
 interface IProps {
   badges?: IBadge[];
   accessToken:string;
@@ -11,19 +10,18 @@ interface IProps {
   const setConditions = () =>{
     badges?.map(x => x.key == "accessToken" ? x.condition = accessToken.length > 1 : x)
   }
-  console.log(accessToken)
   setConditions()
   return (
     <>
       <Flex
         gap="sm"
-        justify="center"
+        justify="space-around"
         align="flex-end"
         direction="row"
         wrap="wrap"
       >
         {badges?.map((badge) => (
-          <>
+          <div key={badge.key}>
             <Badge
               key={badge.key}
               size="xl"
@@ -36,9 +34,9 @@ interface IProps {
             >
               {badge.name}
             </Badge>
-          </>
+            </div>
         ))}
-      </Flex>
+        </Flex>
     </>
   );
 }

@@ -1,4 +1,3 @@
-import SpotifyWebApi from "spotify-web-api-node";
 import paths from "../assets/paths.json";
 import { useSpotifyService } from "./SpotifyService";
 const allPaths = Object.values(paths);
@@ -23,7 +22,6 @@ function FormCardService() {
     scriptParameter: string,
     paths: string[]
   ) => {
-    console.log(scriptParameter);
     try {
       await fetch("http://localhost:3000/execute-script", {
         method: "POST",

@@ -13,13 +13,13 @@ interface IProps {
     <>
       <Flex
         gap="sm"
-        justify="center"
+        justify="space-around"
         align="flex-end"
         direction="row"
         wrap="wrap"
       >
         {eventButtons?.map((button) => (
-          <>
+          <div key={button.key}>
             <Button
               key={button.key}
               onClick={(e) => {
@@ -29,9 +29,9 @@ interface IProps {
             >
               {button.label}
             </Button>
-          </>
+          </div>
         ))}
-      </Flex>
+        </Flex>
     </>
   );
 }

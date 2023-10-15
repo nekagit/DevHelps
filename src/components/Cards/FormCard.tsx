@@ -60,6 +60,7 @@ function FormCard(props: IFormCard) {
     } else if (action === "handleNPMAction") {
       executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
     } else {
+      console.log(formValue, "formvalue")
       spotifyActions(action, formValue);
     }
   };

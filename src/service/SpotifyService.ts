@@ -29,7 +29,6 @@ const windowsUrlTokenizer = () => {
 
  useEffect(() => {
   const currentToken = localStorage.getItem("access_token") ?? ""
-  console.log(currentToken)
   if(currentToken != "") {
     console.log("status quo, accessToken")
   } else {
@@ -114,8 +113,82 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
       
     const nextSong = () => {
       spotifyApi.skipToNext();
+    };    
+
+    const addTracksToPlaylist = (playlistId: string, tracksToAdd: string[]) => {
+      spotifyApi.addTracksToPlaylist(playlistId, tracksToAdd)
+    };
+
+    const createPlaylist = (name: string) => {
+      spotifyApi.createPlaylist(name).then((data) => {
+          console.log(data.body)
+      })
+      .catch((error) => {
+        console.error("Error playing next song:", error);
+      });;
+    }
+        
+    const getAlbum = (albumId: string) => {
+     console.log(albumId)
+      spotifyApi.getAlbum(albumId).then((data) => {
+          console.log(data.body)
+          
+      })
+      .catch((error) => {
+        console.error("Error playing next song:", error);
+      });;
     };
     
+    const getArtist = (artistId: string) => {
+      spotifyApi.getArtist(artistId).then((data) => {
+          console.log(data.body)
+          
+      })
+      .catch((error) => {
+        console.error("Error playing next song:", error);
+      });;
+    };
+
+    const searchArtists = (query: string) => {
+      spotifyApi.searchArtists(query).then((data) => {
+          console.log(data.body)
+          
+      })
+      .catch((error) => {
+        console.error("Error playing next song:", error);
+      });;
+    };
+    
+    const searchAlbums = (query: string) => {
+      spotifyApi.searchAlbums(query).then((data) => {
+          console.log(data.body)
+          
+      })
+      .catch((error) => {
+        console.error("Error playing next song:", error);
+      });;
+    };
+    
+    const searchTracks = (query: string) => {
+      spotifyApi.searchTracks(query).then((data) => {
+          console.log(data.body)
+          
+      })
+      .catch((error) => {
+        console.error("Error playing next song:", error);
+      });;
+    };
+    
+    const searchPlaylists = (query: string) => {
+      spotifyApi.searchPlaylists(query).then((data) => {
+          console.log(data.body)
+          
+      })
+      .catch((error) => {
+        console.error("Error playing next song:", error);
+      });;
+    };
+
     const playSongByName = async (name: string) => {
       const searchResults = await spotifyApi.searchTracks(name, {
         limit: 1,
@@ -152,7 +225,15 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
       handleRefreshToken,
       leftSide,
       rightSide,
-      accessToken: goOutAccessToken 
+      searchArtists,
+      searchAlbums,
+      searchPlaylists,
+      searchTracks,
+      getArtist,
+      getAlbum,
+      createPlaylist,
+      addTracksToPlaylist,
+      accessToken: goOutAccessToken
   };
 }
 

@@ -11,6 +11,14 @@ export interface IUseSpotifyService {
   leftSide: string[];
   rightSide: string[];
   accessToken: string;
+  searchArtists: (query: string) => void;
+  searchAlbums: (query: string) => void;
+  searchPlaylists: (query: string) => void;
+  searchTracks: (query: string) => void;
+  getArtist: (query: string) => void;
+  getAlbum: (query: string) => void;
+  createPlaylist: (name: string) => void;
+  addTracksToPlaylist: (playlistId: string, trackURI: string[]) => void;
 }
 
 export interface IUseSpotifyCurrentSong {

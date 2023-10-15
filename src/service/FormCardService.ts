@@ -14,7 +14,14 @@ function FormCardService() {
     handleRefreshToken,
     leftSide,
     rightSide,
-    accessToken
+    accessToken,
+    createPlaylist,
+    getAlbum,
+    getArtist,
+    searchAlbums,
+    searchArtists,
+    searchPlaylists,
+    searchTracks
   } = spotifyService;
 
   const executeScriptRequest = async (
@@ -41,6 +48,7 @@ function FormCardService() {
   };
 
   const spotifyActions = (action: string, formValue: string) => {
+console.log(action, formValue)
     if (action === "loginSpotDoc") {
       loginSpotDoc();
     }
@@ -58,6 +66,26 @@ function FormCardService() {
     }
     if (action === "handleRefreshToken") {
       handleRefreshToken();
+    }  if (action === "createPlaylist") {
+      createPlaylist(formValue);
+    }
+    if (action === "getAlbumByAlbumId") {
+      getAlbum(formValue);
+    }
+    if (action === "getArtistByArtistId") {
+      getArtist(formValue);
+    }
+    if (action === "searchAlbumsByName") {
+      searchAlbums(formValue);
+    }
+    if (action === "searchArtistsByName") {
+      searchArtists(formValue);
+    }
+    if (action === "searchTracksByName") {
+      searchTracks(formValue);
+    }
+    if (action === "searchPlaylistsByName") {
+      searchPlaylists(formValue);
     }
   };
 

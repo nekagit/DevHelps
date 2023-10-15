@@ -1,7 +1,7 @@
 cd /d %1
 
 REM Get the branch name from the command line argument
-SET branchName=%~1
+SET branchName=%2
 echo %branchName%
 REM Check the current branch name
 for /f %%i in ('git rev-parse --abbrev-ref HEAD') do set current_branch=%%i

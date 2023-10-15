@@ -112,7 +112,6 @@ const spotifyApi: SpotifyWebApi = useMemo(() => {
         window.location.href = spotifyLoginUrl;
       };
       
-    
     const nextSong = () => {
       spotifyApi.skipToNext();
     };

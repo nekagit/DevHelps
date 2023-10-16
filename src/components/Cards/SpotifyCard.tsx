@@ -1,21 +1,11 @@
-import { useSpotifyService } from "../../service/SpotifyService";
-
 import CardsJson from "../../assets/CardsJson.json";
 import FormCard from "./FormCard";
 
+const spotifyCard = CardsJson.AllCards[1];
 function SpotifyCard() {
-  const spotifyCard = CardsJson.AllCards[1];
-  const spotifyService = useSpotifyService();
-  const {
-    loginSpotDoc,
-    logCurrentlyPlayedTrack,
-    accessToken,
-    currentSong,
-    nextSong,
-    playSongByName,
-    playAlbumById,
-  } = spotifyService;
-
+  console.log("render")
+  
+ 
   const spotifyFormCard = {
     title: spotifyCard.name,
     songDataDisplay: spotifyCard.data.songDataDisplay,
@@ -24,13 +14,6 @@ function SpotifyCard() {
     textFields: spotifyCard.data.textFields,
     eventButtons: spotifyCard.data.eventButtons,
     badges: spotifyCard.data.badges,
-    accessToken,
-    currentSong,
-    nextSong,
-    playSongByName,
-    playAlbumById,
-    logCurrentlyPlayedTrack,
-    loginSpotDoc,
   };
 
   return (

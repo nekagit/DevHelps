@@ -17,5 +17,5 @@ RUN npm install
 EXPOSE 3000
 
 # Start the backend server
-CMD ["npm","run" "server"]
+CMD ["npm", "server"]
 

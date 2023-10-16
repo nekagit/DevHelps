@@ -79,7 +79,7 @@
         "textFields": [
           {
             "key": "playBySongName",
-            "label": "Song Name",
+            "label": "Play Song By Name",
             "name": "Play by Song Name",
             "placeholder": "Fill in Name of Song to be played",
             "button": {
@@ -91,7 +91,7 @@
           },
           {
             "key": "playByAlbumId",
-            "label": "Album Id",
+            "label": "Play by Album Id",
             "name": "Play by AlbumId",
             "placeholder": "Fill in ID of Album to be played",
             "button": {
@@ -99,6 +99,42 @@
               "key": "playButton",
               "name": "playByAlbumId",
               "label": "Play"
+            }
+          },
+          {
+            "key": "addToTrackToPlaylistByURI",
+            "label": "Add Track To by Playlist Id",
+            "name": "Add by Id",
+            "placeholder": "PlaylistId, ...trackIds",
+            "button": {
+              "action": "addToTrackToPlaylistByURI",
+              "key": "addButton",
+              "name": "addToTrackToPlaylistByURI",
+              "label": "Add"
+            }
+          },
+          {
+            "key": "createPlaylistByName",
+            "label": "create Playlist by Name",
+            "name": "Create by Name",
+            "placeholder": "Fill in Name of Playlist to be created",
+            "button": {
+              "action": "createPlaylistByName",
+              "key": "createButton",
+              "name": "createPlaylistByName",
+              "label": "Create"
+            }
+          },
+          {
+            "key": "getAlbumByAlbumId",
+            "label": "Get by Album Id",
+            "name": "Show Details of AlbumId",
+            "placeholder": "Fill in AlbumId of Album to be displayed",
+            "button": {
+              "action": "getAlbumByAlbumId",
+              "key": "showButton",
+              "name": "getAlbumByAlbumId",
+              "label": "Show"
             }
           }
         ],
@@ -131,7 +167,7 @@
         ],
         "badges": [
           {
-            "key": "loggedIn",
+            "key": "accessToken",
             "name": "Login Status",
             "label": "Login Status",
             "condition": false

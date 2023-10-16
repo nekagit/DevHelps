@@ -6,19 +6,20 @@ interface IProps {
   executeAction: (action: string, script: string, key: string) => void;
 }
 
-function EventButtons(props: IProps) {
+  console.log("render")
+  function EventButtons(props: IProps) {
   const { eventButtons, executeAction } = props;
   return (
     <>
       <Flex
         gap="sm"
-        justify="center"
+        justify="space-around"
         align="flex-end"
         direction="row"
         wrap="wrap"
       >
         {eventButtons?.map((button) => (
-          <>
+          <div key={button.key}>
             <Button
               key={button.key}
               onClick={(e) => {
@@ -28,9 +29,9 @@ function EventButtons(props: IProps) {
             >
               {button.label}
             </Button>
-          </>
+          </div>
         ))}
-      </Flex>
+        </Flex>
     </>
   );
 }

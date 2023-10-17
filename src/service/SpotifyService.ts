@@ -25,7 +25,6 @@ const [currentArtist, setCurrentArtist] = React.useState<IUseSpotifyCurrentArtis
 const { leftSide, rightSide } = useMemo(() => {
   const { result,  resultArray } = SpotifyHelpers().formatSongData(currentSong ?? {} as IUseSpotifyCurrentSong);
  if( result && resultArray) {
-   console.log("current song ", result,resultArray )
    return {
      result,
      leftSide: resultArray
@@ -37,23 +36,6 @@ const { leftSide, rightSide } = useMemo(() => {
     };
   } else return {result: "", leftSide: [""], rightSide: [""]}
   }, [currentSong]);
-
-  
-  const { leftSideAlbum, rightSideAlbum } = useMemo(() => {
-    console.log(currentAlbumTracks, "currentalbumtrakcs")
-    const { result,  resultArray } = SpotifyHelpers().formatSongData(currentAlbumTracks ?? {} as IUseSpotifyCurrentAlbum);
-   if( result && resultArray) {
-     return {
-       result,
-       leftSideAlbum: resultArray
-       .slice(0, resultArray.length / 2)
-       .map((x) => x + "\n"),
-       rightSideAlbum: resultArray
-       .slice(resultArray.length / 2, resultArray.length - 1)
-       .map((x) => x + "\n"),
-      };
-    } else return {result: "", leftSide: [""], rightSide: [""]}
-    }, [currentSong]);
 
   const logCurrentlyPlayedTrack = async () => {
     spotifyApi
@@ -75,7 +57,6 @@ const { leftSide, rightSide } = useMemo(() => {
               albumName: track.album.name,
               albumType: track.album.type,
               releaseDate: track.album.release_date,
-              artist: track.artists as unknown as ArtistObjectSimplified,
             };
             setCurrentSong(song);
           }
@@ -205,8 +186,6 @@ const { leftSide, rightSide } = useMemo(() => {
       handleRefreshToken,
       leftSide,
       rightSide,
-      leftSideAlbum,
-      rightSideAlbum,
       searchArtists,
       searchAlbums,
       searchPlaylists,

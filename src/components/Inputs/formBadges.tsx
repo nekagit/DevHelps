@@ -6,7 +6,6 @@ interface IProps {
 }
   function FormBadges(props: IProps) {
   const { badges, accessToken } = props;
-  console.log(accessToken)
   const setConditions = () =>{
     badges?.map(x => x.key == "accessToken" ? x.condition = accessToken.length > 1 : x)
   }

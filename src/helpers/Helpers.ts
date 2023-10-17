@@ -14,16 +14,8 @@ export function Helpers() {
     return defaultValues;
   };
   
-  const getFormValue = (fieldName: string, formValues: any): string => {
-    console.log(formValues, fieldName)
-    const formFieldIndex = Object.keys(formValues).findIndex(
-      (x) => x == fieldName
-    );
-    return Object.values(formValues)[formFieldIndex] as string;
-  };
 
   return {
     getInitialObject,
-    getFormValue,
   };
 }

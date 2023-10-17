@@ -41,13 +41,20 @@ function FormCard(props: IFormCard) {
   const { spotifyActions, 
     executeScriptRequest,
      allPaths, leftSide, rightSide, accessToken, leftSideAlbum, rightSideAlbum } = FormCardService();
-
+     
+     const getFormValue = (fieldName: string): string => {
+      const formFieldIndex = Object.keys(form.values).findIndex(
+        (x) => x == fieldName
+      );
+      return Object.values(form.values)[formFieldIndex] as string;
+    };
+  
   const executeAction = (
     action: string,
     fieldName: string,
     scriptKey: string
   ) => {
-    const formValue = Helpers().getFormValue(fieldName, form.values);
+    const formValue = getFormValue(fieldName);
     if (action === "handleGitAction") {
       executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
     } else if (action === "handleNPMAction") {

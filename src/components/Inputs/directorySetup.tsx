@@ -10,7 +10,6 @@ interface IProps {
 }
 
 function DirectorySetup(props: IProps) {
-  console.log("render")
   const { pathNeeded, setPathDev, setPathProj, pathDev, pathProj, allPaths } = props;
 
   const handleSelectDev = (e: string | null) => {

@@ -9,7 +9,6 @@ interface IProps {
 }
 
 function SongDataDisplay(props: IProps) {
-    console.log("render")
   const { songDataDisplay, leftSide, rightSide, leftSideAlbum, rightSideAlbum } = props;
   console.log(leftSideAlbum, rightSideAlbum)  
   return (

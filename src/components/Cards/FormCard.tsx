@@ -37,23 +37,17 @@ function FormCard(props: IFormCard) {
     pathNeeded,
     songDataDisplay,
   } = props;
+
   const { spotifyActions, 
     executeScriptRequest,
      allPaths, leftSide, rightSide, accessToken, leftSideAlbum, rightSideAlbum } = FormCardService();
-
-  const getFormValue = (fieldName: string) => {
-    const formFieldIndex = Object.keys(form.values).findIndex(
-      (x) => x == fieldName
-    );
-    return Object.values(form.values)[formFieldIndex];
-  };
 
   const executeAction = (
     action: string,
     fieldName: string,
     scriptKey: string
   ) => {
-    const formValue = getFormValue(fieldName);
+    const formValue = Helpers().getFormValue(fieldName, form.values);
     if (action === "handleGitAction") {
       executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
     } else if (action === "handleNPMAction") {

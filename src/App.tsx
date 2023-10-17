@@ -1,11 +1,9 @@
 import { useState } from "react";
 import SplitPane, { Pane } from "split-pane-react";
 import appTs from "./AppTS";
-import NPMCard from "./components/Cards/NPMCard";
-import TicketSystemCard from "./components/Cards/TicketSystemCard";
 
 function App() {
-  const { GitHubCard, SpotifyCard } = appTs();
+  const { GitHubCard, SpotifyCard, NPMCard, TicketSystemCard } = appTs();
   const [sizes, setSizes] = useState([1000, 1000, 500]);
   const customSashRenderer = () => {
     return <div className="custom-sash" />;

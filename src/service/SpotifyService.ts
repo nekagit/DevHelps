@@ -11,42 +11,16 @@ import {
   IUseSpotifyCurrentArtist,
   IUseSpotifyService,
 } from "../interfaces/IUseSpotifyService";
-import spotifyCredentials from "../assets/SpotifyCredentials.json";
-
-const { clientId, redirectUri, clientSecret,scope } = spotifyCredentials;
-const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token&show_dialog=true`;
+import SpotifyLoginService from "./SpotifyLoginService";
 
 function useSpotifyService(): IUseSpotifyService {
-
-  const [currentSong, setCurrentSong] = React.useState<IUseSpotifyCurrentSong>();
+const spotifyLoginService = SpotifyLoginService()
+const { spotifyApi, goOutAccessToken, handleRefreshToken, loginSpotDoc } = spotifyLoginService
+const [currentSong, setCurrentSong] = React.useState<IUseSpotifyCurrentSong>();
 const [currentAlbumTracks, setCurrentAlbumTracks] = React.useState<IUseSpotifyCurrentAlbum>()
 const [currentPlaylist, setCurrentPlaylist] = React.useState<IUseSpotifyCurrentPlaylist>()
 const [currentArtist, setCurrentArtist] = React.useState<IUseSpotifyCurrentArtist>()
-const accessToken = useMemo(() => {
-  return localStorage.getItem("access_token") != null ? localStorage.getItem("access_token") : ""
-}, [])
 
-const goOutAccessToken = accessToken != null ? accessToken : ""
-const spotifyApi: SpotifyWebApi = useMemo(() => {
-  return new SpotifyWebApi({
-    clientId: clientId,
-    clientSecret: clientSecret,
-    redirectUri: redirectUri,
-    accessToken: goOutAccessToken 
-  });
-}, []);
-
-useEffect(() => {
-  const currentToken = localStorage.getItem("access_token") ?? ""
-  if(currentToken != "") {
-    console.log("status quo, accessToken")
-  } else {
-    SpotifyHelpers().windowsUrlTokenizer();
-    const storageAccessToken = localStorage.getItem("access_token") ?? "";
-    console.log("windowUrltokenizeser", storageAccessToken)
-
-  }
-}, []);
 
 const { leftSide, rightSide } = useMemo(() => {
   const { result,  resultArray } = SpotifyHelpers().formatSongData(currentSong ?? {} as IUseSpotifyCurrentSong);
@@ -114,16 +88,7 @@ const { leftSide, rightSide } = useMemo(() => {
       });
     };
     
-      const handleRefreshToken = () => {
-        localStorage.removeItem("access_token");
-        spotifyApi.setAccessToken("");
-        window.location.reload()
-
-      };
-    
-      const loginSpotDoc = () => {
-        window.location.href = spotifyLoginUrl;
-      };
+     
       
     const nextSong = () => {
       spotifyApi.skipToNext();

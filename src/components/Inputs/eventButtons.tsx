@@ -5,8 +5,6 @@ interface IProps {
   eventButtons?: IEventButton[];
   executeAction: (action: string, script: string, key: string) => void;
 }
-
-  console.log("render")
   function EventButtons(props: IProps) {
   const { eventButtons, executeAction } = props;
   return (

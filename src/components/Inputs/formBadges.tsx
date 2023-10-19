@@ -4,7 +4,6 @@ interface IProps {
   badges?: IBadge[];
   accessToken:string;
 }
-  console.log("render")
   function FormBadges(props: IProps) {
   const { badges, accessToken } = props;
   const setConditions = () =>{

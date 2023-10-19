@@ -20,7 +20,7 @@ function TextFields(props: IProps) {
   return (
     <>
       {textFields?.map((field) => (
-        <div key={field.key}>
+        <div key={field.name}>
           <hr />
           <Flex
             gap="sm"

@@ -49,18 +49,32 @@ function FormCard(props: IFormCard) {
       return Object.values(form.values)[formFieldIndex] as string;
     };
   
-  const executeAction = (
+  const executeAction = async (
     action: string,
     fieldName: string,
     scriptKey: string
   ) => {
     const formValue = getFormValue(fieldName);
     if (action === "handleGitAction") {
-      executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
+      executeScriptRequest(scriptKey, "nk/" + formValue, [pathDev, pathProj]);
     } else if (action === "handleNPMAction") {
-      executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
+      executeScriptRequest(scriptKey,  formValue, [pathDev, pathProj]);
+    } else if( action === "handleTicketAction") {
+      try {
+        await fetch("http://localhost:3000/loginQm", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+          }),
+        });
+      } catch (error) {
+        console.error("Error:", error);
+      }
     } else {
       spotifyActions(action, formValue);
+
     }
   };
 

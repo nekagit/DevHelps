@@ -1,49 +1,36 @@
-import { Card, Flex, Text } from "@mantine/core";
+import CardsJson from "../../assets/CardsJson.json";
+import { IEventButton } from "../../interfaces/IEventButton";
+import { IFormCard } from "../../interfaces/IFormCard";
+import { ITextField } from "../../interfaces/ITextField";
+import FormCard from "./FormCard";
 
-interface IProps {
-  title: string;
-  color?: string;
-  border?: string;
-}
+function TicketSystemCard() {
+  console.log("render")
 
-function BasicCard(props: IProps) {
-  const { title, color } = props;
-  const borderStyle = "1px solid black";
+  const ticketSystemCard = CardsJson.AllCards[3];
+  const ticketFormCard: IFormCard = {
+    title: ticketSystemCard.name,
+    songDataDisplay: ticketSystemCard.data.songDataDisplay,
+    color: ticketSystemCard.data.color,
+    borderStyle: ticketSystemCard.data.borderStyle,
+    textFields: ticketSystemCard.data.textFields as ITextField[],
+    eventButtons: ticketSystemCard.data.eventButtons as IEventButton[],
+    pathNeeded: ticketSystemCard.data.pathNeeded,
+  };
   return (
     <>
-      <Card
-        shadow="sm"
-        radius="md"
-        withBorder
-        style={{
-          backgroundColor: color,
-          border: borderStyle,
-          margin: "21px",
-        }}
-      >
-        <Card.Section bg="rgba(0, 0, 0, .1)">
-          <Flex
-            gap="sm"
-            justify="center"
-            align="flex-end"
-            direction="row"
-            wrap="wrap"
-          >
-            <Text fw={500}> {title} </Text>
-          </Flex>
-          <Flex
-            gap="sm"
-            justify="center"
-            align="center"
-            direction="row"
-            wrap="wrap"
-          >
-            Tickets for Today BackLog
-          </Flex>{" "}
-        </Card.Section>
-      </Card>
+      <FormCard
+        key={ticketFormCard.title}
+        title={ticketFormCard.title}
+        color={ticketFormCard.color}
+        borderStyle={ticketFormCard.borderStyle}
+        textFields={ticketFormCard.textFields}
+        eventButtons={ticketFormCard.eventButtons}
+        pathNeeded={ticketFormCard.pathNeeded}
+        songDataDisplay={ticketFormCard.songDataDisplay}
+      />
     </>
   );
 }
 
-export default BasicCard;
+export default TicketSystemCard;

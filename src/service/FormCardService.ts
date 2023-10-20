@@ -51,7 +51,6 @@ function FormCardService() {
   };
 
   const spotifyActions = (action: string, formValue: string) => {
-console.log(action, formValue)
     if (action === "loginSpotDoc") {
       loginSpotDoc();
     }

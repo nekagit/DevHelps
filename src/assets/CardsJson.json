@@ -10,19 +10,19 @@
         "borderStyle": "1px solid black",
         "textFields": [
           {
-            "key": "createBranch",
-            "label": "Create Branch",
-            "name": "BranchName",
-            "placeholder": "Fill in Name of Branch to be created",
+            "key": "branch",
+            "label": "Checkout Branch",
+            "name": "CheckoutBranch",
+            "placeholder": "Fill in Name of Branch to checkout",
             "button": {
               "action": "handleGitAction",
-              "name": "createBranch",
-              "key": "create-branch.bat",
-              "label": "Create"
+              "name": "checkoutBranch",
+              "key": "checkoutBranch.bat",
+              "label": "Checkout"
             }
           },
           {
-            "key": "syncBranch",
+            "key": "branch",
             "label": "Sync Branch",
             "name": "SyncName",
             "placeholder": "Fill in Name of Branch to be synchronized with main",
@@ -34,7 +34,20 @@
             }
           },
           {
-            "key": "commitBranch",
+            "key": "branch",
+            "label": "Create Branch",
+            "name": "BranchName",
+            "placeholder": "Fill in Name of Branch to be created",
+            "button": {
+              "action": "handleGitAction",
+              "name": "createBranch",
+              "key": "create-branch.bat",
+              "label": "Create"
+            }
+          },
+    
+          {
+            "key": "branch",
             "label": "Commit Branch",
             "name": "CommitMessage",
             "placeholder": "Fill in a Message for Branch commit",
@@ -43,18 +56,6 @@
               "name": "commitBranch",
               "key": "commit.bat",
               "label": "Commit"
-            }
-          },
-          {
-            "key": "checkoutBranch",
-            "label": "Checkout Branch",
-            "name": "CheckoutBranch",
-            "placeholder": "Fill in Name of Branch to checkout",
-            "button": {
-              "action": "handleGitAction",
-              "name": "checkoutBranch",
-              "key": "checkoutBranch.bat",
-              "label": "Checkout"
             }
           }
         ],
@@ -77,30 +78,6 @@
         "color": "rgba(0, 0, 222, .1)",
         "borderStyle": "1px solid black",
         "textFields": [
-          {
-            "key": "playBySongName",
-            "label": "Play Song By Name",
-            "name": "Play by Song Name",
-            "placeholder": "Fill in Name of Song to be played",
-            "button": {
-              "action": "playSongByName",
-              "key": "playButton",
-              "name": "playBySongName",
-              "label": "Play"
-            }
-          },
-          {
-            "key": "playByAlbumId",
-            "label": "Play by Album Id",
-            "name": "Play by AlbumId",
-            "placeholder": "Fill in ID of Album to be played",
-            "button": {
-              "action": "playAlbumById",
-              "key": "playButton",
-              "name": "playByAlbumId",
-              "label": "Play"
-            }
-          },
           {
             "key": "addToTrackToPlaylistByURI",
             "label": "Add Track To by Playlist Id",
@@ -126,17 +103,30 @@
             }
           },
           {
-            "key": "getAlbumByAlbumId",
-            "label": "Get by Album Id",
-            "name": "Show Details of AlbumId",
-            "placeholder": "Fill in AlbumId of Album to be displayed",
+            "key": "playBySongName",
+            "label": "Play Song By Name",
+            "name": "Play by Song Name",
+            "placeholder": "Fill in Name of Song to be played",
             "button": {
-              "action": "getAlbumByAlbumId",
-              "key": "showButton",
-              "name": "getAlbumByAlbumId",
-              "label": "Show"
+              "action": "playSongByName",
+              "key": "playButton",
+              "name": "playBySongName",
+              "label": "Play"
+            }
+          },
+          {
+            "key": "playByAlbumId",
+            "label": "Play by Album Id",
+            "name": "Play by AlbumId",
+            "placeholder": "Fill in ID of Album to be played",
+            "button": {
+              "action": "playAlbumById",
+              "key": "playButton",
+              "name": "playByAlbumId",
+              "label": "Play"
             }
           }
+   
         ],
         "eventButtons": [
           {
@@ -234,6 +224,28 @@
             "label": "Tsc",
             "action": "handleNPMAction"
           }
+        ],
+        "badges": []
+      }
+    },
+    {
+      "name": "TicketSystemCard",
+      "data": {
+        "title": "Ticket System",
+        "pathNeeded": true,
+        "songDataDisplay": false,
+        "color": "rgba(0, 222,222 , .1)",
+        "borderStyle": "1px solid black",
+        "textFields": [
+        ],
+        "eventButtons": [
+          {
+            "key": "loginQmBase",
+            "name": "Login qmBase",
+            "label": "Login",
+            "action": "handleTicketAction"
+          }
+         
         ],
         "badges": []
       }

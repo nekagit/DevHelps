@@ -40,7 +40,7 @@ function FormCard(props: IFormCard) {
 
   const { spotifyActions, 
     executeScriptRequest,
-     allPaths, leftSide, rightSide, accessToken, leftSideAlbum, rightSideAlbum } = FormCardService();
+     allPaths, accessToken, leftSide, leftSideAlbum, rightSide, rightSideAlbum } = FormCardService();
      
      const getFormValue = (fieldName: string): string => {
       const formFieldIndex = Object.keys(form.values).findIndex(

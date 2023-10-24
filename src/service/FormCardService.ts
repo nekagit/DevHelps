@@ -4,29 +4,25 @@ const allPaths = Object.values(paths);
 
 function FormCardService() {
   const spotifyService = useSpotifyService();
-
   const {
     loginSpotDoc,
     logCurrentlyPlayedTrack,
     nextSong,
     playSongByName,
-    playAlbumById,
+    playCurrentAlbum,
     handleRefreshToken,
-    leftSide,
-    rightSide,
-    leftSideAlbum,
-    rightSideAlbum,
+    logCurrentlyPlayedAlbumTracks,
     accessToken,
     createPlaylist,
     getAlbum,
-    getArtist,
-    searchAlbums,
-    searchArtists,
-    searchPlaylists,
-    searchTracks,
-    addTracksToPlaylist
+    previousSong,
+    addTracksToPlaylist,
+    leftSide,
+    leftSideAlbum,
+    rightSide,
+    rightSideAlbum
   } = spotifyService;
-
+  
   const executeScriptRequest = async (
     scriptName: string,
     scriptParameter: string,
@@ -58,11 +54,18 @@ function FormCardService() {
     if (action === "nextSong") {
       nextSong();
     }
-    if (action === "logCurrentlyPlayedTrack") {
-      logCurrentlyPlayedTrack();
+    if (action === "previousSong") {
+      previousSong();
     }
-    if (action === "playAlbumById") {
-      playAlbumById(formValue);
+    if (action === "logCurrentlyPlayedTrack") {
+      logCurrentlyPlayedTrack(
+      );
+    }
+    if (action === "logCurrentlyPlayedAlbumTracks") {
+      logCurrentlyPlayedAlbumTracks();
+    }
+    if (action === "playCurrentAlbum") {
+      playCurrentAlbum();
     }
     if (action === "playSongByName") {
       playSongByName(formValue);
@@ -79,21 +82,6 @@ function FormCardService() {
     if (action === "getAlbumByAlbumId") {
       getAlbum(formValue);
     }
-    if (action === "getArtistByArtistId") {
-      getArtist(formValue);
-    }
-    if (action === "searchAlbumsByName") {
-      searchAlbums(formValue);
-    }
-    if (action === "searchArtistsByName") {
-      searchArtists(formValue);
-    }
-    if (action === "searchTracksByName") {
-      searchTracks(formValue);
-    }
-    if (action === "searchPlaylistsByName") {
-      searchPlaylists(formValue);
-    }
   };
 
   return {
@@ -101,14 +89,12 @@ function FormCardService() {
     logCurrentlyPlayedTrack,
     nextSong,
     playSongByName,
-    playAlbumById,
+    playCurrentAlbum,
     handleRefreshToken,
     spotifyActions,
     executeScriptRequest,
     allPaths,
-    leftSide,
-    rightSide,
-    leftSideAlbum, rightSideAlbum,
+    leftSide,leftSideAlbum,rightSide,rightSideAlbum,
     accessToken
   };
 }

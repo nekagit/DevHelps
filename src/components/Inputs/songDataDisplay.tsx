@@ -2,14 +2,15 @@ import { Flex } from "@mantine/core";
 
 interface IProps {
   songDataDisplay: boolean;
-  leftSide: string[];
-  rightSide: string[]
+  leftSide?: string[];
+  rightSide?: string[]
   leftSideAlbum?: string[];
   rightSideAlbum?: string[];
 }
 
 function SongDataDisplay(props: IProps) {
-  const { songDataDisplay, leftSide, rightSide } = props;
+  const { songDataDisplay, leftSide, rightSide, leftSideAlbum, rightSideAlbum } = props;
+  console.log(leftSide, leftSideAlbum)
   return (
     <>
       {songDataDisplay ? (
@@ -28,6 +29,10 @@ function SongDataDisplay(props: IProps) {
             <pre>{rightSide}</pre>
           </Flex>
           <hr />
+          <pre>{leftSideAlbum}</pre>
+            <pre>{rightSideAlbum}</pre>
+            <hr />
+          
         </>
       ) : (
         <></>

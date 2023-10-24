@@ -1,76 +1,14 @@
-import React, { useEffect, useMemo } from "react";
 import {
-  default as ArtistObjectSimplified,
-  default as SpotifyWebApi,
-} from "spotify-web-api-node";
-import { SpotifyHelpers } from "../helpers/SpotifyHelpers";
-import {
-  IUseSpotifyCurrentAlbum,
-  IUseSpotifyCurrentSong,
-  IUseSpotifyCurrentPlaylist,
-  IUseSpotifyCurrentArtist,
   IUseSpotifyService,
 } from "../interfaces/IUseSpotifyService";
 import SpotifyLoginService from "./SpotifyLoginService";
+import SpotifyTrackService from "./SpotifyTrackService";
 
 function useSpotifyService(): IUseSpotifyService {
-const spotifyLoginService = SpotifyLoginService()
-const { spotifyApi, goOutAccessToken, handleRefreshToken, loginSpotDoc } = spotifyLoginService
-const [currentSong, setCurrentSong] = React.useState<IUseSpotifyCurrentSong>();
-const [currentAlbumTracks, setCurrentAlbumTracks] = React.useState<IUseSpotifyCurrentAlbum>()
-const [currentPlaylist, setCurrentPlaylist] = React.useState<IUseSpotifyCurrentPlaylist>()
-const [currentArtist, setCurrentArtist] = React.useState<IUseSpotifyCurrentArtist>()
-
-
-const { leftSide, rightSide } = useMemo(() => {
-  const { result,  resultArray } = SpotifyHelpers().formatSongData(currentSong ?? {} as IUseSpotifyCurrentSong);
- if( result && resultArray) {
-   return {
-     result,
-     leftSide: resultArray
-     .slice(0, resultArray.length / 2)
-     .map((x) => x + "\n"),
-     rightSide: resultArray
-     .slice(resultArray.length / 2, resultArray.length - 1)
-     .map((x) => x + "\n"),
-    };
-  } else return {result: "", leftSide: [""], rightSide: [""]}
-  }, [currentSong]);
-
-  const logCurrentlyPlayedTrack = async () => {
-    spotifyApi
-    .getMyCurrentPlayingTrack()
-    .then((data) => {
-        if (data.body.is_playing) {
-          const track: SpotifyApi.TrackObjectFull = data.body
-          .item as SpotifyApi.TrackObjectFull;
-          if (track) {
-            const artists = track.artists
-              .map((artist) => artist.name)
-              .join(", ");
-              const song = {
-              name: track.name,
-              id: track.id,
-              trackUri: track.uri,
-              artists: artists,
-              albumId: track.album.id,
-              albumName: track.album.name,
-              albumType: track.album.type,
-              releaseDate: track.album.release_date,
-            };
-            setCurrentSong(song);
-          }
-        } else {
-          console.log("No track is currently playing.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error playing next song:", error);
-      });
-    };
-    
-     
-      
+  const spotifyLoginService = SpotifyLoginService()
+  const { spotifyApi, goOutAccessToken, handleRefreshToken, loginSpotDoc } = spotifyLoginService
+  const spotifyTrackService = SpotifyTrackService(spotifyApi)
+const {leftSide, leftSideAlbum,rightSide,rightSideAlbum,setCurrentAlbumTracks, currentAlbumTracks, currentSong, logCurrentlyPlayedAlbumTracks, logCurrentlyPlayedTrack } = spotifyTrackService
     const nextSong = () => {
       spotifyApi.skipToNext();
     };    
@@ -80,9 +18,8 @@ const { leftSide, rightSide } = useMemo(() => {
       const playlist = playlists.find((data) =>
         {return data.name.toLocaleLowerCase() == formValue.split(",")[0].toLocaleLowerCase()});
         const playlistId = playlist?.id
-      const tracks = formValue.split(",")
-      tracks.splice(0, 1)
-      spotifyApi.addTracksToPlaylist(playlistId ?? "", tracks)
+      const tracks = currentSong?.uri ?? ""
+      spotifyApi.addTracksToPlaylist(playlistId ?? "", [tracks])
     .catch((error) => {
       console.error("Error playing next song:", error);
     });;
@@ -94,57 +31,9 @@ const { leftSide, rightSide } = useMemo(() => {
         
     const getAlbum = (albumId: string) => {
       spotifyApi.getAlbum(albumId).then((data) => {
-        const body = data.body
-        const currentAlbum = {name: body.name, id: body.id, artists: body.artists, tracks: body.tracks.items}  as unknown as IUseSpotifyCurrentAlbum
-        setCurrentAlbumTracks(currentAlbum)
-      })
-      .catch((error) => {
-        console.error("Error playing next song:", error);
-      });;
-    };
-    
-    const getArtist = (artistId: string) => {
-      spotifyApi.getArtist(artistId).then((data) => {
-        const body = data.body
-        const currentArtist = {name: body.name, id: body.id, genres: body.genres }  as unknown as IUseSpotifyCurrentArtist
-        setCurrentArtist(currentArtist)
-        console.log(currentArtist, "data.body")
-      })
-      .catch((error) => {
-        console.error("Error playing next song:", error);
-      });;
-    };
-
-    const searchArtists = (query: string) => {
-      spotifyApi.searchArtists(query).then((data) => {
-          
-      })
-      .catch((error) => {
-        console.error("Error playing next song:", error);
-      });;
-    };
-    
-    const searchAlbums = (query: string) => {
-      spotifyApi.searchAlbums(query).then((data) => {
-          
-      })
-      .catch((error) => {
-        console.error("Error playing next song:", error);
-      });;
-    };
-    
-    const searchTracks = (query: string) => {
-      spotifyApi.searchTracks(query).then((data) => {
-          
-      })
-      .catch((error) => {
-        console.error("Error playing next song:", error);
-      });;
-    };
-    
-    const searchPlaylists = (query: string) => {
-      spotifyApi.searchPlaylists(query).then((data) => {
-          
+        const body = data.body.tracks.items.map(x => x.name)
+        console.log(body)
+        setCurrentAlbumTracks(body)
       })
       .catch((error) => {
         console.error("Error playing next song:", error);
@@ -170,31 +59,35 @@ const { leftSide, rightSide } = useMemo(() => {
         }
       };
     
-      const playAlbumById = async (id: string) => {
+      const playCurrentAlbum = async () => {
+        console.log("asdf")
         await spotifyApi.play({
-          context_uri: `spotify:album:${id}`,
+          context_uri: `spotify:album:${currentSong?.albumId}`,
         });
       };
-    
+     
+      const previousSong = async () => {
+        await spotifyApi.skipToPrevious()
+      }
     return {
       nextSong,
       logCurrentlyPlayedTrack,
       playSongByName,
-      playAlbumById,
+      playCurrentAlbum,
       currentSong,
       loginSpotDoc,
       handleRefreshToken,
-      leftSide,
-      rightSide,
-      searchArtists,
-      searchAlbums,
-      searchPlaylists,
-      searchTracks,
-      getArtist,
       getAlbum,
       createPlaylist,
       addTracksToPlaylist,
-      accessToken: goOutAccessToken
+      accessToken: goOutAccessToken,
+      previousSong,
+      logCurrentlyPlayedAlbumTracks,
+leftSide,
+leftSideAlbum,
+rightSide,
+rightSideAlbum,      
+      currentAlbumTracks
   };
 }
 

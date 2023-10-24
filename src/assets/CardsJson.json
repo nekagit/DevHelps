@@ -88,18 +88,6 @@
               "name": "playBySongName",
               "label": "Play"
             }
-          },
-          {
-            "key": "playByAlbumId",
-            "label": "Play by Album Id",
-            "name": "Play by AlbumId",
-            "placeholder": "Fill in ID of Album to be played",
-            "button": {
-              "action": "playAlbumById",
-              "key": "playButton",
-              "name": "playByAlbumId",
-              "label": "Play"
-            }
           }
    
         ],
@@ -110,7 +98,7 @@
             "label": "Login",
             "action": "loginSpotDoc"
           },
-
+          
           {
             "key": "refreshToken",
             "name": "Refresh Token",
@@ -122,7 +110,26 @@
             "name": "Next Track",
             "label": "Next Track",
             "action": "nextSong"
+          },    
+          {
+            "key": "previousSong",
+            "name": "Previous Track",
+            "label": "Previous Track",
+            "action": "previousSong"
+          }, 
+          
+          {
+            "key": "playCurrentAlbum",
+            "name": "Play Current",
+            "label": "Play Album",
+            "action": "playCurrentAlbum"
           },
+          {
+           "key": "currentAlbum",
+           "name": "Current Alubm",
+           "label": "Current Album",
+           "action": "logCurrentlyPlayedAlbumTracks"
+         }, 
           {
             "key": "currentTrack",
             "name": "Current Track",

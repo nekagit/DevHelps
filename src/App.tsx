@@ -43,7 +43,7 @@ function App() {
             className="scrollbar-hidden-container"
           >
             <NPMCard />
-            <TicketSystemCard title="Dev Tickets" />
+            <TicketSystemCard />
           </Pane>
         </SplitPane>
       </div>

@@ -46,7 +46,7 @@ function FormCard(props: IFormCard) {
       const formFieldIndex = Object.keys(form.values).findIndex(
         (x) => x == fieldName
       );
-      return Object.values(form.values)[formFieldIndex] as string;
+      return Object.values(form.values)[formFieldIndex];
     };
   
   const executeAction = async (

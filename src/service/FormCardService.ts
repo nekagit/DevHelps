@@ -33,6 +33,7 @@ function FormCardService() {
     paths: string[]
   ) => {
     try {
+      console.log(scriptParameter)
       await fetch("http://localhost:3000/execute-script", {
         method: "POST",
         headers: {

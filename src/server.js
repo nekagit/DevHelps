@@ -16,8 +16,6 @@ app.use(express.json());
 app.use(cors(corsOptions));
 
 app.use(cookieParser());
-// Store the session cookie in a variable
-let sessionCookie = '';
 
 // Assuming you have a QMBase login route
 app.post('/loginQm', async (req, res) => {
@@ -81,7 +79,7 @@ const executeScriptsSequentially = async (scriptName, scriptParameter, pathDev,p
   const gitCommand = `start cmd /c "cd /d ${pathDev}\\src\\scripts && ${scriptName} ${pathProj} ${scriptParameter} && pause"`;
   const npmCommand = `start cmd /c "cd /d ${pathDev}\\src\\scripts && ${scriptName} ${pathProj} ${scriptParameter} && pause"`;
   const finalCommand = scriptName.startsWith("npm") ?  npmCommand : gitCommand
-  console.log(finalCommand, "scriptParameter", scriptParameter)
+  console.log(scriptParameter)
   await new Promise((resolve, reject) => {
     exec(finalCommand, (error) => {
       if (error) {

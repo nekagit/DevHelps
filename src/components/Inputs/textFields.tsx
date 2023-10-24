@@ -40,7 +40,7 @@ function TextFields(props: IProps) {
                 e.preventDefault();
                 executeAction(
                   field.button.action,
-                  field.button.name,
+                  field.key,
                   field.button.key
                 );
               }}

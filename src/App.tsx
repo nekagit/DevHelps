@@ -21,7 +21,7 @@ function App() {
           }}
           sashRender={customSashRenderer}
         >
-          <Paper  shadow="xl">
+          <Paper shadow="xl">
           <Pane
             minSize={50}
             maxSize="50%"
@@ -31,7 +31,7 @@ function App() {
             <GitHubCard />
           </Pane>
             </Paper>
-          <Paper  shadow="xl">
+          <Paper shadow="xl">
           <Pane
             minSize={50}
             maxSize="50%"
@@ -41,7 +41,7 @@ function App() {
             <SpotifyCard />
           </Pane>
             </Paper>
-          <Paper  shadow="xl">
+          <Paper shadow="xl">
           <Pane
             minSize={50}
             maxSize="50%"
@@ -51,7 +51,7 @@ function App() {
             <NPMCard />
           </Pane>
             </Paper>
-          <Paper  shadow="xl">
+          <Paper shadow="xl">
           <Pane
             minSize={50}
             maxSize="50%"

@@ -5,7 +5,7 @@ import { Paper } from "@mantine/core";
 
 function App() {
   const { GitHubCard, SpotifyCard, NPMCard, TicketSystemCard } = appTs();
-  const [sizes, setSizes] = useState([300, 300, 300, "auto"]);
+  const [sizes, setSizes] = useState(["auto", 300, 300,100]);
   const customSashRenderer = () => {
     return <div className="custom-sash" />;
   };
@@ -22,44 +22,40 @@ function App() {
           sashRender={customSashRenderer}
         >
           <Paper  shadow="xl">
-
           <Pane
             minSize={50}
             maxSize="50%"
-            style={{ overflow: "auto" }}
+            style={{ overflow: "auto", height: 333 }}
             className="scrollbar-hidden-container"
             >
             <GitHubCard />
           </Pane>
             </Paper>
           <Paper  shadow="xl">
-
           <Pane
             minSize={50}
             maxSize="50%"
-            style={{ overflow: "auto" }}
+            style={{ overflow: "auto", height: 333 }}
             className="scrollbar-hidden-container"
             >
             <SpotifyCard />
           </Pane>
             </Paper>
           <Paper  shadow="xl">
-
           <Pane
             minSize={50}
             maxSize="50%"
-            style={{ overflow: "auto" }}
+            style={{ overflow: "auto", height: 333 }}
             className="scrollbar-hidden-container"
             >
             <NPMCard />
           </Pane>
             </Paper>
           <Paper  shadow="xl">
- 
           <Pane
             minSize={50}
             maxSize="50%"
-            style={{ overflow: "auto" }}
+            style={{ overflow: "auto", height: 333 }}
             className="scrollbar-hidden-container"
             >
             <TicketSystemCard />

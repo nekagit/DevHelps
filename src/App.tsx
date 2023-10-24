@@ -1,50 +1,70 @@
 import { useState } from "react";
 import SplitPane, { Pane } from "split-pane-react";
 import appTs from "./AppTS";
+import { Paper } from "@mantine/core";
 
 function App() {
   const { GitHubCard, SpotifyCard, NPMCard, TicketSystemCard } = appTs();
-  const [sizes, setSizes] = useState([1000, 1000, 500]);
+  const [sizes, setSizes] = useState([300, 300, 300, "auto"]);
   const customSashRenderer = () => {
     return <div className="custom-sash" />;
   };
 
   return (
     <>
-      <div style={{ height: 1000 }}>
+      <div style={{ height: 1000, backgroundColor: "whitesmoke" }}>
         <SplitPane
-          split="vertical"
+          split="horizontal"
           sizes={sizes}
           onChange={(newSizes) => {
             setSizes(newSizes);
           }}
           sashRender={customSashRenderer}
         >
+          <Paper  shadow="xl">
+
           <Pane
             minSize={50}
             maxSize="50%"
             style={{ overflow: "auto" }}
             className="scrollbar-hidden-container"
-          >
+            >
             <GitHubCard />
           </Pane>
+            </Paper>
+          <Paper  shadow="xl">
+
           <Pane
             minSize={50}
             maxSize="50%"
             style={{ overflow: "auto" }}
             className="scrollbar-hidden-container"
-          >
+            >
             <SpotifyCard />
           </Pane>
+            </Paper>
+          <Paper  shadow="xl">
+
           <Pane
             minSize={50}
             maxSize="50%"
             style={{ overflow: "auto" }}
             className="scrollbar-hidden-container"
-          >
+            >
             <NPMCard />
-            <TicketSystemCard />
           </Pane>
+            </Paper>
+          <Paper  shadow="xl">
+ 
+          <Pane
+            minSize={50}
+            maxSize="50%"
+            style={{ overflow: "auto" }}
+            className="scrollbar-hidden-container"
+            >
+            <TicketSystemCard />
+            </Pane>
+              </Paper>
         </SplitPane>
       </div>
       ;

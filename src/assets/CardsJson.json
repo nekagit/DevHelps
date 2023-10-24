@@ -32,31 +32,6 @@
               "key": "sync-develop.bat",
               "label": "Sync"
             }
-          },
-          {
-            "key": "branch",
-            "label": "Create Branch",
-            "name": "BranchName",
-            "placeholder": "Fill in Name of Branch to be created",
-            "button": {
-              "action": "handleGitAction",
-              "name": "createBranch",
-              "key": "create-branch.bat",
-              "label": "Create"
-            }
-          },
-    
-          {
-            "key": "branch",
-            "label": "Commit Branch",
-            "name": "CommitMessage",
-            "placeholder": "Fill in a Message for Branch commit",
-            "button": {
-              "action": "handleGitAction",
-              "name": "commitBranch",
-              "key": "commit.bat",
-              "label": "Commit"
-            }
           }
         ],
         "eventButtons": [

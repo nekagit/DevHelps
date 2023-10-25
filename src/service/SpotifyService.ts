@@ -16,13 +16,17 @@ const {leftSide, leftSideAlbum,rightSide,rightSideAlbum,setCurrentAlbumTracks, c
     const addTracksToPlaylist = async (formValue: string) => {
       const playlists = await spotifyApi.getUserPlaylists((await spotifyApi.getMe()).body.id).then((data)=>{return data.body.items})
       const playlist = playlists.find((data) =>
-        {return data.name.toLocaleLowerCase() == formValue.split(",")[0].toLocaleLowerCase()});
+        {return data.name.toLocaleLowerCase() == formValue.toLocaleLowerCase()});
         const playlistId = playlist?.id
-      const tracks = currentSong?.uri ?? ""
-      spotifyApi.addTracksToPlaylist(playlistId ?? "", [tracks])
-    .catch((error) => {
-      console.error("Error playing next song:", error);
-    });;
+        if(currentSong) {
+          console.log(currentSong)
+          const tracks = currentSong.trackUri ??  ""
+          console.log(tracks, playlistId)
+          spotifyApi.addTracksToPlaylist(playlistId ?? "", [tracks])
+          .catch((error) => {
+            console.error("Error playing next song:", error);
+          });;
+        }
     };
 
     const createPlaylist = (name: string) => {

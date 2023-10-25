@@ -29,6 +29,7 @@ export interface IUseSpotifyCurrentSong {
   albumName?: string;
   albumType?: string;
   uri?: string;
+  trackUri?: string;
   releaseDate?: string;
   artist?: ArtistObjectSimplified;
 }

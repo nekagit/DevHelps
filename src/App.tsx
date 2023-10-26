@@ -12,7 +12,7 @@ function App() {
 
   return (
     <>
-      <div style={{ height: 1000, backgroundColor: "whitesmoke" }}>
+      <div style={{ height: 1000,padding:"21px", backgroundColor: "whitesmoke" }}>
         <SplitPane
           split="horizontal"
           sizes={sizes}

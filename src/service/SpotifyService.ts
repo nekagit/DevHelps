@@ -61,6 +61,8 @@ const {leftSide, leftSideAlbum,rightSide,rightSideAlbum,setCurrentAlbumTracks, c
         } else {
           console.log("No matching songs found.");
         }
+        await logCurrentlyPlayedTrack()
+        await logCurrentlyPlayedAlbumTracks()
       };
     
       const playCurrentAlbum = async () => {

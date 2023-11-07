@@ -10,6 +10,5 @@ IF NOT "%currentBranch%"=="develop" (
   git commit -a -m "Update"
   git push
 ) 
-
-
+pause
 

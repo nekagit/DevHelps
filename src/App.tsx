@@ -38,7 +38,7 @@ function App() {
             style={{ overflow: "auto", height: 333 }}
             className="scrollbar-hidden-container"
             >
-            <SpotifyCard />
+            <NPMCard />
           </Pane>
             </Paper>
           <Paper shadow="xl">
@@ -48,7 +48,7 @@ function App() {
             style={{ overflow: "auto", height: 333 }}
             className="scrollbar-hidden-container"
             >
-            <NPMCard />
+            <SpotifyCard />
           </Pane>
             </Paper>
           <Paper shadow="xl">

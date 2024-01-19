@@ -40,6 +40,12 @@
             "name": "Commit Branch",
             "label": "Commit",
             "action": "handleGitAction"
+          },
+          {
+            "key": "setPath",
+            "name": "Set Path",
+            "label": "Path",
+            "action": "handleSetPath"
           }
         ]
       }
@@ -193,6 +199,12 @@
             "name": "Run Tests",
             "label": "Tests",
             "action": "handleNPMAction"
+          },
+          {
+            "key": "setPath",
+            "name": "Set Path",
+            "label": "Path",
+            "action": "handleSetPath"
           }
         ],
         "badges": []

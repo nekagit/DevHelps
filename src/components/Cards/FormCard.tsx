@@ -17,8 +17,8 @@ const npmCard = CardsJson.AllCards[2];
 
 function FormCard(props: IFormCard) {
   console.log("render")
-  const [pathDev, setPathDev] = useState("");
-  const [pathProj, setPathProj] = useState("");
+  const [pathDev, setPathDev] = useState("C:\\Users\\NenadKalicanin\\Desktop\\Git\\DevHelps\\DevHelps");
+  const [pathProj, setPathProj] = useState("C:\\Users\\NenadKalicanin\\Desktop\\Git\\PBD\\src\\pbd.core.frontend-react");
   const form = useForm({
     initialValues: {
       path: "",
@@ -38,6 +38,7 @@ function FormCard(props: IFormCard) {
     songDataDisplay,
   } = props;
 
+
   const { spotifyActions, 
     executeScriptRequest,
      allPaths, accessToken, leftSide, leftSideAlbum, rightSide, rightSideAlbum } = FormCardService();
@@ -56,7 +57,7 @@ function FormCard(props: IFormCard) {
   ) => {
     const formValue = getFormValue(fieldName);
     if (action === "handleGitAction") {
-      executeScriptRequest(scriptKey, "nk/" + formValue, [pathDev, pathProj]);
+      executeScriptRequest(scriptKey, formValue, [pathDev, pathProj]);
     } else if (action === "handleNPMAction") {
       executeScriptRequest(scriptKey,  formValue, [pathDev, pathProj]);
     } else if( action === "handleTicketAction") {
@@ -72,14 +73,17 @@ function FormCard(props: IFormCard) {
       } catch (error) {
         console.error("Error:", error);
       }
-    } else {
+    }else if(action =="handleSetPath"){
+      setPathDev ("C:\\Users\\NenadKalicanin\\Desktop\\Git\\DevHelps\\DevHelps");
+      setPathProj ("C:\\Users\\NenadKalicanin\\Desktop\\Git\\PBD\\src\\pbd.core.frontend-react")
+    }
+     else {
       spotifyActions(action, formValue);
 
     }
   };
 
   return (
-    <>
       <Card
         shadow="sm"
         withBorder
@@ -113,7 +117,6 @@ function FormCard(props: IFormCard) {
           />
         </Card.Section>
       </Card>
-    </>
   );
 }
 

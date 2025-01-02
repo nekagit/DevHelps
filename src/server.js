@@ -5,47 +5,16 @@ import express from "express";
 import axios from "axios"
 
 const app = express();
-const port = 3000;
+const port = 5000;
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "*",
   credentials: true,
 };
-const qmBaseDevLoginUrl = "https://dev.qmbase.com/Account/Login"
-const qmBaseNenadsTicketsUrl = "https://dev.qmbase.com/api/ToDos?status=Open&status=InProgress&responsibleId=7281"
+
 app.use(express.json());
 app.use(cors(corsOptions));
 
 app.use(cookieParser());
-
-// Assuming you have a QMBase login route
-app.post('/loginQm', async (req, res) => {
-  try {
-    const loginData = {
-      username: "nenad.kalicanin@qmbase.com",
-      password: "Neno123!",
-    };
-    
-    const response = await axios.post(qmBaseDevLoginUrl, loginData);
-    if (response.status === 200) {
-      const sessionCookie = response.headers['set-cookie'][0]; // Assuming the session cookie is the first in the array
-    
-      // Store the session cookie and use it in subsequent requests
-      // Also, update the URL to the ticket URL
-      const tickets = await axios.get(qmBaseNenadsTicketsUrl, {
-        headers: {
-          Cookie: sessionCookie,
-        },
-      });
-      
-      console.log("Ticketssssssssss",tickets)
-      res.status(200).send('Login successful');
-    } else {
-      res.status(401).send('Login failed');
-    }
-  } catch (error) {
-    res.status(500).send('Internal Server Error');
-  }
-});
 
 app.post("/execute-script", async (req, res) => {
   try {
